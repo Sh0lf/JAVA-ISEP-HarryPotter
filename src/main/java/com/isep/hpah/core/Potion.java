@@ -2,12 +2,10 @@ package com.isep.hpah.core;
 
 import lombok.*;
 
+@Getter @Setter
 public class Potion {
-    @Setter @Getter
     private String name;
-    @Setter @Getter
     private String desc;
-    @Setter @Getter
     private double boost;
 
     public Potion(String name, String desc, int boost) {
