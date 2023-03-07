@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StartingSpellList {
-    public static List<Spell> startingSpellList(){
+    public static List<AbstractSpell> startingSpellList(){
         //creating arrayList for new wizard
-        List<Spell> knownSpells = new ArrayList<>();
+        List<AbstractSpell> knownSpells = new ArrayList<>();
 
         //Known Spells that you start with
         knownSpells.add(new Spell("Fireball", 15, "Une puissante boule de feu ", 0, "DMG"));

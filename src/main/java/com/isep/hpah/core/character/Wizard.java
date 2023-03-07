@@ -1,5 +1,6 @@
 package com.isep.hpah.core.character;
 import com.isep.hpah.core.*;
+import com.isep.hpah.core.potions.Potion;
 import com.isep.hpah.core.spells.*;
 import lombok.*;
 import java.util.List;
@@ -9,11 +10,12 @@ public class Wizard extends Character {
     private Pet pet;
     private Wand wand;
     private House house;
-    private List<Spell> knownSpells;
+    private List<AbstractSpell> knownSpells;
     private List<Potion> potionsOwned;
     private double corruptionGauge;
 
-    public Wizard(String name, String desc, int health, int exp, int att, int def, int dex, Wand wand, Pet pet, House house, List<Spell> knownSpells, List<Potion> potionsOwned, int corruptionGauge) {
+    public Wizard(String name, String desc, int health, int exp, int att, int def, int dex, Wand wand, Pet pet,
+                  House house, List<AbstractSpell> knownSpells, List<Potion> potionsOwned, int corruptionGauge) {
         super(name, "Sorcier", desc, health, exp, att, def, dex);
         this.wand = wand;
         this.pet = Pet.generateRandomPet();

@@ -10,7 +10,7 @@ public class Wand {
     private Core core;
     private double size;
 
-    public Wand(String name, int size) {
+    public Wand(String name, double size) {
         this.name = name;
         this.size = size;
         this.core = Core.generateRandomCore();

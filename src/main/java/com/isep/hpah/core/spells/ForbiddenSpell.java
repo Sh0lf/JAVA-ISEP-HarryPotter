@@ -1,7 +1,7 @@
 package com.isep.hpah.core.spells;
 
 public class ForbiddenSpell extends AbstractSpell{
-    public ForbiddenSpell(String name, double num, String desc, double exp, double corruption, String type) {
+    public ForbiddenSpell(String name, int num, String desc, int exp, int corruption, String type) {
         super(name, num, desc, exp, corruption, type);
     }
 

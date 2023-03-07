@@ -6,13 +6,13 @@ import lombok.*;
 public abstract class AbstractSpell {
     //defining what a spell have:
     private String name;
-    private double num;
+    private int num;
     private String desc;
-    private double exp;
-    private double corruption;
+    private int exp;
+    private int corruption;
     private String type;
 
-    public AbstractSpell(String name, double num, String desc, double exp, double corruption, String type) {
+    public AbstractSpell(String name, int num, String desc, int exp, int corruption, String type) {
         this.name = name;
         this.num = num;
         this.desc = desc;

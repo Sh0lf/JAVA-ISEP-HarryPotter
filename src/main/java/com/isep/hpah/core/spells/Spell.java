@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class Spell extends AbstractSpell{
-    public Spell(String name, double num, String desc, double exp, String type) {
+    public Spell(String name, int num, String desc, int exp, String type) {
         super(name, num, desc, exp, 0, type);
     }
 
