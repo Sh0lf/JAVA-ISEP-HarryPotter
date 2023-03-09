@@ -7,6 +7,9 @@ public class ForbiddenSpell extends AbstractSpell{
 
     @Override
     public void cast(Character target) {
-        // TODO: Implement spell casting logic for forbidden spells
+
     }
+
+    public static ForbiddenSpell avadaKedavra = new ForbiddenSpell("Avada Kedavra", 10000,"Le fameux " +
+            "sort qui vous tue d'un seul coup", 1000, 99, "DMG");
 }

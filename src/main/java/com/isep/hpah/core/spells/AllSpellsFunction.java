@@ -3,27 +3,45 @@ package com.isep.hpah.core.spells;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.isep.hpah.core.spells.Spell.*;
+import static com.isep.hpah.core.spells.ForbiddenSpell.*;
+
+
 public class AllSpellsFunction {
     public static List<AbstractSpell> voldemortSpells(){
         List<AbstractSpell> voldemortSpells = new ArrayList<>();
-        voldemortSpells.add(new ForbiddenSpell("Avada Kedavra", 10000,
-                "Le fameux sort qui vous tue d'un seul coup", 1000, 99, "DMG"));
-        voldemortSpells.add(new Spell("Fireball", 15, "Une puissante boule de feu ", 0, "DMG"));
-        voldemortSpells.add(new Spell("lightning Bolt", 20, "Un éclair térrifiant", 0, "DMG"));
+        //list of spells that Voldemort knows
+        voldemortSpells.add(avadaKedavra);
+        voldemortSpells.add(fireball);
+        voldemortSpells.add(lightningBolt);
         return voldemortSpells;
     }
 
     public static List<AbstractSpell> pettigrowSpells(){
         List<AbstractSpell> pettigrowSpells = new ArrayList<>();
-        pettigrowSpells.add(new Spell("Fireball", 15, "Une puissante boule de feu ", 0, "DMG"));
-        pettigrowSpells.add(new Spell("lightning Bolt", 20, "Un éclair térrifiant", 0, "DMG"));
+        //list of spells that Pettigrow knows
+        pettigrowSpells.add(fireball);
+        pettigrowSpells.add(lightningBolt);
         return pettigrowSpells;
     }
 
     public static List<AbstractSpell> ombrageSpells(){
         List<AbstractSpell> ombrageSpells = new ArrayList<>();
-        ombrageSpells.add(new Spell("Fireball", 15, "Une puissante boule de feu ", 0, "DMG"));
-        ombrageSpells.add(new Spell("lightning Bolt", 20, "Un éclair térrifiant", 0, "DMG"));
+        //list of spells that Ombrage knows
+        ombrageSpells.add(fireball);
+        ombrageSpells.add(lightningBolt);
+
         return ombrageSpells;
+    }
+
+    public static List<AbstractSpell> startingSpellList(){
+        //creating arrayList for new wizard
+        List<AbstractSpell> knownSpells = new ArrayList<>();
+        //Known Spells that you start with
+        knownSpells.add(fireball);
+        knownSpells.add(lightningBolt);
+        knownSpells.add(wingardiumLeviosa);
+
+        return knownSpells;
     }
 }
