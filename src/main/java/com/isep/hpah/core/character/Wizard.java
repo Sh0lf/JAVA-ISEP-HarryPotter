@@ -20,7 +20,7 @@ public class Wizard extends Character {
         super(name, "Sorcier", desc, health, exp, att, def, dex);
         this.wand = wand;
         this.pet = Pet.generateRandomPet();
-        this.house = SortingHat.assignHouse();
+        this.house = house;
         this.knownSpells = knownSpells;
         this.potionsOwned = potionsOwned;
         this.corruptionGauge = corruptionGauge;

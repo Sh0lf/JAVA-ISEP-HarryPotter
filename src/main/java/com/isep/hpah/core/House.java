@@ -1,8 +1,8 @@
 package com.isep.hpah.core;
 
 public enum House {
-    HUFFLEPUFF,
-    SLYTHERIN,
     GRYFFINDOR,
+    HUFFLEPUFF,
     RAVENCLAW,
+    SLYTHERIN;
 }

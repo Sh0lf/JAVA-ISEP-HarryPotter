@@ -1,6 +1,5 @@
 package com.isep.hpah.core.dungeon;
 
-import com.isep.hpah.core.character.AbstractEnemy;
 import com.isep.hpah.core.character.Character;
 import lombok.*;
 import java.util.List;

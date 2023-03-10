@@ -10,14 +10,16 @@ public abstract class AbstractSpell {
     private String desc;
     private int exp;
     private int corruption;
+    private int cooldown;
     private String type;
 
-    public AbstractSpell(String name, int num, String desc, int exp, int corruption, String type) {
+    public AbstractSpell(String name, int num, String desc, int exp, int corruption, int cooldown, String type) {
         this.name = name;
         this.num = num;
         this.desc = desc;
         this.exp = exp;
         this.corruption = corruption;
+        this.cooldown = cooldown;
         this.type = type;
     }
 
