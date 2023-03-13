@@ -38,9 +38,8 @@ public class Game {
     }
 
     public static Wizard playerCreation (String name, Wand wand, Pet pet, House house){
-        Wizard player = new Wizard(name, "The player",200, 0, 20, 20,20,
-                wand, pet, house, AllSpellsFunction.startingSpellList(), AllPotionsFunction.empty(), 0);
-
+        Wizard player = new Wizard(name, "The player",200, 0, 20, 20,20, wand, pet, house,
+                AllSpellsFunction.startingSpellList(), AllPotionsFunction.empty(), 0, 100);
         return player;
     }
 

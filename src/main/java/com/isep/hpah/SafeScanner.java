@@ -11,12 +11,15 @@ public class SafeScanner {
 
     public int getInt(){
         System.out.println("-> \n");
-        return this.sc.nextInt();
+        int input = this.sc.nextInt();
+        this.sc.nextLine();
+        return input;
     }
 
     public String getString(){
         System.out.println("-> \n");
-        return this.sc.nextLine();
+        String input = this.sc.nextLine();
+        return input;
     }
 
     public void pressEnterToContinue() {

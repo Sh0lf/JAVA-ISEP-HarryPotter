@@ -45,7 +45,7 @@ public class AllDungeonsFunction {
         List<Character> dungeon4 = new ArrayList<>();
         //mob creation per dungeon
         dungeon4.add(voldemort);
-        dungeon4.add(pettigrow);
+        dungeon4.add(pettigrew);
         return dungeon4;
     }
 
