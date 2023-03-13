@@ -133,8 +133,7 @@ public class Main {
 
         for (AbstractSpell spell : player.getKnownSpells()) {
             // print out the name and description of the spell
-            System.out.print("Spell Name: " + spell.getName() + ", ");
-            System.out.println("Spell Description: " + spell.getDesc());
+            System.out.println(spell.getName() + " : " + spell.getDesc());
         }
 
         printHeading("Now, watch out during your journey, there's forbidden spells. If you ever use them, " +
