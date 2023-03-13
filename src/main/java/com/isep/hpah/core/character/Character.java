@@ -30,13 +30,13 @@ public abstract class Character {
         double rand = Math.random();
 
         if (rand > hitChance) {
-            System.out.println(this.name + " a raté son attaque !");
+            System.out.println(this.name + " missed his attack !");
             return;
         }
 
         double damage = this.att - (enemy.getDef() / 2);
         if (damage <= 0) {
-            System.out.println(this.name + " a fait aucun dégâts à " + enemy.getName() + "!");
+            System.out.println(this.name + " did no damage to " + enemy.getName() + "!");
             return;
         }
 
@@ -45,8 +45,8 @@ public abstract class Character {
         enemy.setHealth(remainingHealth);
 
         // Print out attack details
-        System.out.println(this.name + " a touché " + enemy.getName() + " pour " + (int) damage + " dégâts !");
-        System.out.println(enemy.getName() + " a " + remainingHealth + " points de vie restant.");
+        System.out.println(this.name + " hit " + enemy.getName() + " for " + (int) damage + " damage !");
+        System.out.println(enemy.getName() + " has " + remainingHealth + " health left.");
     }
 
     public void defend(Character enemy) {
@@ -55,14 +55,14 @@ public abstract class Character {
         double hitChance = 0.7 + enemy.getDex();
         double rand = Math.random();
         if (rand > hitChance) {
-            System.out.println(this.name + " a esquivé l'attaque !");
+            System.out.println(this.name + " dodged the attack");
             return;
         }
 
         // Calculate damage based on attacker's attack and defender's defense
         double damage = enemy.getAtt() - (2 * this.def);
         if (damage <= 0) {
-            System.out.println(this.name + " a bloqué l'attaque sans problème !");
+            System.out.println(this.name + " blocked the attack without a single problem !");
             return;
         }
 
@@ -71,7 +71,7 @@ public abstract class Character {
         this.health = remainingHealth;
 
         // Print out defense details
-        System.out.println(this.name + " a défendu, mais a quand même pris " + (int) damage + " dégâts !");
-        System.out.println(this.name + " a " + remainingHealth + " points de vie restant.");
+        System.out.println(this.name + " has defended, but still took " + (int) damage + " damage !");
+        System.out.println(this.name + " has " + remainingHealth + " health remaining.");
     }
 }

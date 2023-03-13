@@ -24,7 +24,7 @@ public class AllDungeonsFunction {
         //creating arrayList
         List<Character> dungeon2 = new ArrayList<>();
         //mob creation per dungeon
-        dungeon2.add(basilic);
+        dungeon2.add(basilisk);
         return dungeon2;
     }
 
@@ -32,10 +32,10 @@ public class AllDungeonsFunction {
         //creating arrayList
         List<Character> dungeon3 = new ArrayList<>();
         //mob creation per dungeon
-        dungeon3.add(detraqueur);
-        dungeon3.add(detraqueur);
-        dungeon3.add(detraqueur);
-        dungeon3.add(detraqueur);
+        dungeon3.add(dementor);
+        dungeon3.add(dementor);
+        dungeon3.add(dementor);
+        dungeon3.add(dementor);
 
         return dungeon3;
     }
@@ -45,7 +45,7 @@ public class AllDungeonsFunction {
         List<Character> dungeon4 = new ArrayList<>();
         //mob creation per dungeon
         dungeon4.add(voldemort);
-        dungeon4.add(pettigrew);
+        dungeon4.add(pettigrow);
         return dungeon4;
     }
 
@@ -53,7 +53,7 @@ public class AllDungeonsFunction {
         //creating arrayList
         List<Character> dungeon5 = new ArrayList<>();
         //mob creation per dungeon
-        dungeon5.add(ombrage);
+        dungeon5.add(umbridge);
         return dungeon5;
     }
 
@@ -61,10 +61,10 @@ public class AllDungeonsFunction {
         //creating arrayList
         List<Character> dungeon6 = new ArrayList<>();
         //mob creation per dungeon
-        dungeon6.add(mangemort);
-        dungeon6.add(mangemort);
-        dungeon6.add(mangemort);
-        dungeon6.add(mangemort);
+        dungeon6.add(deatheater);
+        dungeon6.add(deatheater);
+        dungeon6.add(deatheater);
+        dungeon6.add(deatheater);
 
         return dungeon6;
     }
@@ -79,28 +79,26 @@ public class AllDungeonsFunction {
     }
 
     public static Dungeon philosopherStone = new Dungeon("The Philosopher's Stone",
-            "Un troll se trouve dans les toilettes à coté du Donjon ! " +
-                    "Vous devez le vaincre d'une manière !", dungeon1());
+            "There's a troll right next to the toilets of the dungeon ! Beast him in a way or another !", dungeon1());
     public static Dungeon chamberofSecrets = new Dungeon("The Chamber of Secrets",
-            "Vous êtes face au terrible basilic ! Arrachez un de ces crocs pour détruire le journal de Tom Jedusor ! "
-                    + "Ou sinon, il y a une autre manière de le vaincre...", dungeon2());
+            "You find yourself right in front of the mighty terrifying Basilisk ! " +
+                    "Pull out one of these fangs to destroy Tom Riddle's journal ! "
+                    + "Or maybe... there's another way...", dungeon2());
     public static Dungeon prisonnerofAzkaban = new Dungeon("The Prisonner of Azkaban",
-            "Les détraqueurs sont en libertés ! Pour les vaincre, apprenez un sort en passant au prochain " +
-                    "niveau et utilisez le contre les détraqueurs !", dungeon3());
+            "The dementors are on the loose! To defeat them, learn a spell by " +
+                    "leveling up and use it against the dementors!", dungeon3());
     public static Dungeon gobletofFire = new Dungeon("The Goblet of Fire",
-            "Vous avez remporté le Tournoi des Trois Sorciers... et le droit de mourir. " +
-                    "Vous trouvez Voldemort et Peter Pettigrew ! Fuyez de n'importe quelle manière !", dungeon4());
+            "You have won the Triwizard Tournament... and the right to die. You find Voldemort " +
+                    "and Peter Pettigrew! Run away anyway!", dungeon4());
     public static Dungeon orderofPhoenix = new Dungeon("The Order of Phoenix",
-            "C'est l'heure du BUSE (Brevet Universel de Sorcellerie Élémentaire) ! " +
-                    "Dolores Ombrage veille sur vous. Votre objectif est de la distraire le temps " +
-                    "que les feux d’artifice soient prêts à être utilisés.", dungeon5());
+            "It's time for the OWL (Universal Certificate of Elementary Witchcraft)! Dolores Umbridge is watching" +
+                    " over you. Your goal is to distract her until the fireworks are ready to go.", dungeon5());
     public static Dungeon halfBloodedPrince = new Dungeon("The Half-Blood Prince",
-            "Les Mangemorts attaquent Poudlard. Vous voulez les attaquer de face ou vous " +
-                    "comptez faire une autre décision ?", dungeon6());
+            "The Death Eaters attack Hogwarts. Do you want to attack them from the front or do you plan " +
+                    "to make another decision?", dungeon6());
     public static Dungeon deathlyHallows = new Dungeon("The Deathly Hallows",
-            "Il faut commencer à attaquer le problème à la source. " +
-                    "Vous êtes face à Voldemort et à Bellatrix Lestrange ! " +
-                    "Faites attention à Avada Kedavra !", dungeon7());
+            "You have to start attacking the problem at the source. You are facing Voldemort and Bellatrix " +
+                    "Lestrange! Pay attention to Avada Kedavra!", dungeon7());
 
     public static List<Dungeon> allDungeon(){
         //ArrayList creation for better organisation

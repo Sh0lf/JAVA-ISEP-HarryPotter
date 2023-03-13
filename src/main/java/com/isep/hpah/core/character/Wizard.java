@@ -34,12 +34,12 @@ public class Wizard extends Character {
             new Wand("Tom Jedusor's wand", 33.75), Pet.generateRandomPet(), House.SLYTHERIN,
             AllSpellsFunction.voldemortSpells(), AllPotionsFunction.empty(), 0, 300);
 
-    public static Wizard pettigrew = new Wizard("Peter Pettigrew", "Voldemort's best spy." +
+    public static Wizard pettigrow = new Wizard("Peter Pettigrew", "Voldemort's best spy." +
             "An extremely smart individual, so beware !", 1000, 50,
             50, 10, -50, new Wand("Chestnut", 23), Pet.generateRandomPet(),
             House.GRYFFINDOR, AllSpellsFunction.pettigrowSpells(), AllPotionsFunction.empty(),0, 200);
 
-    public static Wizard ombrage = new Wizard("Dolores Umbridge",
+    public static Wizard umbridge = new Wizard("Dolores Umbridge",
             "An extremely cruel professor that's even capable of punishing violently and physically students !",
             500, 50, 25, 20, 0, new Wand("Umber", 34),Pet.generateRandomPet(),
             House.SLYTHERIN, AllSpellsFunction.ombrageSpells(),AllPotionsFunction.empty(), 0, 200);
