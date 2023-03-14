@@ -7,16 +7,18 @@ public abstract class Character {
     private String name;
     private String type;
     private String desc;
+    private int maxHealth;
     private int health;
     private double exp;
     private int att;
     private int def;
     private int dex;
 
-    public Character(String name, String type, String desc, int health, double exp, int att, int def, int dex) {
+    public Character(String name, String type, String desc, int maxHealth, int health, double exp, int att, int def, int dex) {
         this.name = name;
         this.type = type;
         this.desc = desc;
+        this.maxHealth = maxHealth;
         this.health = health;
         this.exp = exp;
         this.att = att;

@@ -19,8 +19,4 @@ public class Spell extends AbstractSpell{
     public static Spell expectoPatronum = new Spell("Expecto Patronum", 1000, "Protect yourself with " +
             "the sacred Guardian of the forest", 100, 3, 40,"DEF");
 
-    @Override
-    public void cast(Character target) {
-
-    }
 }

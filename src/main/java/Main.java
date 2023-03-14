@@ -2,6 +2,7 @@ import com.isep.hpah.SafeScanner;
 import com.isep.hpah.core.*;
 import com.isep.hpah.core.Pet;
 import com.isep.hpah.core.character.Wizard;
+import com.isep.hpah.core.dungeon.Dungeon;
 import com.isep.hpah.core.spells.AbstractSpell;
 import com.isep.hpah.core.spells.Spell;
 
@@ -11,6 +12,7 @@ import java.util.Scanner;
 import static com.isep.hpah.Game.*;
 import static com.isep.hpah.core.Pet.*;
 import static com.isep.hpah.core.SortingHat.*;
+import static com.isep.hpah.core.dungeon.AllDungeonsFunction.allDungeon;
 
 public class Main {
 
@@ -50,7 +52,7 @@ public class Main {
         sc.pressEnterToContinue();
 
         printHeading("Sorting Hat : Student, before I rashly allocate you to a house, let me ask you some questions " +
-                ": \n You come here with preferences and preconceptions - certain expectations. \n" +
+                ": \nYou come here with preferences and preconceptions - certain expectations. \n" +
                 "[1] I can't wait to start classes. \n" +
                 "[2] I can't wait to explore.");
 
@@ -88,11 +90,11 @@ public class Main {
         house = getResHouse(finalRes);
 
         pet = generateRandomPet();
-        printHeading("Sorting Hat : You belong to " + house + " ! Here's your pet ! It's a small but " +
+        printHeading("Sorting Hat : You belong to " + house + " ! \nHere's your pet ! It's a small but " +
                 "fierce " + pet + " !\nNow, get me out of him, I despise people of this house !");
         sc.pressEnterToContinue();
 
-        printHeading("Thank you Sorting Hat ! Don't mind him much, he can be mean but " +
+        printHeader("Thank you Sorting Hat ! Don't mind him much, he can be mean but " +
                 "he gets his job well done \nand ultimately he does care about the students ! \nNow let's get your wand ! \n" +
                 "Of course you need one !");
         sc.pressEnterToContinue();
@@ -129,7 +131,8 @@ public class Main {
 
         Wizard player = playerCreation(name, wand, pet, house);
 
-        printHeading("Now wizard, are you ready ?! You will start this story knowing a few spells: \n");
+        clearConsole();
+        printHeading("Now wizard, are you ready ?! You will start this story knowing a few spells:");
 
         for (AbstractSpell spell : player.getKnownSpells()) {
             // print out the name and description of the spell
@@ -138,7 +141,15 @@ public class Main {
 
         printHeading("Now, watch out during your journey, there's forbidden spells. If you ever use them, " +
                 "you would raise your corruption gauge. Do not go beyond 100 !\n\n" +
-                "Now, enough talking :");
+                "Now, enough talking, your first quest :");
+        sc.pressEnterToContinue();
+
+        List<Dungeon> dungeons = allDungeon();
+
+        printHeader(dungeons.get(0).getName());
+        sc.pressEnterToContinue();
+
+        System.out.println(dungeons.get(0).getDesc());
 
 
 
