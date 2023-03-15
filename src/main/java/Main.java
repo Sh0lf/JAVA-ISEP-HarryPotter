@@ -141,7 +141,9 @@ public class Main {
 
         printHeading("Now, watch out during your journey, there's forbidden spells. If you ever use them, " +
                 "you would raise your corruption gauge. Do not go beyond 100 !\n\n" +
-                "Now, enough talking, your first quest :");
+                "Your stats are:\nHealth: " + player.getHealth() + "\nAtt: " + player.getAtt() +
+                "\nDef: " + player.getDef() + "\nDex: " + player.getDex() + "\nMana: " + player.getMana() +
+                "\n\nNow, enough talking, your first quest :");
         sc.pressEnterToContinue();
 
         List<Dungeon> dungeons = allDungeon();
@@ -149,10 +151,10 @@ public class Main {
         printHeader(dungeons.get(0).getName());
         sc.pressEnterToContinue();
 
-        System.out.println(dungeons.get(0).getDesc());
+        printHeading(dungeons.get(0).getDesc());
+        sc.pressEnterToContinue();
 
-
-
+        dungeonCombat(dungeons.get(0).getEnemies(), player);
     }
 }
 

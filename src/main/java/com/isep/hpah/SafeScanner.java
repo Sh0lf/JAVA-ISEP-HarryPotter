@@ -18,8 +18,7 @@ public class SafeScanner {
 
     public String getString(){
         System.out.println("-> \n");
-        String input = this.sc.nextLine();
-        return input;
+        return this.sc.nextLine();
     }
 
     public void pressEnterToContinue() {

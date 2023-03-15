@@ -2,17 +2,28 @@ package com.isep.hpah.core.character;
 
 import lombok.*;
 
-@Setter @Getter
+
 public abstract class Character {
+    @Setter @Getter
     private String name;
+    @Setter @Getter
     private String type;
+    @Setter @Getter
     private String desc;
+    @Setter @Getter
     private int maxHealth;
+    @Setter @Getter
     private int health;
+    @Setter @Getter
     private double exp;
+    @Setter @Getter
     private int att;
+    @Setter
     private int def;
+    @Setter @Getter
     private int dex;
+    @Setter @Getter
+    private boolean isDefending = false;
 
     public Character(String name, String type, String desc, int maxHealth, int health, double exp, int att, int def, int dex) {
         this.name = name;
@@ -24,6 +35,14 @@ public abstract class Character {
         this.att = att;
         this.def = def;
         this.dex = dex;
+    }
+
+    public int getDef() {
+        if (isDefending) {
+            return def * 2;
+        } else {
+            return def;
+        }
     }
 
     public void normalAttack(Character enemy) {
@@ -51,18 +70,19 @@ public abstract class Character {
         System.out.println(enemy.getName() + " has " + remainingHealth + " health left.");
     }
 
-    public void defend(Character enemy) {
-        // implementation of defend
+    /* Not used for the moment but can be interesting to look at
+    public void defendedAttack(Character enemy) {
+        // implementation of defended attack (means the one receiving the attack has defended)
         // Calculate chance of attacker hitting based on their dexterity
-        double hitChance = 0.7 + enemy.getDex();
+        double hitChance = 0.7 + this.dex;
         double rand = Math.random();
         if (rand > hitChance) {
-            System.out.println(this.name + " dodged the attack");
+            System.out.println(enemy.getName() + " dodged the attack");
             return;
         }
 
         // Calculate damage based on attacker's attack and defender's defense
-        double damage = enemy.getAtt() - (2 * this.def);
+        double damage = enemy.getAtt() - this.def;
         if (damage <= 0) {
             System.out.println(this.name + " blocked the attack without a single problem !");
             return;
@@ -75,5 +95,5 @@ public abstract class Character {
         // Print out defense details
         System.out.println(this.name + " has defended, but still took " + (int) damage + " damage !");
         System.out.println(this.name + " has " + remainingHealth + " health remaining.");
-    }
+    } */
 }
