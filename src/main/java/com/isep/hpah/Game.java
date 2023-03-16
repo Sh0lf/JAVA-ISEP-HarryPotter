@@ -40,52 +40,18 @@ public class Game {
     }
 
     public static void dungeonCombat(List<Character> enemies, Wizard player) {
-        SafeScanner sc = new SafeScanner(System.in);
         int round = 1;
         boolean verifInput = false;
+        SafeScanner sc = new SafeScanner(System.in);
         List<AbstractSpell> spells = player.getKnownSpells();
 
         // Loop until all enemies are defeated or the player dies
         while (!enemies.isEmpty() && player.getHealth() > 0) {
-            printHeading("Health: " + player.getHealth() + "\nMana: " + player.getMana() + "\nAtt: " + player.getAtt() + "\nDef: " + player.getDef());
-            player.setDefending(false);
-            System.out.println("\nRound " + round + " begins.");
-            // Player's turn
-            int choice = 0;
-            while (!verifInput) {
-                try {
-                    printHeading("It's your turn to attack. What do you want to do? " +
-                            "\n1. Attack\n2. Defend\n3. Use spells\n4. Use items");
-                    choice = sc.getInt();
-                    verifInput = true;
-                } catch (Exception e) {
-                    System.out.println("Please write valid content");
-                    verifInput = false;
-                }
-            }
 
-            verifInput = false;
+            int choice = presentingTurn(player, round, verifInput, sc);
 
             if (choice == 1) {
-                int targetIndex = 0;
-                while (!verifInput) {
-                    try {
-                        System.out.println("Which enemy do you want to attack?");
-                        for (int i = 0; i < enemies.size(); i++) {
-                            System.out.println((i + 1) + ". " + enemies.get(i).getName() + " : " +
-                                    enemies.get(i).getHealth() + " health");
-                            targetIndex = sc.getInt() - 1;
-                            verifInput = true;
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Please write valid content");
-                        verifInput = false;
-                    }
-                }
-
-                Character target = enemies.get(targetIndex);
-                player.normalAttack(target);
-
+                attacking(enemies, player, verifInput, sc);
             } else if (choice == 2) {
                 System.out.println("You brace yourself for an attack and double your defense for this turn.");
                 player.setDefending(true);
@@ -128,35 +94,16 @@ public class Game {
                         System.out.println("Not enough mana to cast " + spell.getName() + ".");
                     } else {
                         player.castSpell(spell);
-
-
+                    }
+                    //TODO HERE
+                }
             } else if (choice == 4) {
                 // TODO: Implement Item usage (pots)
                 System.out.println("Item usage not implemented.");
             }
 
             // Enemies' turn
-            for (Character enemy : enemies) {
-                enemy.setDefending(false);
-                if (enemy.getHealth() > 0 && (Objects.equals(enemy.getType(), "Enemy: Boss") ||
-                        Objects.equals(enemy.getType(), "Enemy: Mob"))) {
-                    Random rand = new Random();
-                    float chance = rand.nextFloat();
-                    if (chance <= 0.8) {
-                        enemy.normalAttack(player);
-                    } else {
-                        enemy.setDefending(true);
-                        System.out.println("The enemy has decided to defend !");
-                    }
-                }
-            }
-
-            for (Character enemy : enemies) {
-                if (enemy.getHealth() <= 0) {
-                    player.setExp(player.getExp() + enemy.getExp());
-                    System.out.println("You gained " + enemy.getExp() + " experience points.");
-                }
-            }
+            enemiesTurn(enemies, player);
 
             checkLevelUp(player);
             round++;
@@ -170,6 +117,73 @@ public class Game {
             System.out.println("\nYou have been defeated.");
         } else {
             System.out.println("\nYou are victorious!");
+        }
+    }
+
+    public static int presentingTurn(Wizard player, int round, boolean verifInput, SafeScanner sc){
+        printHeading("Health: " + player.getHealth() + "\nMana: " + player.getMana() + "\nAtt: " + player.getAtt() + "\nDef: " + player.getDef());
+        player.setDefending(false);
+        System.out.println("\nRound " + round + " begins.");
+        // Player's turn
+        int choice = 0;
+        verifInput = false;
+        while (!verifInput) {
+            try {
+                printHeading("It's your turn to attack. What do you want to do? " +
+                        "\n1. Attack\n2. Defend\n3. Use spells\n4. Use items");
+                choice = sc.getInt();
+                verifInput = true;
+            } catch (Exception e) {
+                System.out.println("Please write valid content");
+                verifInput = false;
+            }
+        }
+        return choice;
+    }
+
+    public static void attacking(List<Character> enemies, Wizard player, boolean verifInput, SafeScanner sc){
+        int targetIndex = 0;
+        verifInput = false;
+        while (!verifInput) {
+            try {
+                System.out.println("Which enemy do you want to attack?");
+                for (int i = 0; i < enemies.size(); i++) {
+                    System.out.println((i + 1) + ". " + enemies.get(i).getName() + " : " +
+                            enemies.get(i).getHealth() + " health");
+                    targetIndex = sc.getInt() - 1;
+                    verifInput = true;
+                }
+            } catch (Exception e) {
+                System.out.println("Please write valid content");
+                verifInput = false;
+            }
+        }
+
+        Character target = enemies.get(targetIndex);
+        player.normalAttack(target);
+    }
+
+    public static void enemiesTurn(List<Character> enemies, Wizard player){
+        for (Character enemy : enemies) {
+            enemy.setDefending(false);
+            if (enemy.getHealth() > 0 && (Objects.equals(enemy.getType(), "Enemy: Boss") ||
+                    Objects.equals(enemy.getType(), "Enemy: Mob"))) {
+                Random rand = new Random();
+                float chance = rand.nextFloat();
+                if (chance <= 0.8) {
+                    enemy.normalAttack(player);
+                } else {
+                    enemy.setDefending(true);
+                    System.out.println("The enemy has decided to defend !");
+                }
+            }
+        }
+
+        for (Character enemy : enemies) {
+            if (enemy.getHealth() <= 0) {
+                player.setExp(player.getExp() + enemy.getExp());
+                System.out.println("You gained " + enemy.getExp() + " experience points.");
+            }
         }
     }
 }
