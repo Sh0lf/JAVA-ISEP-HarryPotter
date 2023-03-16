@@ -78,27 +78,41 @@ public class AllDungeonsFunction {
         return dungeon7;
     }
 
-    public static Dungeon philosopherStone = new Dungeon("The Philosopher's Stone",
-            "There's a troll right next to the toilets of the dungeon ! Beast him in a way or another !", dungeon1());
-    public static Dungeon chamberofSecrets = new Dungeon("The Chamber of Secrets",
-            "You find yourself right in front of the mighty terrifying Basilisk ! " +
-                    "Pull out one of these fangs to destroy Tom Riddle's journal ! "
-                    + "Or maybe... there's another way...", dungeon2());
-    public static Dungeon prisonnerofAzkaban = new Dungeon("The Prisonner of Azkaban",
-            "The dementors are on the loose! To defeat them, learn a spell by " +
-                    "leveling up and use it against the dementors!", dungeon3());
-    public static Dungeon gobletofFire = new Dungeon("The Goblet of Fire",
-            "You have won the Triwizard Tournament... and the right to die. You find Voldemort " +
-                    "and Peter Pettigrew! Run away anyway!", dungeon4());
-    public static Dungeon orderofPhoenix = new Dungeon("The Order of Phoenix",
-            "It's time for the OWL (Universal Certificate of Elementary Witchcraft)! Dolores Umbridge is watching" +
-                    " over you. Your goal is to distract her until the fireworks are ready to go.", dungeon5());
-    public static Dungeon halfBloodedPrince = new Dungeon("The Half-Blood Prince",
-            "The Death Eaters attack Hogwarts. Do you want to attack them from the front or do you plan " +
-                    "to make another decision?", dungeon6());
-    public static Dungeon deathlyHallows = new Dungeon("The Deathly Hallows",
-            "You have to start attacking the problem at the source. You are facing Voldemort and Bellatrix " +
-                    "Lestrange! Pay attention to Avada Kedavra!", dungeon7());
+    public static Dungeon philosopherStone = Dungeon.builder()
+            .name("The Philosopher's Stone")
+            .desc("There's a troll right next to the toilets of the dungeon ! Beast him in a way or another !")
+            .enemies(dungeon1())
+            .build();
+    public static Dungeon chamberofSecrets = Dungeon.builder()
+            .name("The Chamber of Secrets")
+            .desc("You find yourself right in front of the mighty terrifying Basilisk ! Pull out one of these fangs to destroy Tom Riddle's journal ! Or maybe... there's another way...")
+            .enemies(dungeon2())
+            .build();
+    public static Dungeon prisonnerofAzkaban = Dungeon.builder()
+            .name("The Prisonner of Azkaban")
+            .desc("The dementors are on the loose! To defeat them, learn a spell by leveling up and use it against the dementors!")
+            .enemies(dungeon3())
+            .build();
+    public static Dungeon gobletofFire = Dungeon.builder()
+            .name("The Goblet of Fire")
+            .desc("You have won the Triwizard Tournament... and the right to die. You find Voldemort and Peter Pettigrew! Run away anyway!")
+            .enemies(dungeon4())
+            .build();
+    public static Dungeon orderofPhoenix = Dungeon.builder()
+            .name("The Order of Phoenix")
+            .desc("It's time for the OWL (Universal Certificate of Elementary Witchcraft)! Dolores Umbridge is watching over you. Your goal is to distract her until the fireworks are ready to go.")
+            .enemies(dungeon5())
+            .build();
+    public static Dungeon halfBloodedPrince = Dungeon.builder()
+            .name("The Half-Blood Prince")
+            .desc("The Death Eaters attack Hogwarts. Do you want to attack them from the front or do you plan to make another decision?")
+            .enemies(dungeon6())
+            .build();
+    public static Dungeon deathlyHallows = Dungeon.builder()
+            .name("The Deathly Hallows")
+            .desc("You have to start attacking the problem at the source. You are facing Voldemort and Bellatrix Lestrange! Pay attention to Avada Kedavra!")
+            .enemies(dungeon7())
+            .build();
 
     public static List<Dungeon> allDungeon(){
         //ArrayList creation for better organisation

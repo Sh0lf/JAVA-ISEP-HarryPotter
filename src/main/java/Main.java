@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static com.isep.hpah.Game.*;
+import static com.isep.hpah.SafeScanner.*;
 import static com.isep.hpah.core.Pet.*;
 import static com.isep.hpah.core.SortingHat.*;
 import static com.isep.hpah.core.dungeon.AllDungeonsFunction.allDungeon;

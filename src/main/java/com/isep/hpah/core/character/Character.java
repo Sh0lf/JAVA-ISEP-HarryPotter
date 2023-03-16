@@ -55,7 +55,7 @@ public abstract class Character {
             return;
         }
 
-        double damage = this.att - (enemy.getDef() / 2);
+        double damage = this.att - (enemy.getDef());
         if (damage <= 0) {
             System.out.println(this.name + " did no damage to " + enemy.getName() + "!");
             return;

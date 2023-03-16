@@ -4,7 +4,7 @@ import com.isep.hpah.core.character.Character;
 import lombok.*;
 import java.util.List;
 
-@Getter @Setter
+@Getter @Setter @Builder
 public class Dungeon {
     private String name;
     private String desc;

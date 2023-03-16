@@ -4,47 +4,38 @@ import com.isep.hpah.core.*;
 import com.isep.hpah.core.character.*;
 import com.isep.hpah.core.character.Character; //Because of suspected ambiguity
 import com.isep.hpah.core.potions.AllPotionsFunction;
-import com.isep.hpah.core.spells.AllSpellsFunction;
+import com.isep.hpah.core.spells.*;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+import static com.isep.hpah.SafeScanner.*;
 import static com.isep.hpah.core.character.Wizard.checkLevelUp;
 
 
 //for functions - the controller
 public class Game {
 
-    //function to clear console (technically skipping / doing empty lines)
-    public static void clearConsole() {
-        for (int i = 0; i < 100; i++)
-            System.out.println();
-    }
-
-    //function for separator
-    public static void printSeparator(int n) {
-        for (int i = 0; i < n; i++)
-            System.out.print("-");
-        System.out.println();
-    }
-
-    //function to print a heading
-    public static void printHeading(String title) {
-        printSeparator(title.length());
-        System.out.println(title);
-        printSeparator(title.length());
-    }
-
-    //clears Console and does the heading afterwards
-    public static void printHeader(String title){
-        clearConsole();
-        printHeading(title);
-    }
-
     public static Wizard playerCreation (String name, Wand wand, Pet pet, House house) {
-        Wizard player = new Wizard(name, "The player", 200, 0, 20, 20, 20, 1, wand, pet, house,
-                AllSpellsFunction.startingSpellList(), AllPotionsFunction.empty(), 0, 100, 100);
+        Wizard player = Wizard.builder()
+            .name(name)
+            .desc("The player")
+            .health(200)
+            .exp(0)
+            .att(20)
+            .def(20)
+            .dex(20)
+            .level(1)
+            .wand(wand)
+            .pet(pet)
+            .house(house)
+            .knownSpells(AllSpellsFunction.startingSpellList())
+            .potionsOwned(AllPotionsFunction.empty())
+            .corruptionGauge(0)
+            .maxMana(100)
+            .mana(100)
+            .build();
         return player;
     }
 
@@ -52,9 +43,11 @@ public class Game {
         SafeScanner sc = new SafeScanner(System.in);
         int round = 1;
         boolean verifInput = false;
+        List<AbstractSpell> spells = player.getKnownSpells();
 
         // Loop until all enemies are defeated or the player dies
         while (!enemies.isEmpty() && player.getHealth() > 0) {
+            printHeading("Health: " + player.getHealth() + "\nMana: " + player.getMana() + "\nAtt: " + player.getAtt() + "\nDef: " + player.getDef());
             player.setDefending(false);
             System.out.println("\nRound " + round + " begins.");
             // Player's turn
@@ -70,7 +63,9 @@ public class Game {
                     verifInput = false;
                 }
             }
+
             verifInput = false;
+
             if (choice == 1) {
                 int targetIndex = 0;
                 while (!verifInput) {
@@ -95,8 +90,45 @@ public class Game {
                 System.out.println("You brace yourself for an attack and double your defense for this turn.");
                 player.setDefending(true);
             } else if (choice == 3) {
-                // TODO: Implement spell casting
-                System.out.println("Spell casting not implemented.");
+                int spellIndex = 0;
+                while(!verifInput){
+                    try {
+                        System.out.println("Select a spell to cast:");
+                        for (int i = 0; i < spells.size(); i++) {
+                            System.out.println((i + 1) + ". " + spells.get(i).getName() + " (Type: " + spells.get(i).getType() + ", Mana Cost: " + spells.get(i).getMana() + ", Cooldown: " + spells.get(i).getCooldown() + ")");
+                        }
+                        spellIndex = sc.getInt() - 1;
+                        verifInput = true;
+                    } catch (Exception e) {
+                        System.out.println("Please write valid content");
+                        verifInput = false;
+                    }
+                }
+
+                AbstractSpell spell = spells.get(spellIndex);
+                if (spell.getType().equals("DMG")) {
+                    if (spell.getCooldownRem() > 0) {
+                        System.out.println("Spell is on cooldown for " + spell.getCooldownRem() + " more rounds.");
+                    } else if (player.getMana() < spell.getMana()) {
+                        System.out.println("Not enough mana to cast " + spell.getName() + ".");
+                    } else {
+                        System.out.println("Choose an enemy to cast " + spell.getName() + " on:");
+                        for (int i = 0; i < enemies.size(); i++) {
+                            System.out.println((i + 1) + ". " + enemies.get(i).getName() + " (Health: " + enemies.get(i).getHealth() + ")");
+                        }
+                        int targetIndex = sc.getInt() - 1;
+                        Character target = enemies.get(targetIndex);
+                        player.castSpell(spell, target);
+                        System.out.println("You cast " + spell.getName() + " on " + target.getName() + " for " + spell.getNum() + " damage.");
+                    }
+                } else if (spell.getType().equals("DEF")) {
+                    if (spell.getCooldownRem() > 0) {
+                        System.out.println("Spell is on cooldown for " + spell.getCooldownRem() + " more rounds.");
+                    } else if (player.getMana() < spell.getMana()) {
+                        System.out.println("Not enough mana to cast " + spell.getName() + ".");
+                    } else {
+                        player.castSpell(spell);
+
 
             } else if (choice == 4) {
                 // TODO: Implement Item usage (pots)
