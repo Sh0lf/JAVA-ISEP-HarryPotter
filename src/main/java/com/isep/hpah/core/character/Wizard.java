@@ -133,6 +133,4 @@ public class Wizard extends Character {
         .maxMana(200)
         .mana(200)
         .build();
-
-    public static void castSpell()
 }

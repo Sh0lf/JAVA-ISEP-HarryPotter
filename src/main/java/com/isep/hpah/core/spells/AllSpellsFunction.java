@@ -1,5 +1,8 @@
 package com.isep.hpah.core.spells;
 
+import com.isep.hpah.core.character.Character;
+import com.isep.hpah.core.character.Wizard;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,5 +46,25 @@ public class AllSpellsFunction {
         knownSpells.add(wingardiumLeviosa);
 
         return knownSpells;
+    }
+
+    // Method to cast a spell
+    public static void castDmgSpell(AbstractSpell spell, Character player, Character enemy) {
+        // Cast the attacking spell on the enemy
+        int damage = spell.getNum();
+        double hitChance = 0.7 + player.getDex();
+        double rand = Math.random();
+        if (rand > hitChance) {
+            System.out.println(player.getName() + " missed the attack !");
+            return;
+        }
+        int remainingHealth = enemy.getHealth() - damage;
+        enemy.setHealth(remainingHealth);
+        System.out.println(player.getName() + " hit " + enemy.getName() + " with " + spell.getName() + " for " + damage + " damage !");
+        System.out.println(enemy.getName() + " has " + remainingHealth + " health points remaining.");
+    }
+
+    public static void castDefSpell(AbstractSpell spell, Wizard player){
+
     }
 }
