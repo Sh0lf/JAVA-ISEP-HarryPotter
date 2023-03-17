@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import static com.isep.hpah.SafeScanner.*;
 import static com.isep.hpah.core.character.Wizard.*;
 import static com.isep.hpah.core.spells.AllSpellsFunction.*;
 
@@ -45,6 +44,9 @@ public class Game {
         SafeScanner sc = new SafeScanner(System.in);
         List<AbstractSpell> spells = player.getKnownSpells();
 
+        checkCooldown(spells);
+
+        checkDefBoost(player);
         // Loop until all enemies are defeated or the player dies
         while (!enemies.isEmpty() && player.getHealth() > 0) {
 
@@ -67,7 +69,11 @@ public class Game {
                 } else if (spell.getType().equals("DEF")) {
 
                     processDefSpell(spell, player);
-                    //TODO HERE
+
+                } else if (spell.getType().equals("UTL")) {
+
+                    processUtlSpell(player, spell, enemies, sc);
+
                 }
             } else if (choice == 4) {
                 // TODO: Implement Item usage (pots)
@@ -85,11 +91,7 @@ public class Game {
         }
 
         // Determine the outcome of the fight
-        if (player.getHealth() <= 0) {
-            System.out.println("\nYou have been defeated.");
-        } else {
-            System.out.println("\nYou are victorious!");
-        }
+        endDungeon(player);
     }
 
     private static int presentingTurn(Wizard player, int round, SafeScanner sc){
@@ -201,6 +203,8 @@ public class Game {
             }
             Character target = enemies.get(targetIndex);
             castDmgSpell(spell, player, target);
+
+            spell.setCooldownRem(spell.getCooldown());
         }
     }
 
@@ -210,7 +214,39 @@ public class Game {
         } else if (player.getMana() < spell.getMana()) {
             System.out.println("Not enough mana to cast " + spell.getName() + ".");
         } else {
+
             castDefSpell(spell, player);
+
+            spell.setCooldownRem(spell.getCooldown());
         }
     }
+
+    private static void processUtlSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc){
+        boolean verifInput = false;
+        if (spell.getCooldownRem() > 0) {
+            System.out.println("Spell is on cooldown for " + spell.getCooldownRem() + " more rounds.");
+        } else if (player.getMana() < spell.getMana()) {
+            System.out.println("Not enough mana to cast " + spell.getName() + ".");
+        } else {
+            checkUtlSpellUsage(spell, player, enemies, sc);
+        }
+    }
+
+    private static void endDungeon(Wizard player){
+        // Determine the outcome of the fight
+        if (player.getHealth() <= 0) {
+            System.out.println("\nYou have been defeated.");
+        } else {
+            System.out.println("\nYou are victorious!");
+        }
+    }
+
+    private static void checkDefBoost(Wizard player){
+        if (player.getDefSpell() != 0) {
+            player.setDef(player.getDef() - player.getDefSpell());
+            player.setDefSpell(0);
+        }
+    }
+
+
 }

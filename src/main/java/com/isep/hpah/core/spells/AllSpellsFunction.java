@@ -1,5 +1,6 @@
 package com.isep.hpah.core.spells;
 
+import com.isep.hpah.SafeScanner;
 import com.isep.hpah.core.character.Character;
 import com.isep.hpah.core.character.Wizard;
 
@@ -65,6 +66,40 @@ public class AllSpellsFunction {
     }
 
     public static void castDefSpell(AbstractSpell spell, Wizard player){
+        int val = spell.getNum();
+        player.setDefSpell(val);
+        player.setDef(player.getDefSpell());
+        System.out.println("You gained " + val + " defense for this turn and have now a total of " + player.getDef() + " defense !");
+    }
 
+    public static void checkCooldown(List<AbstractSpell> spells){
+        for (AbstractSpell spell : spells) {
+            if (spell.getCooldownRem() > 0) {
+                spell.setCooldown(spell.getCooldownRem() - 1);
+            }
+        }
+    }
+
+    public static void checkUtlSpellUsage(AbstractSpell spell, Wizard player, List<Character> enemies, SafeScanner sc){
+        //TODO : MAKE THE CHECK UTL SPELL USAGE SWITCH CASE BASED ON DUNGEON / ENEMY
+        boolean verifInput = false;
+        int targetIndex = 0;
+        while (!verifInput) {
+            try {
+                System.out.println("Choose an enemy to cast " + spell.getName() + " on:");
+                for (int i = 0; i < enemies.size(); i++) {
+                    System.out.println((i + 1) + ". " + enemies.get(i).getName() + " (Health: " + enemies.get(i).getHealth() + ")");
+                }
+                targetIndex = sc.getInt() - 1;
+                verifInput = true;
+            } catch (Exception e) {
+                System.out.println("Please write valid content");
+                verifInput = false;
+            }
+        }
+        Character target = enemies.get(targetIndex);
+        castUtlSpell(spell, player, target);
+
+        spell.setCooldownRem(spell.getCooldown());
     }
 }

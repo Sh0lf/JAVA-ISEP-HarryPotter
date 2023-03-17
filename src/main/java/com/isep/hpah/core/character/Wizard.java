@@ -17,6 +17,7 @@ public class Wizard extends Character {
     private int corruptionGauge;
     private int maxMana;
     private int mana;
+    private int defSpell;
 
 
     @Builder
@@ -33,6 +34,7 @@ public class Wizard extends Character {
         this.corruptionGauge = corruptionGauge;
         this.maxMana = maxMana;
         this.mana = mana;
+        this.defSpell = 0;
     }
 
     public static void checkLevelUp(Wizard player) {
