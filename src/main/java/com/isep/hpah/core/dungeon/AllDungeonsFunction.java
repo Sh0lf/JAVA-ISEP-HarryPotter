@@ -5,9 +5,10 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.isep.hpah.core.character.Wizard.*;
 import static com.isep.hpah.core.character.Boss.*;
 import static com.isep.hpah.core.character.Enemy.*;
-import static com.isep.hpah.core.character.Wizard.*;
+
 
 @Setter @Getter
 public class AllDungeonsFunction {

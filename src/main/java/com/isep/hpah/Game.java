@@ -93,7 +93,7 @@ public class Game {
     }
 
     private static int presentingTurn(Wizard player, int round, SafeScanner sc){
-        printHeading("Health: " + player.getHealth() + "\nMana: " + player.getMana() + "\nAtt: " + player.getAtt() + "\nDef: " + player.getDef());
+        sc.printHeading("Health: " + player.getHealth() + "\nMana: " + player.getMana() + "\nAtt: " + player.getAtt() + "\nDef: " + player.getDef());
         player.setDefending(false);
         System.out.println("\nRound " + round + " begins.");
         // Player's turn
@@ -101,7 +101,7 @@ public class Game {
         boolean verifInput = false;
         while (!verifInput) {
             try {
-                printHeading("It's your turn to attack. What do you want to do? " +
+                sc.printHeading("It's your turn to attack. What do you want to do? " +
                         "\n1. Attack\n2. Defend\n3. Use spells\n4. Use items");
                 choice = sc.getInt();
                 verifInput = true;
