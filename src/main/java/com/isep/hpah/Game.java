@@ -6,6 +6,7 @@ import com.isep.hpah.core.character.Character; //Because of suspected ambiguity
 import com.isep.hpah.core.potions.AllPotionsFunction;
 import com.isep.hpah.core.spells.*;
 
+import java.util.AbstractMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -17,7 +18,9 @@ import static com.isep.hpah.core.spells.AllSpellsFunction.*;
 
 //for functions - the controller
 public class Game {
-    public static Wizard gamePres(SafeScanner sc){
+    AllSpellsFunction spfnc = new AllSpellsFunction();
+
+    public Wizard gamePres(SafeScanner sc){
         boolean verifInput = false;
         String name = "";
         House house;
@@ -148,7 +151,7 @@ public class Game {
         return player;
     }
 
-    private static Wizard playerCreation (String name, Wand wand, Pet pet, House house) {
+    private Wizard playerCreation (String name, Wand wand, Pet pet, House house) {
         int defaultDef = 10;
         int defaultDex = 10;
 
@@ -181,13 +184,13 @@ public class Game {
         return player;
     }
 
-    public static void dungeonCombat(List<Character> enemies, Wizard player) {
+    public void dungeonCombat(List<Character> enemies, Wizard player) {
         int round = 1;
         boolean verifInput = false;
         SafeScanner sc = new SafeScanner(System.in);
         List<AbstractSpell> spells = player.getKnownSpells();
 
-        checkCooldown(spells);
+        spfnc.checkCooldown(spells);
 
         checkDefBoost(player);
         // Loop until all enemies are defeated or the player dies
@@ -237,7 +240,7 @@ public class Game {
         endDungeon(player);
     }
 
-    private static int presentingTurn(Wizard player, int round, SafeScanner sc){
+    private int presentingTurn(Wizard player, int round, SafeScanner sc){
         sc.printHeading("Health: " + player.getHealth() + "\nMana: " + player.getMana() + "\nAtt: " + player.getAtt() + "\nDef: " + player.getDef());
         player.setDefending(false);
         System.out.println("\nRound " + round + " begins.");
@@ -258,7 +261,7 @@ public class Game {
         return choice;
     }
 
-    private static void attacking(List<Character> enemies, Wizard player, SafeScanner sc){
+    private void attacking(List<Character> enemies, Wizard player, SafeScanner sc){
         int targetIndex = 0;
         boolean verifInput = false;
         while (!verifInput) {
@@ -280,7 +283,7 @@ public class Game {
         player.normalAttack(target);
     }
 
-    private static void enemiesTurn(List<Character> enemies, Wizard player){
+    private void enemiesTurn(List<Character> enemies, Wizard player){
         for (Character enemy : enemies) {
             enemy.setDefending(false);
             if (enemy.getHealth() > 0 && (Objects.equals(enemy.getType(), "Enemy: Boss") ||
@@ -304,7 +307,7 @@ public class Game {
         }
     }
 
-    private static int chooseSpell(List<AbstractSpell> spells, SafeScanner sc) {
+    private int chooseSpell(List<AbstractSpell> spells, SafeScanner sc) {
         int spellIndex = 0;
         boolean verifInput = false;
         while (!verifInput) {
@@ -323,7 +326,7 @@ public class Game {
         return spellIndex;
     }
 
-    private static void processDmgSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc) {
+    private void processDmgSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc) {
         boolean verifInput = false;
         if (spell.getCooldownRem() > 0) {
             System.out.println("Spell is on cooldown for " + spell.getCooldownRem() + " more rounds.");
@@ -345,37 +348,37 @@ public class Game {
                 }
             }
             Character target = enemies.get(targetIndex);
-            castDmgSpell(spell, player, target);
+            spfnc.castDmgSpell(spell, player, target);
 
             spell.setCooldownRem(spell.getCooldown());
         }
     }
 
-    private static void processDefSpell(AbstractSpell spell, Wizard player){
+    private void processDefSpell(AbstractSpell spell, Wizard player){
         if (spell.getCooldownRem() > 0) {
             System.out.println("Spell is on cooldown for " + spell.getCooldownRem() + " more rounds.");
         } else if (player.getMana() < spell.getMana()) {
             System.out.println("Not enough mana to cast " + spell.getName() + ".");
         } else {
 
-            castDefSpell(spell, player);
+            spfnc.castDefSpell(spell, player);
 
             spell.setCooldownRem(spell.getCooldown());
         }
     }
 
-    private static void processUtlSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc){
+    private void processUtlSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc){
         boolean verifInput = false;
         if (spell.getCooldownRem() > 0) {
             System.out.println("Spell is on cooldown for " + spell.getCooldownRem() + " more rounds.");
         } else if (player.getMana() < spell.getMana()) {
             System.out.println("Not enough mana to cast " + spell.getName() + ".");
         } else {
-            checkUtlSpellUsage(spell, player, enemies, sc);
+            spfnc.checkUtlSpellUsage(spell, player, enemies, sc);
         }
     }
 
-    private static void endDungeon(Wizard player){
+    private void endDungeon(Wizard player){
         // Determine the outcome of the fight
         if (player.getHealth() <= 0) {
             System.out.println("\nYou have been defeated.");
@@ -384,14 +387,50 @@ public class Game {
         }
     }
 
-    private static void checkDefBoost(Wizard player){
+    private void checkDefBoost(Wizard player){
         if (player.getDefSpell() != 0) {
             player.setDef(player.getDef() - player.getDefSpell());
             player.setDefSpell(0);
         }
     }
 
+    public int chooseTarget(AbstractSpell spell, List<Character> enemies, SafeScanner sc) {
+        boolean verifInput = false;
+        int targetIndex = 0;
+        while (!verifInput) {
+            try {
+                System.out.println("Choose an enemy to cast " + spell.getName() + " on:");
+                for (int i = 0; i < enemies.size(); i++) {
+                    System.out.println((i + 1) + ". " + enemies.get(i).getName() + " (Health: " + enemies.get(i).getHealth() + ")");
+                }
+                targetIndex = sc.getInt() - 1;
+                verifInput = true;
+            } catch (Exception e) {
+                System.out.println("Please write valid content");
+                verifInput = false;
+            }
+        }
+        return targetIndex;
+    }
 
-    private static
+    public void checkLevelUp(Wizard player) {
+        if (player.getExp() >= 50) {
+            player.setLevel(player.getLevel() + 1);
+            player.setExp(player.getExp()- 50);
+            System.out.println("\nCongratulations! You have leveled up to level " + player.getLevel() + ".");
 
+            player.setMaxHealth(player.getMaxHealth() + 20);
+            player.setHealth(player.getMaxHealth());
+            player.setMaxMana(player.getMana() + 20);
+            player.setMana(player.getMaxMana());
+
+            player.setAtt(player.getAtt() + 5);
+            player.setDef(player.getDef() + 5);
+            player.setDex(player.getDex() + 2);
+
+            System.out.println("Your new stats: \nAtt: " + player.getAtt() + "\nDef: " +
+                    player.getDef() + "\nDex: " + player.getDex());
+
+        }
+    }
 }

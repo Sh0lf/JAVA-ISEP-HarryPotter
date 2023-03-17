@@ -1,7 +1,6 @@
 package com.isep.hpah.core.character;
 import com.isep.hpah.core.*;
-import com.isep.hpah.core.potions.AllPotionsFunction;
-import com.isep.hpah.core.potions.Potion;
+import com.isep.hpah.core.potions.*;
 import com.isep.hpah.core.spells.*;
 import lombok.*;
 import java.util.List;
@@ -19,7 +18,6 @@ public class Wizard extends Character {
     private int mana;
     private int defSpell;
 
-
     @Builder
     Wizard(String name, String desc, int health, int exp, int att, int def, int dex, int level, Wand wand, Pet pet,
                   House house, List<AbstractSpell> knownSpells, List<Potion> potionsOwned, int corruptionGauge,
@@ -35,27 +33,6 @@ public class Wizard extends Character {
         this.maxMana = maxMana;
         this.mana = mana;
         this.defSpell = 0;
-    }
-
-    public static void checkLevelUp(Wizard player) {
-        if (player.getExp() >= 50) {
-            player.setLevel(player.getLevel() + 1);
-            player.setExp(player.getExp()- 50);
-            System.out.println("\nCongratulations! You have leveled up to level " + player.getLevel() + ".");
-
-            player.setMaxHealth(player.getMaxHealth() + 20);
-            player.setHealth(player.getMaxHealth());
-            player.setMaxMana(player.getMana() + 20);
-            player.setMana(player.getMaxMana());
-
-            player.setAtt(player.getAtt() + 5);
-            player.setDef(player.getDef() + 5);
-            player.setDex(player.getDex() + 2);
-
-            System.out.println("Your new stats: \nAtt: " + player.getAtt() + "\nDef: " +
-                    player.getDef() + "\nDex: " + player.getDex());
-
-        }
     }
 
     public static Wizard voldemort = Wizard.builder()

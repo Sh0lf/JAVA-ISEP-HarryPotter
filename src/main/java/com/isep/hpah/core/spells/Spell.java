@@ -5,6 +5,8 @@ import lombok.Builder;
 import java.io.*;
 import java.util.*;
 
+import static com.isep.hpah.core.spells.ForbiddenSpell.avadaKedavra;
+
 public class Spell extends AbstractSpell{
     @Builder
     public Spell(String name, int num, String desc, int level, int cooldown, int mana, String type) {
@@ -30,6 +32,7 @@ public class Spell extends AbstractSpell{
             .mana(30)
             .type("DMG")
             .build();
+
     public static Spell wingardiumLeviosa = Spell.builder()
             .name("Wingardium Leviosa")
             .num(0)
@@ -39,6 +42,7 @@ public class Spell extends AbstractSpell{
             .mana(0)
             .type("UTL")
             .build();
+
     public static Spell accio = Spell.builder()
             .name("Accio")
             .num(0)
@@ -56,5 +60,4 @@ public class Spell extends AbstractSpell{
             .mana(40)
             .type("DEF")
             .build();
-
 }
