@@ -11,6 +11,7 @@ public class Main {
         Game game = new Game();
         Setup stp = new Setup();
         SafeScanner sc = new SafeScanner(System.in);
+
         Wizard player = game.gamePres(sc);
         sc.pressEnterToContinue();
 
