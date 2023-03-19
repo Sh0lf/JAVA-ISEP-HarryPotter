@@ -3,22 +3,17 @@ package com.isep.hpah;
 import com.isep.hpah.core.*;
 import com.isep.hpah.core.character.*;
 import com.isep.hpah.core.character.Character; //Because of suspected ambiguity
-import com.isep.hpah.core.potions.AllPotionsFunction;
 import com.isep.hpah.core.spells.*;
 
-import java.util.AbstractMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
-import static com.isep.hpah.core.Pet.generateRandomPet;
-import static com.isep.hpah.core.SortingHat.getResHouse;
-import static com.isep.hpah.core.character.Wizard.*;
-import static com.isep.hpah.core.spells.AllSpellsFunction.*;
+
 
 //for functions - the controller
 public class Game {
     AllSpellsFunction spfnc = new AllSpellsFunction();
+    Setup stp = new Setup();
+    SortingHat sortHat = new SortingHat();
 
     public Wizard gamePres(SafeScanner sc){
         boolean verifInput = false;
@@ -90,9 +85,9 @@ public class Game {
         verifInput = false;
 
         finalRes = res1 + res2;
-        house = getResHouse(finalRes);
+        house = sortHat.getResHouse(finalRes);
 
-        pet = generateRandomPet();
+        pet = stp.generateRandomPet();
         sc.printHeading("Sorting Hat : You belong to " + house + " ! \nHere's your pet ! It's a small but " +
                 "fierce " + pet + " !\nNow, get me out of him, I despise people of this house !");
         sc.pressEnterToContinue();
@@ -132,7 +127,7 @@ public class Game {
 
         sc.pressEnterToContinue();
 
-        Wizard player = playerCreation(name, wand, pet, house);
+        Wizard player = stp.playerCreation(name, wand, pet, house);
 
         sc.clearConsole();
         sc.printHeading("Now wizard, are you ready ?! You will start this story knowing a few spells:");
@@ -148,39 +143,6 @@ public class Game {
                 "\nDef: " + player.getDef() + "\nDex: " + player.getDex() + "\nMana: " + player.getMana() +
                 "\n\nNow, enough talking, your first quest :");
 
-        return player;
-    }
-
-    private Wizard playerCreation (String name, Wand wand, Pet pet, House house) {
-        int defaultDef = 10;
-        int defaultDex = 10;
-
-        if (house == House.GRYFFINDOR){
-            defaultDef = 20;
-        }
-
-        if (house == House.RAVENCLAW){
-            defaultDex = 15;
-        }
-
-        Wizard player = Wizard.builder()
-            .name(name)
-            .desc("The player")
-            .health(200)
-            .exp(0)
-            .att(20)
-            .def(defaultDef)
-            .dex(defaultDex)
-            .level(1)
-            .wand(wand)
-            .pet(pet)
-            .house(house)
-            .knownSpells(AllSpellsFunction.startingSpellList())
-            .potionsOwned(AllPotionsFunction.empty())
-            .corruptionGauge(0)
-            .maxMana(100)
-            .mana(100)
-            .build();
         return player;
     }
 

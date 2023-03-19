@@ -1,4 +1,4 @@
-package com.isep.hpah.core.dungeon;
+package com.isep.hpah.core;
 
 import com.isep.hpah.core.character.Character;
 import lombok.*;

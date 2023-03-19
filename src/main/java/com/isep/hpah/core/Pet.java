@@ -10,11 +10,5 @@ public enum Pet {
     HIPPOGRIFF,
     DOG,
     SNAKE;
-
-    public static Pet generateRandomPet() {
-        Pet[] values = Pet.values();
-        int length = values.length;
-        int randIndex = new Random().nextInt(length);
-        return values[randIndex];
-    }
 }
+

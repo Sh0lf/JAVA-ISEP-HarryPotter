@@ -1,4 +1,4 @@
-package com.isep.hpah.core.potions;
+package com.isep.hpah.core;
 
 import lombok.*;
 

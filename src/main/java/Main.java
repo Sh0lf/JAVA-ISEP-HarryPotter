@@ -1,30 +1,20 @@
 import com.isep.hpah.Game;
 import com.isep.hpah.SafeScanner;
-import com.isep.hpah.core.*;
-import com.isep.hpah.core.Pet;
+import com.isep.hpah.core.Dungeon;
 import com.isep.hpah.core.character.Wizard;
-import com.isep.hpah.core.dungeon.AllDungeonsFunction;
-import com.isep.hpah.core.dungeon.*;
-import com.isep.hpah.core.spells.AbstractSpell;
-import com.isep.hpah.core.spells.Spell;
+import com.isep.hpah.Setup;
 
 import java.util.List;
-import java.util.Scanner;
-
-import static com.isep.hpah.Game.*;
-import static com.isep.hpah.SafeScanner.*;
-import static com.isep.hpah.core.Pet.*;
-import static com.isep.hpah.core.SortingHat.*;
 
 public class Main {
     public static void main(String[] args) {
         Game game = new Game();
-        AllDungeonsFunction dngfnc = new AllDungeonsFunction();
+        Setup stp = new Setup();
         SafeScanner sc = new SafeScanner(System.in);
         Wizard player = game.gamePres(sc);
         sc.pressEnterToContinue();
 
-        List<Dungeon> dungeons = dngfnc.allDungeon();
+        List<Dungeon> dungeons = stp.allDungeon();
 
         sc.printHeader(dungeons.get(0).getName());
         sc.pressEnterToContinue();
