@@ -17,6 +17,13 @@ import java.util.Random;
 @Setter @Getter
 public class Setup {
 
+    public Core generateRandomCore() {
+        Core[] values = Core.values();
+        int length = values.length;
+        int randIndex = new Random().nextInt(length);
+        return values[randIndex];
+    }
+
     public Pet generateRandomPet() {
         Pet[] values = Pet.values();
         int length = values.length;
