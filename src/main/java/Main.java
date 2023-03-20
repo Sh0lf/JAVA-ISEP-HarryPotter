@@ -24,6 +24,14 @@ public class Main {
         sc.pressEnterToContinue();
 
         game.dungeonCombat(dungeons.get(0).getEnemies(), player);
+
+        sc.printHeader(dungeons.get(1).getName());
+        sc.pressEnterToContinue();
+
+        sc.printHeading(dungeons.get(1).getDesc());
+        sc.pressEnterToContinue();
+
+        game.dungeonCombat(dungeons.get(1).getEnemies(), player);
     }
 }
 

@@ -147,8 +147,17 @@ public class Game {
         sc.printHeading("Now, watch out during your journey, there's forbidden spells. If you ever use them, " +
                 "you would raise your corruption gauge. Do not go beyond 100 !\n\n" +
                 "Your stats are:\nHealth: " + player.getHealth() + "\nAtt: " + player.getAtt() +
-                "\nDef: " + player.getDef() + "\nDex: " + player.getDex() + "\nMana: " + player.getMana() +
-                "\n\nNow, enough talking, your first quest :");
+                "\nDef: " + player.getDef() + "\nDex: " + player.getDex() + "\nMana: " + player.getMana());
+
+        if (player.getHouse().equals(House.GRYFFINDOR)){
+            System.out.println("Since you're in Gryffindor, you have a defense bonus ! You start with 20 Def instead of 10 !");
+        } else if (player.getHouse().equals(House.RAVENCLAW)){
+            System.out.println("Since you're in Ravenclaw, you have a dexterity bonus ! You start with 15 Dex instead of 10 !");
+        } else if (player.getHouse().equals(House.SLYTHERIN)){
+            System.out.println("Since you're in Slytherin, all your spells are more efficient !");
+        } else if (player.getHouse().equals(House.HUFFLEPUFF)){
+            System.out.println("Since you're in Hufflepuff, all your potions are more efficient !");
+        }
 
         return player;
     }
@@ -219,31 +228,31 @@ public class Game {
 
         for (Character enemy : enemies) {
             if (enemy.getName().equals("Troll")) {
-                System.out.println("You see a boulder above the troll's head, what can you do with it ?");
+                System.out.println("\nYou see a boulder above the troll's head, what can you do with it ?\n");
             }
             else if (enemy.getName().equals("Basilisk")) {
-                System.out.println("It's a poisonous powerful snake, try to remove his fangs in a way or another !");
+                System.out.println("\nIt's a poisonous powerful snake, try to remove his fangs in a way or another !\n");
             }
             else if (enemy.getName().equals("Dementor")) {
-                System.out.println("There are too many ! Scare them out with one of your spells ! They are scared of divine creatures !");
+                System.out.println("\nThere are too many ! Scare them out with one of your spells ! They are scared of divine creatures !\n");
                 break;
             }
             else if (enemy.getName().equals("Peter Pettigrew")) {
-                System.out.println("You cannot fight them ! Find a way to get closer to the Portkey as fast as you can !");
+                System.out.println("\nYou cannot fight them ! Find a way to get closer to the Portkey as fast as you can !\n");
             }
             else if (enemy.getName().equals("Dolores Umbridge")) {
-                System.out.println("Try to delay and waste time as much as you can !");
+                System.out.println("\nTry to delay and waste time as much as you can !\n");
             }
             else if (enemy.getName().equals("Death Eater")) {
-                System.out.println("There are too many ! Scare them out with one of your spells ! They are scared of pain !");
+                System.out.println("\nThere are too many ! Scare them out with one of your spells ! They are scared of pain !\n");
                 break;
             }
             else if (enemy.getName().equals("Lord Voldemort")) {
-                System.out.println("He can use Avada Kedavra ! Consider this possibility and protect yourself !");
+                System.out.println("\nHe can use Avada Kedavra ! Consider this possibility and protect yourself !\n");
                 break;
             }
            else if (enemy.getName().equals("Bellatrix Lestrange")) {
-                System.out.println("He can use Avada Kedavra ! Consider this possibility and protect yourself !");
+                System.out.println("\nHe can use Avada Kedavra ! Consider this possibility and protect yourself !\n");
                 break;
             }
 
@@ -434,7 +443,7 @@ public class Game {
         return targetIndex;
     }
 
-    public void checkLevelUp(Wizard player) {
+    private void checkLevelUp(Wizard player) {
         if (player.getExp() >= 50) {
             player.setLevel(player.getLevel() + 1);
             player.setExp(player.getExp()- 50);
@@ -453,5 +462,9 @@ public class Game {
                     player.getDef() + "\nDex: " + player.getDex());
 
         }
+    }
+
+    private void giveNewSpell(Wizard player) {
+
     }
 }

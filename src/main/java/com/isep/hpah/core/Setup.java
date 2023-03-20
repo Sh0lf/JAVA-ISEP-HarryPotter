@@ -14,21 +14,21 @@ import java.util.Random;
 @Setter @Getter
 public class Setup {
 
-    public Core generateRandomCore() {
+    private Core generateRandomCore() {
         Core[] values = Core.values();
         int length = values.length;
         int randIndex = new Random().nextInt(length);
         return values[randIndex];
     }
 
-    public Pet generateRandomPet() {
+    private Pet generateRandomPet() {
         Pet[] values = Pet.values();
         int length = values.length;
         int randIndex = new Random().nextInt(length);
         return values[randIndex];
     }
 
-    public Spell fireball = Spell.builder()
+    private Spell fireball = Spell.builder()
             .name("Fireball")
             .num(40)
             .desc("A powerful ball of pure fire and heat")
@@ -38,7 +38,7 @@ public class Setup {
             .type("DMG")
             .build();
 
-    public Spell lightningBolt = Spell.builder()
+    private Spell lightningBolt = Spell.builder()
             .name("Lightning Bolt")
             .num(50)
             .desc("Strike your enemies with lightning")
@@ -48,7 +48,7 @@ public class Setup {
             .type("DMG")
             .build();
 
-    public Spell wingardiumLeviosa = Spell.builder()
+    private Spell wingardiumLeviosa = Spell.builder()
             .name("Wingardium Leviosa")
             .num(0)
             .desc("Levitate objects with this spell")
@@ -58,7 +58,7 @@ public class Setup {
             .type("UTL")
             .build();
 
-    public Spell accio = Spell.builder()
+    private Spell accio = Spell.builder()
             .name("Accio")
             .num(0)
             .desc("Bring an object towards you")
@@ -67,7 +67,7 @@ public class Setup {
             .mana(0)
             .type("UTL")
             .build();
-    public Spell expectoPatronum = Spell.builder()
+    private Spell expectoPatronum = Spell.builder()
             .name("Expecto Patronum")
             .num(1000)
             .desc("Protect yourself with the sacred Guardian of the forest")
@@ -77,7 +77,7 @@ public class Setup {
             .type("DEF")
             .build();
 
-    public ForbiddenSpell avadaKedavra = ForbiddenSpell.builder()
+    private ForbiddenSpell avadaKedavra = ForbiddenSpell.builder()
             .name("Avada Kedavra")
             .num(10000)
             .desc("You ded")
@@ -88,12 +88,14 @@ public class Setup {
             .type("DMG")
             .build();
 
-    public List<Potion> empty(){
+    private
+
+    private List<Potion> empty(){
         List<Potion> empty = new ArrayList<>();
         return empty;
     }
 
-    public List<AbstractSpell> startingSpellList(){
+    private List<AbstractSpell> startingSpellList(){
         //creating arrayList for new wizard
         List<AbstractSpell> knownSpells = new ArrayList<>();
         //Known Spells that you start with
@@ -104,7 +106,20 @@ public class Setup {
         return knownSpells;
     }
 
-    public List<AbstractSpell> voldemortSpells(){
+    private List<AbstractSpell> allObtainableSpells(){
+        List<AbstractSpell> obtainableSpells = new ArrayList<>();
+
+        obtainableSpells.add();
+        obtainableSpells.add();
+        obtainableSpells.add();
+        obtainableSpells.add();
+        obtainableSpells.add();
+        obtainableSpells.add();
+
+        return obtainableSpells;
+    }
+
+    private List<AbstractSpell> voldemortSpells(){
         List<AbstractSpell> voldemortSpells = new ArrayList<>();
         //list of spells that Voldemort knows
         voldemortSpells.add(avadaKedavra);
@@ -113,7 +128,7 @@ public class Setup {
         return voldemortSpells;
     }
 
-    public List<AbstractSpell> pettigrowSpells(){
+    private List<AbstractSpell> pettigrowSpells(){
         List<AbstractSpell> pettigrowSpells = new ArrayList<>();
         //list of spells that Pettigrow knows
         pettigrowSpells.add(fireball);
@@ -121,7 +136,7 @@ public class Setup {
         return pettigrowSpells;
     }
 
-    public List<AbstractSpell> ombrageSpells(){
+    private List<AbstractSpell> ombrageSpells(){
         List<AbstractSpell> ombrageSpells = new ArrayList<>();
         //list of spells that Ombrage knows
         ombrageSpells.add(fireball);
@@ -130,7 +145,7 @@ public class Setup {
         return ombrageSpells;
     }
 
-    public Enemy dementor = Enemy.builder()
+    private Enemy dementor = Enemy.builder()
             .name("Dementor")
             .desc("One of the foulest Dark creatures")
             .health(100)
@@ -140,7 +155,7 @@ public class Setup {
             .dex(5)
             .dangerLevel(3)
             .build();
-    public Enemy deatheater = Enemy.builder()
+    private Enemy deatheater = Enemy.builder()
             .name("Death Eater")
             .desc("The most ardent followers of Voldemort")
             .health(150)
@@ -151,7 +166,7 @@ public class Setup {
             .dangerLevel(3)
             .build();
 
-    public Boss troll = Boss.builder()
+    private Boss troll = Boss.builder()
             .name("Troll")
             .desc("Huge brutal but stupid creature")
             .health(100)
@@ -160,7 +175,7 @@ public class Setup {
             .def(5)
             .dex(2)
             .build();
-    public Boss basilisk = Boss.builder()
+    private Boss basilisk = Boss.builder()
             .name("Basilisk")
             .desc("Huge poisoned snake, that can kill you instantly !")
             .health(200)
@@ -170,7 +185,7 @@ public class Setup {
             .dex(5)
             .build();
 
-    public Wizard voldemort = Wizard.builder()
+    private Wizard voldemort = Wizard.builder()
             .name("Lord Voldemort")
             .desc("\"You - Know - Who\", \"He Who Must " +
                     "Not Be Named\", or \"the Dark Lord\", one of the brightest Hogwarts have ever seen, but he's obsessed with " +
@@ -191,7 +206,7 @@ public class Setup {
             .mana(300)
             .build();
 
-    public Wizard pettigrow = Wizard.builder()
+    private Wizard pettigrow = Wizard.builder()
             .name("Peter Pettigrew")
             .desc("Voldemort's best spy. An extremely smart individual, so beware !")
             .health(1000)
@@ -210,7 +225,7 @@ public class Setup {
             .mana(200)
             .build();
 
-    public Wizard umbridge = Wizard.builder()
+    private Wizard umbridge = Wizard.builder()
             .name("Dolores Umbridge")
             .desc("An extremely cruel professor that's even capable of punishing violently and physically students !")
             .health(500)
@@ -229,7 +244,7 @@ public class Setup {
             .mana(200)
             .build();
 
-    public Wizard bellatrix = Wizard.builder()
+    private Wizard bellatrix = Wizard.builder()
             .name("Bellatrix Lestrange")
             .desc("Voldemort's right hand servant, stronger than you think")
             .health(1000)
@@ -281,7 +296,7 @@ public class Setup {
         return player;
     }
 
-    public List<Character> dungeon1(){
+    private List<Character> dungeon1(){
         //creating arrayList
         List<Character> dungeon1 = new ArrayList<>();
         //mob creation per dungeon
@@ -289,7 +304,7 @@ public class Setup {
         return dungeon1;
     }
 
-    public List<Character> dungeon2(){
+    private List<Character> dungeon2(){
         //creating arrayList
         List<Character> dungeon2 = new ArrayList<>();
         //mob creation per dungeon
@@ -297,7 +312,7 @@ public class Setup {
         return dungeon2;
     }
 
-    public List<Character> dungeon3(){
+    private List<Character> dungeon3(){
         //creating arrayList
         List<Character> dungeon3 = new ArrayList<>();
         //mob creation per dungeon
@@ -309,7 +324,7 @@ public class Setup {
         return dungeon3;
     }
 
-    public List<Character> dungeon4(){
+    private List<Character> dungeon4(){
         //creating arrayList
         List<Character> dungeon4 = new ArrayList<>();
         //mob creation per dungeon
@@ -318,7 +333,7 @@ public class Setup {
         return dungeon4;
     }
 
-    public List<Character> dungeon5(){
+    private List<Character> dungeon5(){
         //creating arrayList
         List<Character> dungeon5 = new ArrayList<>();
         //mob creation per dungeon
@@ -326,7 +341,7 @@ public class Setup {
         return dungeon5;
     }
 
-    public List<Character> dungeon6(){
+    private List<Character> dungeon6(){
         //creating arrayList
         List<Character> dungeon6 = new ArrayList<>();
         //mob creation per dungeon
@@ -338,7 +353,7 @@ public class Setup {
         return dungeon6;
     }
 
-    public List<Character> dungeon7(){
+    private List<Character> dungeon7(){
         //creating arrayList
         List<Character> dungeon7 = new ArrayList<>();
         //mob creation per dungeon
@@ -347,37 +362,37 @@ public class Setup {
         return dungeon7;
     }
 
-    public Dungeon philosopherStone = Dungeon.builder()
+    private Dungeon philosopherStone = Dungeon.builder()
             .name("The Philosopher's Stone")
             .desc("There's a troll right next to the toilets of the dungeon ! Beast him in a way or another !")
             .enemies(dungeon1())
             .build();
-    public Dungeon chamberofSecrets = Dungeon.builder()
+    private Dungeon chamberofSecrets = Dungeon.builder()
             .name("The Chamber of Secrets")
             .desc("You find yourself right in front of the mighty terrifying Basilisk ! Pull out one of these fangs to destroy Tom Riddle's journal ! Or maybe... there's another way...")
             .enemies(dungeon2())
             .build();
-    public Dungeon prisonnerofAzkaban = Dungeon.builder()
+    private Dungeon prisonnerofAzkaban = Dungeon.builder()
             .name("The Prisonner of Azkaban")
             .desc("The dementors are on the loose! To defeat them, learn a spell by leveling up and use it against the dementors!")
             .enemies(dungeon3())
             .build();
-    public Dungeon gobletofFire = Dungeon.builder()
+    private Dungeon gobletofFire = Dungeon.builder()
             .name("The Goblet of Fire")
             .desc("You have won the Triwizard Tournament... and the right to die. You find Voldemort and Peter Pettigrew! Run away anyway!")
             .enemies(dungeon4())
             .build();
-    public Dungeon orderofPhoenix = Dungeon.builder()
+    private Dungeon orderofPhoenix = Dungeon.builder()
             .name("The Order of Phoenix")
             .desc("It's time for the OWL (Universal Certificate of Elementary Witchcraft)! Dolores Umbridge is watching over you. Your goal is to distract her until the fireworks are ready to go.")
             .enemies(dungeon5())
             .build();
-    public Dungeon halfBloodedPrince = Dungeon.builder()
+    private Dungeon halfBloodedPrince = Dungeon.builder()
             .name("The Half-Blood Prince")
             .desc("The Death Eaters attack Hogwarts. Do you want to attack them from the front or do you plan to make another decision?")
             .enemies(dungeon6())
             .build();
-    public Dungeon deathlyHallows = Dungeon.builder()
+    private Dungeon deathlyHallows = Dungeon.builder()
             .name("The Deathly Hallows")
             .desc("You have to start attacking the problem at the source. You are facing Voldemort and Bellatrix Lestrange! Pay attention to Avada Kedavra!")
             .enemies(dungeon7())
