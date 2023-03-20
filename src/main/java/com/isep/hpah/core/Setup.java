@@ -14,14 +14,14 @@ import java.util.Random;
 @Setter @Getter
 public class Setup {
 
-    private Core generateRandomCore() {
+    public Core generateRandomCore() {
         Core[] values = Core.values();
         int length = values.length;
         int randIndex = new Random().nextInt(length);
         return values[randIndex];
     }
 
-    private Pet generateRandomPet() {
+    public Pet generateRandomPet() {
         Pet[] values = Pet.values();
         int length = values.length;
         int randIndex = new Random().nextInt(length);
@@ -77,18 +77,37 @@ public class Setup {
             .type("DEF")
             .build();
 
+    private Spell sectumsempra = Spell.builder()
+            .name("Sectumsempra")
+            .num(100)
+            .desc("Deal insane pain to someone")
+            .level(8)
+            .cooldown(5)
+            .mana(80)
+            .type("ATT")
+            .build();
+
+    private Spell expelliarmus = Spell.builder()
+            .name("Expelliarmus")
+            .num(20000)
+            .desc("Protect yourself to any attacks without any problem by literally throwing away your opponent's wand")
+            .level(8)
+            .cooldown(5)
+            .mana(80)
+            .type("ATT")
+            .build();
+
     private ForbiddenSpell avadaKedavra = ForbiddenSpell.builder()
             .name("Avada Kedavra")
             .num(10000)
-            .desc("You ded")
-            .level(1000)
+            .desc("You are guaranteed to die, unless you protect yourself with something")
+            .level(10)
             .corruption(99)
             .cooldown(6)
             .mana(200)
             .type("DMG")
             .build();
 
-    private
 
     private List<Potion> empty(){
         List<Potion> empty = new ArrayList<>();
@@ -106,15 +125,14 @@ public class Setup {
         return knownSpells;
     }
 
-    private List<AbstractSpell> allObtainableSpells(){
+    public List<AbstractSpell> allObtainableSpells(){
         List<AbstractSpell> obtainableSpells = new ArrayList<>();
 
-        obtainableSpells.add();
-        obtainableSpells.add();
-        obtainableSpells.add();
-        obtainableSpells.add();
-        obtainableSpells.add();
-        obtainableSpells.add();
+        obtainableSpells.add(accio);
+        obtainableSpells.add(expectoPatronum);
+        obtainableSpells.add(sectumsempra);
+        obtainableSpells.add(expelliarmus);
+        obtainableSpells.add(avadaKedavra);
 
         return obtainableSpells;
     }
@@ -412,6 +430,4 @@ public class Setup {
 
         return allDungeon;
     }
-
-
 }

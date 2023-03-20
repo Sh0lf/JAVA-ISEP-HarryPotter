@@ -14,11 +14,9 @@ import java.util.*;
 //for functions - the controller
 public class Game {
     private final AllSpellsFunction spfnc;
-
     public Game() {
         spfnc = new AllSpellsFunction(this);
     }
-
     Setup stp = new Setup();
     SortingHat sortHat = new SortingHat();
 
@@ -222,6 +220,7 @@ public class Game {
 
         // Determine the outcome of the fight
         endDungeon(player);
+        giveNewSpell(player);
     }
 
     private void checkEnemiesText(List<Character> enemies) {
@@ -464,7 +463,17 @@ public class Game {
         }
     }
 
-    private void giveNewSpell(Wizard player) {
 
+
+    private void giveNewSpell(Wizard player) {
+        List<AbstractSpell> obtainableSpells = stp.allObtainableSpells();
+
+        for (AbstractSpell spell : obtainableSpells){
+            if (player.getLevel() == spell.getLevel()){
+                player.getKnownSpells().add(spell);
+                System.out.println("You know a new spell: \n" + spell.getName() + ", " + spell.getDesc() +
+                        "\nMana: " + spell.getMana() + " and Cooldown: " + spell.getCooldown());
+            }
+        }
     }
 }
