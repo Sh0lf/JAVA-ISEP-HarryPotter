@@ -1,8 +1,8 @@
-package com.isep.hpah.core.character;
+package com.isep.hpah.core.constructors.character;
 import lombok.*;
 
 @Setter @Getter
-public abstract class AbstractEnemy extends Character{
+public abstract class AbstractEnemy extends Character {
     private int dangerLevel;
 
     public AbstractEnemy(String name, String type, String desc, int maxHealth, int health, double exp, int att, int def, int dex, int dangerLevel) {

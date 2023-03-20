@@ -1,6 +1,6 @@
-package com.isep.hpah.core;
+package com.isep.hpah.core.constructors;
 
-import com.isep.hpah.Setup;
+import com.isep.hpah.core.Setup;
 import lombok.*;
 
 @Getter @Setter

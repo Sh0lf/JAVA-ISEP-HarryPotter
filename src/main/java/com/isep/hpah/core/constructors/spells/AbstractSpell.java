@@ -1,7 +1,5 @@
-package com.isep.hpah.core.spells;
+package com.isep.hpah.core.constructors.spells;
 
-import com.isep.hpah.core.character.Character;
-import com.isep.hpah.core.character.Wizard;
 import lombok.*;
 
 @Setter @Getter

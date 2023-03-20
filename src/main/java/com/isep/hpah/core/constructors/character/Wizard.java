@@ -1,6 +1,7 @@
-package com.isep.hpah.core.character;
-import com.isep.hpah.core.*;
-import com.isep.hpah.core.spells.*;
+package com.isep.hpah.core.constructors.character;
+
+import com.isep.hpah.core.constructors.*;
+import com.isep.hpah.core.constructors.spells.*;
 import lombok.*;
 import java.util.List;
 

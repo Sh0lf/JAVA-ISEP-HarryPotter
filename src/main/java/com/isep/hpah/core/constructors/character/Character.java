@@ -1,4 +1,4 @@
-package com.isep.hpah.core.character;
+package com.isep.hpah.core.constructors.character;
 
 import lombok.*;
 

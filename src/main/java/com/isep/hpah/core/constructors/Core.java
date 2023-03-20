@@ -1,4 +1,4 @@
-package com.isep.hpah.core;
+package com.isep.hpah.core.constructors;
 import java.util.Random;
 
 public enum Core {

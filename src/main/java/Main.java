@@ -1,8 +1,8 @@
 import com.isep.hpah.Game;
 import com.isep.hpah.SafeScanner;
-import com.isep.hpah.core.Dungeon;
-import com.isep.hpah.core.character.Wizard;
-import com.isep.hpah.Setup;
+import com.isep.hpah.core.constructors.Dungeon;
+import com.isep.hpah.core.constructors.character.Wizard;
+import com.isep.hpah.core.Setup;
 
 import java.util.List;
 

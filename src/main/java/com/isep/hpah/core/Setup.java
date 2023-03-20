@@ -1,12 +1,9 @@
-package com.isep.hpah;
+package com.isep.hpah.core;
 
-import com.isep.hpah.core.*;
-import com.isep.hpah.core.character.Boss;
-import com.isep.hpah.core.character.Character;
-import com.isep.hpah.core.character.Wizard;
-import com.isep.hpah.core.character.Enemy;
-import com.isep.hpah.core.Dungeon;
-import com.isep.hpah.core.spells.*;
+import com.isep.hpah.core.constructors.character.Character;
+import com.isep.hpah.core.constructors.character.*;
+import com.isep.hpah.core.constructors.*;
+import com.isep.hpah.core.constructors.spells.*;
 import lombok.*;
 
 import java.util.ArrayList;

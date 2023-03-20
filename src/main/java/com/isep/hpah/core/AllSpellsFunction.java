@@ -1,9 +1,10 @@
-package com.isep.hpah.core.spells;
+package com.isep.hpah.core;
 
 import com.isep.hpah.Game;
 import com.isep.hpah.SafeScanner;
-import com.isep.hpah.core.character.Character;
-import com.isep.hpah.core.character.Wizard;
+import com.isep.hpah.core.constructors.character.Character;
+import com.isep.hpah.core.constructors.character.Wizard;
+import com.isep.hpah.core.constructors.spells.AbstractSpell;
 
 import java.util.List;
 

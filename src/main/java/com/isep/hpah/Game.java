@@ -1,9 +1,10 @@
 package com.isep.hpah;
 
 import com.isep.hpah.core.*;
-import com.isep.hpah.core.character.*;
-import com.isep.hpah.core.character.Character; //Because of suspected ambiguity
-import com.isep.hpah.core.spells.*;
+import com.isep.hpah.core.constructors.*;
+import com.isep.hpah.core.constructors.character.Character; //Because of suspected ambiguity
+import com.isep.hpah.core.constructors.character.Wizard;
+import com.isep.hpah.core.constructors.spells.*;
 
 import java.util.*;
 
