@@ -167,6 +167,10 @@ public class Game {
 
             checkEnemiesText(enemies);
 
+            for (Character enemy : enemies) {
+                System.out.println("Enemy: " + enemy.getName() + "\nHealth: " + enemy.getHealth() + "\n" + enemy.getType());
+            }
+
             int choice = presentingTurn(player, round, sc);
 
             if (choice == 1) {
@@ -185,7 +189,7 @@ public class Game {
 
                 } else if (spell.getType().equals("DEF")) {
 
-                    processDefSpell(spell, player);
+                    processDefSpell(spell, player, enemies);
 
                 } else if (spell.getType().equals("UTL")) {
 
@@ -218,17 +222,21 @@ public class Game {
                 System.out.println("You see a boulder above the troll's head, what can you do with it ?");
             }
             else if (enemy.getName().equals("Basilisk")) {
-                System.out.println("It's a poisonous powerful snake, try to eliminate as much risk as possible !");
+                System.out.println("It's a poisonous powerful snake, try to remove his fangs in a way or another !");
             }
             else if (enemy.getName().equals("Dementor")) {
-                System.out.println("It's a poisonous powerful snake, try to eliminate as much risk as possible !");
+                System.out.println("There are too many ! Scare them out with one of your spells ! They are scared of divine creatures !");
                 break;
             }
             else if (enemy.getName().equals("Peter Pettigrew")) {
-                System.out.println("You cannot fight them ! Get closer to the Portkey as fast as you can");
+                System.out.println("You cannot fight them ! Find a way to get closer to the Portkey as fast as you can !");
             }
             else if (enemy.getName().equals("Dolores Umbridge")) {
                 System.out.println("Try to delay and waste time as much as you can !");
+            }
+            else if (enemy.getName().equals("Death Eater")) {
+                System.out.println("There are too many ! Scare them out with one of your spells ! They are scared of pain !");
+                break;
             }
             else if (enemy.getName().equals("Lord Voldemort")) {
                 System.out.println("He can use Avada Kedavra ! Consider this possibility and protect yourself !");
@@ -240,7 +248,6 @@ public class Game {
             }
 
         }
-
     }
 
     private int presentingTurn(Wizard player, int round, SafeScanner sc){
@@ -330,47 +337,50 @@ public class Game {
     }
 
     private void processDmgSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc) {
-        boolean verifInput = false;
         if (spell.getCooldownRem() > 0) {
             System.out.println("Spell is on cooldown for " + spell.getCooldownRem() + " more rounds.");
         } else if (player.getMana() < spell.getMana()) {
             System.out.println("Not enough mana to cast " + spell.getName() + ".");
         } else {
-            int targetIndex = 0;
-            while (!verifInput) {
-                try {
-                    System.out.println("Choose an enemy to cast " + spell.getName() + " on:");
-                    for (int i = 0; i < enemies.size(); i++) {
-                        System.out.println((i + 1) + ". " + enemies.get(i).getName() + " (Health: " + enemies.get(i).getHealth() + ")");
+            if (spell.getName().equals("Sectumsempra")){
+                if (enemies.get(0).getName().equals("Death Eater")){
+                    System.out.println("The Death Eater got scared and they all left !");
+                    for (Character enemy : enemies) {
+                        enemy.setHealth(0);
                     }
-                    targetIndex = sc.getInt() - 1;
-                    verifInput = true;
-                } catch (Exception e) {
-                    System.out.println("Please write valid content");
-                    verifInput = false;
                 }
+            } else {
+                int targetIndex = chooseTarget(spell, enemies, sc);
+
+                Character target = enemies.get(targetIndex);
+                spfnc.castDmgSpell(spell, player, target);
+
+                spell.setCooldownRem(spell.getCooldown());
+
+                spfnc.manaReduce(spell, player);
             }
-            Character target = enemies.get(targetIndex);
-            spfnc.castDmgSpell(spell, player, target);
-
-            spell.setCooldownRem(spell.getCooldown());
-
-            spfnc.manaReduce(spell, player);
         }
     }
 
-    private void processDefSpell(AbstractSpell spell, Wizard player){
+    private void processDefSpell(AbstractSpell spell, Wizard player, List<Character> enemies){
         if (spell.getCooldownRem() > 0) {
             System.out.println("Spell is on cooldown for " + spell.getCooldownRem() + " more rounds.");
         } else if (player.getMana() < spell.getMana()) {
             System.out.println("Not enough mana to cast " + spell.getName() + ".");
         } else {
+            if (spell.getName().equals("Expecto Patronum")){
+                if (enemies.get(0).getName().equals("Dementor")){
+                    for (Character enemy : enemies) {
+                        enemy.setHealth(0);
+                    }
+                }
+            } else {
+                spfnc.castDefSpell(spell, player);
 
-            spfnc.castDefSpell(spell, player);
+                spell.setCooldownRem(spell.getCooldown());
 
-            spell.setCooldownRem(spell.getCooldown());
-
-            spfnc.manaReduce(spell, player);
+                spfnc.manaReduce(spell, player);
+            }
         }
     }
 
@@ -381,7 +391,7 @@ public class Game {
             System.out.println("Not enough mana to cast " + spell.getName() + ".");
         } else {
 
-            spfnc.checkUtlSpellUsage(spell, player, enemies, sc);
+            spfnc.checkUtlSpellUsage(spell, enemies, sc);
 
             spell.setCooldownRem(spell.getCooldown());
 

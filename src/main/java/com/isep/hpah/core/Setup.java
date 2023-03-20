@@ -64,6 +64,7 @@ public class Setup {
             .desc("Bring an object towards you")
             .level(2)
             .cooldown(0)
+            .mana(0)
             .type("UTL")
             .build();
     public Spell expectoPatronum = Spell.builder()

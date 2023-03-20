@@ -16,7 +16,6 @@ public class AllSpellsFunction {
         this.game = game;
     }
 
-
     public void manaReduce(AbstractSpell spell, Wizard player) {
         player.setMana(player.getMana() - spell.getMana());
     }
@@ -52,18 +51,13 @@ public class AllSpellsFunction {
         }
     }
 
-    public void checkUtlSpellUsage(AbstractSpell spell, Wizard player, List<Character> enemies, SafeScanner sc){
-        //TODO : MAKE THE CHECK UTL SPELL USAGE SWITCH CASE BASED ON DUNGEON / ENEMY
+    public void checkUtlSpellUsage(AbstractSpell spell, List<Character> enemies, SafeScanner sc){
+        //TODO : Made spells exception per dungeon; now need to do all the possibilities.
         int targetIndex = game.chooseTarget(spell, enemies, sc);
 
         Character target = enemies.get(targetIndex);
-        castUtlSpell(spell, player, target, sc);
-    }
 
-
-    //Extremely long process; A switch case that checks what spell
-    public void castUtlSpell(AbstractSpell spell, Wizard player, Character target, SafeScanner sc) {
-        switch(target.getName()) {
+        switch (target.getName()) {
             case "Troll":
                 if (spell.getName().equals("Wingardium Leviosa")) {
                     target.setHealth(0);
@@ -72,35 +66,32 @@ public class AllSpellsFunction {
                 break;
             case "Basilisk":
                 if (spell.getName().equals("Accio")) {
-                    target.setHealth(target.getHealth()/3);
-                    System.out.println("You successfully removed his fangs !");
-                }
-                break;
-            case "Dementor":
-                if (spell.getName().equals("Expecto Patronum")) {
-                    //end the dungeon
+                    target.setHealth(target.getHealth() / 3);
+                    System.out.println("You successfully removed one of his fangs ! You just removed 1/3rd of his health !");
                 }
                 break;
             case "Lord Voldemort":
                 if (spell.getName().equals("Accio")) {
-                    //Skip the dungeon
+                    if (enemies.get(1).getName().equals("Peter Pettigrew")){
+                        for (Character enemy : enemies) {
+                            enemy.setHealth(0);
+                        }
+                        System.out.println("You successfully teleported out to safety !");
+                    }
                 }
                 break;
             case "Peter Pettigrew":
                 if (spell.getName().equals("Accio")) {
-                    //Skip the dungeon
-                }
-                break;
-            case "Death Eater":
-                if (spell.getName().equals("Sectumsempra")) {
-                    //end dungeon sale way as dementor but don't forget the house
+                    for (Character enemy : enemies) {
+                        enemy.setHealth(0);
+                    }
+                    System.out.println("You successfully teleported out to safety !");
                 }
                 break;
             default:
-                //TODO All other use case on utility spells
                 break;
-
-                //TODO: ALL of this, maybe need to do 2 diff Voldemort since 2 occurences and 2 diff dungeons
         }
     }
 }
+
+
