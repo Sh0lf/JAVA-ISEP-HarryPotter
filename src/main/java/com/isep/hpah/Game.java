@@ -5,6 +5,7 @@ import com.isep.hpah.core.constructors.*;
 import com.isep.hpah.core.constructors.character.Character; //Because of suspected ambiguity
 import com.isep.hpah.core.constructors.character.Wizard;
 import com.isep.hpah.core.constructors.spells.*;
+import com.isep.hpah.core.AllSpellsFunction;
 
 import java.util.*;
 
@@ -12,7 +13,12 @@ import java.util.*;
 
 //for functions - the controller
 public class Game {
-    AllSpellsFunction spfnc = new AllSpellsFunction();
+    private final AllSpellsFunction spfnc;
+
+    public Game() {
+        spfnc = new AllSpellsFunction(this);
+    }
+
     Setup stp = new Setup();
     SortingHat sortHat = new SortingHat();
 
@@ -121,7 +127,7 @@ public class Game {
             }
         }
 
-        wand = new Wand(wandName, wandSize);
+        wand = new Wand(wandName, wandSize, stp.generateRandomCore());
 
         sc.printHeading("Great ! I found you a wand that looks perfect to you ! It has a " + wand.getCore() +
                 " under the name of " + wand.getName() + " and the size is exactly what you wanted : " + wand.getSize());
@@ -158,6 +164,8 @@ public class Game {
         checkDefBoost(player);
         // Loop until all enemies are defeated or the player dies
         while (!enemies.isEmpty() && player.getHealth() > 0) {
+
+            checkEnemiesText(enemies);
 
             int choice = presentingTurn(player, round, sc);
 
@@ -201,6 +209,38 @@ public class Game {
 
         // Determine the outcome of the fight
         endDungeon(player);
+    }
+
+    private void checkEnemiesText(List<Character> enemies) {
+
+        for (Character enemy : enemies) {
+            if (enemy.getName().equals("Troll")) {
+                System.out.println("You see a boulder above the troll's head, what can you do with it ?");
+            }
+            else if (enemy.getName().equals("Basilisk")) {
+                System.out.println("It's a poisonous powerful snake, try to eliminate as much risk as possible !");
+            }
+            else if (enemy.getName().equals("Dementor")) {
+                System.out.println("It's a poisonous powerful snake, try to eliminate as much risk as possible !");
+                break;
+            }
+            else if (enemy.getName().equals("Peter Pettigrew")) {
+                System.out.println("You cannot fight them ! Get closer to the Portkey as fast as you can");
+            }
+            else if (enemy.getName().equals("Dolores Umbridge")) {
+                System.out.println("Try to delay and waste time as much as you can !");
+            }
+            else if (enemy.getName().equals("Lord Voldemort")) {
+                System.out.println("He can use Avada Kedavra ! Consider this possibility and protect yourself !");
+                break;
+            }
+           else if (enemy.getName().equals("Bellatrix Lestrange")) {
+                System.out.println("He can use Avada Kedavra ! Consider this possibility and protect yourself !");
+                break;
+            }
+
+        }
+
     }
 
     private int presentingTurn(Wizard player, int round, SafeScanner sc){
@@ -314,6 +354,8 @@ public class Game {
             spfnc.castDmgSpell(spell, player, target);
 
             spell.setCooldownRem(spell.getCooldown());
+
+            spfnc.manaReduce(spell, player);
         }
     }
 
@@ -327,17 +369,23 @@ public class Game {
             spfnc.castDefSpell(spell, player);
 
             spell.setCooldownRem(spell.getCooldown());
+
+            spfnc.manaReduce(spell, player);
         }
     }
 
     private void processUtlSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc){
-        boolean verifInput = false;
         if (spell.getCooldownRem() > 0) {
             System.out.println("Spell is on cooldown for " + spell.getCooldownRem() + " more rounds.");
         } else if (player.getMana() < spell.getMana()) {
             System.out.println("Not enough mana to cast " + spell.getName() + ".");
         } else {
+
             spfnc.checkUtlSpellUsage(spell, player, enemies, sc);
+
+            spell.setCooldownRem(spell.getCooldown());
+
+            spfnc.manaReduce(spell, player);
         }
     }
 

@@ -7,10 +7,19 @@ import com.isep.hpah.core.constructors.character.Wizard;
 import com.isep.hpah.core.constructors.spells.AbstractSpell;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AllSpellsFunction {
+    private Game game;
 
-    Game game = new Game();
+    public AllSpellsFunction(Game game) {
+        this.game = game;
+    }
+
+
+    public void manaReduce(AbstractSpell spell, Wizard player) {
+        player.setMana(player.getMana() - spell.getMana());
+    }
 
     // Method to cast a spell
     public void castDmgSpell(AbstractSpell spell, Character player, Character enemy) {
@@ -48,40 +57,47 @@ public class AllSpellsFunction {
         int targetIndex = game.chooseTarget(spell, enemies, sc);
 
         Character target = enemies.get(targetIndex);
-        castUtlSpell(spell, player, target);
-
-        spell.setCooldownRem(spell.getCooldown());
+        castUtlSpell(spell, player, target, sc);
     }
 
 
     //Extremely long process; A switch case that checks what spell
-    public void castUtlSpell(AbstractSpell spell, Wizard player, Character target) {
+    public void castUtlSpell(AbstractSpell spell, Wizard player, Character target, SafeScanner sc) {
         switch(target.getName()) {
             case "Troll":
-                //Make thing for Troll specifically
+                if (spell.getName().equals("Wingardium Leviosa")) {
+                    target.setHealth(0);
+                    System.out.println("You saw the boulder, you levitated it and you squished the troll !");
+                }
                 break;
             case "Basilisk":
-                //Make thing for basilisk specifically
+                if (spell.getName().equals("Accio")) {
+                    target.setHealth(target.getHealth()/3);
+                    System.out.println("You successfully removed his fangs !");
+                }
                 break;
             case "Dementor":
-                //Make thing for dementor (dungeon) specifically
+                if (spell.getName().equals("Expecto Patronum")) {
+                    //end the dungeon
+                }
                 break;
             case "Lord Voldemort":
-                //Make thing for voldemort (dungeon) specifically
+                if (spell.getName().equals("Accio")) {
+                    //Skip the dungeon
+                }
                 break;
             case "Peter Pettigrew":
-                //Make thing for Bellatrix (dungeon) specifically
-                break;
-            case "Dolores Umbridge":
-                //Make thing for Dolores specifically
+                if (spell.getName().equals("Accio")) {
+                    //Skip the dungeon
+                }
                 break;
             case "Death Eater":
-                //Make thing for Death Eater (dungeon) specifically
-                break;
-            case "Bellatrix Lestrange":
-                //Make thing for Bellatrix (dungeon) specifically
+                if (spell.getName().equals("Sectumsempra")) {
+                    //end dungeon sale way as dementor but don't forget the house
+                }
                 break;
             default:
+                //TODO All other use case on utility spells
                 break;
 
                 //TODO: ALL of this, maybe need to do 2 diff Voldemort since 2 occurences and 2 diff dungeons

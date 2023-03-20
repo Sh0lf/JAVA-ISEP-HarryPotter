@@ -9,11 +9,9 @@ public class Wand {
     private Core core;
     private double size;
 
-    Setup stp = new Setup();
-
-    public Wand(String name, double size) {
+    public Wand(String name, double size, Core core) {
         this.name = name;
         this.size = size;
-        this.core = stp.generateRandomCore();
+        this.core = core;
     }
 }
