@@ -166,8 +166,6 @@ public class Game {
         SafeScanner sc = new SafeScanner(System.in);
         List<AbstractSpell> spells = player.getKnownSpells();
 
-        spfnc.checkCooldown(spells);
-
         checkDefBoost(player);
         // Loop until all enemies are defeated or the player dies
         while (!enemies.isEmpty() && player.getHealth() > 0) {
@@ -180,6 +178,7 @@ public class Game {
 
             int choice = presentingTurn(player, round, sc);
 
+            int targetIndex = 0;
             if (choice == 1) {
 
                 attacking(enemies, player, sc);
@@ -200,7 +199,7 @@ public class Game {
 
                 } else if (spell.getType().equals("UTL")) {
 
-                    processUtlSpell(player, spell, enemies, sc);
+                    targetIndex = processUtlSpell(player, spell, enemies, sc);
 
                 }
             } else if (choice == 4) {
@@ -212,6 +211,7 @@ public class Game {
             enemiesTurn(enemies, player);
 
             checkLevelUp(player);
+            spfnc.checkCooldown(spells, enemies, targetIndex);
             round++;
 
             // Remove defeated enemies
@@ -233,7 +233,7 @@ public class Game {
                 System.out.println("\nIt's a poisonous powerful snake, try to remove his fangs in a way or another !\n");
             }
             else if (enemy.getName().equals("Dementor")) {
-                System.out.println("\nThere are too many ! Scare them out with one of your spells ! They are scared of divine creatures !\n");
+                System.out.println("\nThere are too many dementors ! Scare them out with one of your spells ! They are scared of divine creatures !\n");
                 break;
             }
             else if (enemy.getName().equals("Peter Pettigrew")) {
@@ -243,7 +243,7 @@ public class Game {
                 System.out.println("\nTry to delay and waste time as much as you can !\n");
             }
             else if (enemy.getName().equals("Death Eater")) {
-                System.out.println("\nThere are too many ! Scare them out with one of your spells ! They are scared of pain !\n");
+                System.out.println("\nThere are too many death eaters! Scare them out with one of your spells ! They do not like to suffer !\n");
                 break;
             }
             else if (enemy.getName().equals("Lord Voldemort")) {
@@ -352,7 +352,7 @@ public class Game {
         } else {
             if (spell.getName().equals("Sectumsempra")){
                 if (enemies.get(0).getName().equals("Death Eater")){
-                    System.out.println("The Death Eater got scared and they all left !");
+                    System.out.println("You mercilessly killed one of the Death Eater ! They all got scared and they all left !");
                     for (Character enemy : enemies) {
                         enemy.setHealth(0);
                     }
@@ -381,6 +381,7 @@ public class Game {
                     for (Character enemy : enemies) {
                         enemy.setHealth(0);
                     }
+                    System.out.println("They've seen what divine beast you're capable of summoning, they got scared and they all left !");
                 }
             } else {
                 spfnc.castDefSpell(spell, player);
@@ -392,19 +393,22 @@ public class Game {
         }
     }
 
-    private void processUtlSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc){
+    private int processUtlSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc){
         if (spell.getCooldownRem() > 0) {
             System.out.println("Spell is on cooldown for " + spell.getCooldownRem() + " more rounds.");
         } else if (player.getMana() < spell.getMana()) {
             System.out.println("Not enough mana to cast " + spell.getName() + ".");
         } else {
 
-            spfnc.checkUtlSpellUsage(spell, enemies, sc);
+            int targetIndex = spfnc.checkUtlSpellUsage(spell, enemies, sc);
 
             spell.setCooldownRem(spell.getCooldown());
 
             spfnc.manaReduce(spell, player);
+
+            return targetIndex;
         }
+        return 0;
     }
 
     private void endDungeon(Wizard player){
@@ -443,7 +447,7 @@ public class Game {
     }
 
     private void checkLevelUp(Wizard player) {
-        if (player.getExp() >= 50) {
+        while (player.getExp() >= 50) {
             player.setLevel(player.getLevel() + 1);
             player.setExp(player.getExp()- 50);
             System.out.println("\nCongratulations! You have leveled up to level " + player.getLevel() + ".");

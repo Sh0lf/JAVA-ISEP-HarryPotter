@@ -53,8 +53,8 @@ public class Setup {
             .num(0)
             .desc("Levitate objects with this spell")
             .level(0)
-            .cooldown(0)
-            .mana(0)
+            .cooldown(2)
+            .mana(20)
             .type("UTL")
             .build();
 
@@ -63,8 +63,8 @@ public class Setup {
             .num(0)
             .desc("Bring an object towards you")
             .level(2)
-            .cooldown(0)
-            .mana(0)
+            .cooldown(3)
+            .mana(30)
             .type("UTL")
             .build();
     private Spell expectoPatronum = Spell.builder()
@@ -89,12 +89,12 @@ public class Setup {
 
     private Spell expelliarmus = Spell.builder()
             .name("Expelliarmus")
-            .num(20000)
+            .num(20)
             .desc("Protect yourself to any attacks without any problem by literally throwing away your opponent's wand")
             .level(8)
             .cooldown(5)
             .mana(80)
-            .type("ATT")
+            .type("UTL")
             .build();
 
     private ForbiddenSpell avadaKedavra = ForbiddenSpell.builder()

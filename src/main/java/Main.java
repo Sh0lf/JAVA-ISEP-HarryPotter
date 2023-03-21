@@ -24,6 +24,7 @@ public class Main {
         sc.pressEnterToContinue();
 
         game.dungeonCombat(dungeons.get(0).getEnemies(), player);
+        sc.pressEnterToContinue();
 
         sc.printHeader(dungeons.get(1).getName());
         sc.pressEnterToContinue();
@@ -32,6 +33,61 @@ public class Main {
         sc.pressEnterToContinue();
 
         game.dungeonCombat(dungeons.get(1).getEnemies(), player);
+        sc.pressEnterToContinue();
+
+        sc.printHeader(dungeons.get(2).getName());
+        sc.pressEnterToContinue();
+
+        sc.printHeading(dungeons.get(2).getDesc());
+        sc.pressEnterToContinue();
+
+        game.dungeonCombat(dungeons.get(2).getEnemies(), player);
+        sc.pressEnterToContinue();
+
+        sc.printHeader(dungeons.get(3).getName());
+        sc.pressEnterToContinue();
+
+        sc.printHeading(dungeons.get(3).getDesc());
+        sc.pressEnterToContinue();
+
+        game.dungeonCombat(dungeons.get(3).getEnemies(), player);
+        sc.pressEnterToContinue();
+
+        sc.printHeader(dungeons.get(4).getName());
+        sc.pressEnterToContinue();
+
+        sc.printHeading(dungeons.get(4).getDesc());
+        sc.pressEnterToContinue();
+
+        game.dungeonCombat(dungeons.get(4).getEnemies(), player);
+        sc.pressEnterToContinue();
+
+        sc.printHeader(dungeons.get(5).getName());
+        sc.pressEnterToContinue();
+
+        sc.printHeading(dungeons.get(5).getDesc());
+        sc.pressEnterToContinue();
+
+        game.dungeonCombat(dungeons.get(5).getEnemies(), player);
+        sc.pressEnterToContinue();
+
+        sc.printHeader(dungeons.get(6).getName());
+        sc.pressEnterToContinue();
+
+        sc.printHeading(dungeons.get(6).getDesc());
+        sc.pressEnterToContinue();
+
+        game.dungeonCombat(dungeons.get(6).getEnemies(), player);
+        sc.pressEnterToContinue();
+
+        sc.printHeader(dungeons.get(7).getName());
+        sc.pressEnterToContinue();
+
+        sc.printHeading(dungeons.get(7).getDesc());
+        sc.pressEnterToContinue();
+
+        game.dungeonCombat(dungeons.get(7).getEnemies(), player);
+        sc.pressEnterToContinue();
     }
 }
 
