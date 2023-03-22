@@ -14,6 +14,7 @@ import java.util.Random;
 @Setter @Getter
 public class Setup {
 
+    //Generate random core from enum
     public Core generateRandomCore() {
         Core[] values = Core.values();
         int length = values.length;
@@ -21,6 +22,7 @@ public class Setup {
         return values[randIndex];
     }
 
+    //Generate random cpet from enum
     public Pet generateRandomPet() {
         Pet[] values = Pet.values();
         int length = values.length;
@@ -28,6 +30,7 @@ public class Setup {
         return values[randIndex];
     }
 
+    //Spells creation
     private Spell fireball = Spell.builder()
             .name("Fireball")
             .num(40)
@@ -108,12 +111,13 @@ public class Setup {
             .type("DMG")
             .build();
 
-
+    //create list of potions that is empty for the enemy Wizard
     private List<Potion> empty(){
         List<Potion> empty = new ArrayList<>();
         return empty;
     }
 
+    //list of spells known when starting game
     private List<AbstractSpell> startingSpellList(){
         //creating arrayList for new wizard
         List<AbstractSpell> knownSpells = new ArrayList<>();
@@ -125,6 +129,7 @@ public class Setup {
         return knownSpells;
     }
 
+    //List of all obtainable spells
     public List<AbstractSpell> allObtainableSpells(){
         List<AbstractSpell> obtainableSpells = new ArrayList<>();
 

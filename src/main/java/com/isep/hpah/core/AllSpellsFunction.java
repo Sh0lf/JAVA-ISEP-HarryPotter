@@ -2,46 +2,68 @@ package com.isep.hpah.core;
 
 import com.isep.hpah.Game;
 import com.isep.hpah.SafeScanner;
+import com.isep.hpah.core.constructors.House;
 import com.isep.hpah.core.constructors.character.Character;
 import com.isep.hpah.core.constructors.character.Wizard;
 import com.isep.hpah.core.constructors.spells.AbstractSpell;
 
 import java.util.List;
 
+//All directly related spell functions/methods, mostly casting methods and some checking methods
 public class AllSpellsFunction {
+
+    //This used to prevent StackOverflowError between file Game.java and this file as they are basically correlated
     private Game game;
 
     public AllSpellsFunction(Game game) {
         this.game = game;
     }
 
+    //selfexplanatory
     public void manaReduce(AbstractSpell spell, Wizard player) {
         player.setMana(player.getMana() - spell.getMana());
     }
 
-    // Method to cast a spell
-    public void castDmgSpell(AbstractSpell spell, Character player, Character enemy) {
+    // Method to cast a dmg spell, deal dmg
+    public void castDmgSpell(AbstractSpell spell, Wizard player, Character enemy) {
         // Cast the attacking spell on the enemy
-        int damage = spell.getNum();
+        double damage = spell.getNum();
         double hitChance = 0.7 + player.getDex();
         double rand = Math.random();
         if (rand > hitChance) {
             System.out.println(player.getName() + " missed the attack !");
             return;
         }
-        int remainingHealth = enemy.getHealth() - damage;
+
+        if (player.getHouse().equals(House.SLYTHERIN)){
+            damage = damage * 1.2;
+            System.out.println("Since you're a Slytherin, you're more efficient with your spells !");
+        }
+
+        int remainingHealth = enemy.getHealth() - (int) damage;
         enemy.setHealth(remainingHealth);
         System.out.println(player.getName() + " hit " + enemy.getName() + " with " + spell.getName() + " for " + damage + " damage !");
         System.out.println(enemy.getName() + " has " + remainingHealth + " health points remaining.");
     }
 
+    // Method for DEF spell, comparison based on a Wizard variable DefSpell.
     public void castDefSpell(AbstractSpell spell, Wizard player){
-        int val = spell.getNum();
-        player.setDefSpell(val);
+        double val = spell.getNum();
+
+        if (player.getHouse().equals(House.SLYTHERIN)){
+            val = val * 1.2;
+            System.out.println("Since you're a Slytherin, you're more efficient with your spells !");
+        }
+        player.setDefSpell((int) val);
         player.setDef(player.getDefSpell());
         System.out.println("You gained " + val + " defense for this turn and have now a total of " + player.getDef() + " defense !");
     }
 
+    //Tricky part:
+    //Checking if spell have cooldown in progress (cooldownrem)
+    //Checking which spell have cooldown, in this case accio and expelliarmus as they make temporary debuff on dex or def
+    //and that is based on 2 unique enemies: Bellatrix and Voldemort. if true reinstate original values
+    //after this check: we reduce spell cooldown rem
     public void checkCooldown(List<AbstractSpell> spells, List<Character> enemies, int targetIndex){
         for (AbstractSpell spell : spells) {
             if (spell.getCooldownRem() > 0) {
@@ -60,11 +82,12 @@ public class AllSpellsFunction {
                         System.out.println("The opponent has recovered his wand and can now attack ! Watch out !");
                     }
                 }
-                spell.setCooldown(spell.getCooldownRem() - 1);
+                spell.setCooldownRem(spell.getCooldownRem() - 1);
             }
         }
     }
 
+    //Switch case for UTL Spell usage based on enemy. Deeply developed (Should be considered exception)
     public int checkUtlSpellUsage(AbstractSpell spell, List<Character> enemies, SafeScanner sc){
         //TODO : Made spells exception per dungeon; now need to do all the possibilities.
         int targetIndex = game.chooseTarget(spell, enemies, sc);
@@ -74,7 +97,7 @@ public class AllSpellsFunction {
         switch (target.getName()) {
             case "Troll":
                 if (spell.getName().equals("Wingardium Leviosa")) {
-                    target.setHealth(0);
+                    target.setHealth(target.getHealth() - 50);
                     System.out.println("You saw the boulder, you levitated it and you squished the troll !");
                 }
                 break;

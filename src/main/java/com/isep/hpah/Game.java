@@ -18,6 +18,7 @@ public class Game {
         spfnc = new AllSpellsFunction(this);
     }
     Setup stp = new Setup();
+    SafeScanner sc = new SafeScanner(System.in);
     SortingHat sortHat = new SortingHat();
 
     public Wizard gamePres(SafeScanner sc){
@@ -162,7 +163,6 @@ public class Game {
 
     public void dungeonCombat(List<Character> enemies, Wizard player) {
         int round = 1;
-        boolean verifInput = false;
         SafeScanner sc = new SafeScanner(System.in);
         List<AbstractSpell> spells = player.getKnownSpells();
 
@@ -173,7 +173,7 @@ public class Game {
             checkEnemiesText(enemies);
 
             for (Character enemy : enemies) {
-                System.out.println("Enemy: " + enemy.getName() + "\nHealth: " + enemy.getHealth() + "\n" + enemy.getType());
+                System.out.println("Enemy: " + enemy.getName() + "\nHealth: " + enemy.getHealth() + "\n" + enemy.getType()+ "\n");
             }
 
             int choice = presentingTurn(player, round, sc);
@@ -332,7 +332,9 @@ public class Game {
             try {
                 System.out.println("Select a spell to cast:");
                 for (int i = 0; i < spells.size(); i++) {
-                    System.out.println((i + 1) + ". " + spells.get(i).getName() + " (Type: " + spells.get(i).getType() + ", Mana Cost: " + spells.get(i).getMana() + ", Cooldown: " + spells.get(i).getCooldown() + ")");
+                    System.out.println((i + 1) + ". " + spells.get(i).getName() + " (Type: " + spells.get(i).getType()
+                            + ", Mana Cost: " + spells.get(i).getMana() + ", Cooldown: " + spells.get(i).getCooldown()
+                            + ", Cooldown remaining: " + spells.get(i).getCooldownRem());
                 }
                 spellIndex = sc.getInt() - 1;
                 verifInput = true;
@@ -450,7 +452,7 @@ public class Game {
         while (player.getExp() >= 50) {
             player.setLevel(player.getLevel() + 1);
             player.setExp(player.getExp()- 50);
-            System.out.println("\nCongratulations! You have leveled up to level " + player.getLevel() + ".");
+            sc.printHeading("\nCongratulations! You have leveled up to level " + player.getLevel() + ".");
 
             player.setMaxHealth(player.getMaxHealth() + 20);
             player.setHealth(player.getMaxHealth());
@@ -461,7 +463,7 @@ public class Game {
             player.setDef(player.getDef() + 5);
             player.setDex(player.getDex() + 2);
 
-            System.out.println("Your new stats: \nAtt: " + player.getAtt() + "\nDef: " +
+            sc.printHeading("Your new stats: \nAtt: " + player.getAtt() + "\nDef: " +
                     player.getDef() + "\nDex: " + player.getDex());
 
         }
@@ -475,7 +477,7 @@ public class Game {
         for (AbstractSpell spell : obtainableSpells){
             if (player.getLevel() == spell.getLevel()){
                 player.getKnownSpells().add(spell);
-                System.out.println("You know a new spell: \n" + spell.getName() + ", " + spell.getDesc() +
+                sc.printHeading("\nYou know a new spell: \n" + spell.getName() + ", " + spell.getDesc() +
                         "\nMana: " + spell.getMana() + " and Cooldown: " + spell.getCooldown());
             }
         }
