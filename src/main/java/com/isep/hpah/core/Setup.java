@@ -111,11 +111,7 @@ public class Setup {
             .type("DMG")
             .build();
 
-    //create list of potions that is empty for the enemy Wizard
-    private List<Potion> empty(){
-        List<Potion> empty = new ArrayList<>();
-        return empty;
-    }
+    //TODO: More spells for more diversity and maybe even more transition dungeons (fillerDungeons)
 
     //list of spells known when starting game
     private List<AbstractSpell> startingSpellList(){
@@ -223,7 +219,7 @@ public class Setup {
             .pet(generateRandomPet())
             .house(House.SLYTHERIN)
             .knownSpells(voldemortSpells())
-            .potionsOwned(empty())
+            .potionsOwned(enemyPots())
             .corruptionGauge(0)
             .maxMana(300)
             .mana(300)
@@ -242,7 +238,7 @@ public class Setup {
             .pet(generateRandomPet())
             .house(House.GRYFFINDOR)
             .knownSpells(pettigrowSpells())
-            .potionsOwned(empty())
+            .potionsOwned(enemyPots())
             .corruptionGauge(0)
             .maxMana(200)
             .mana(200)
@@ -261,7 +257,7 @@ public class Setup {
             .pet(generateRandomPet())
             .house(House.SLYTHERIN)
             .knownSpells(ombrageSpells())
-            .potionsOwned(empty())
+            .potionsOwned(enemyPots())
             .corruptionGauge(0)
             .maxMana(200)
             .mana(200)
@@ -280,7 +276,7 @@ public class Setup {
             .pet(generateRandomPet())
             .house(House.SLYTHERIN)
             .knownSpells(voldemortSpells())
-            .potionsOwned(empty())
+            .potionsOwned(enemyPots())
             .corruptionGauge(0)
             .maxMana(200)
             .mana(200)
@@ -299,23 +295,23 @@ public class Setup {
         }
 
         Wizard player = Wizard.builder()
-                .name(name)
-                .desc("The player")
-                .health(200)
-                .exp(0)
-                .att(20)
-                .def(defaultDef)
-                .dex(defaultDex)
-                .level(1)
-                .wand(wand)
-                .pet(pet)
-                .house(house)
-                .knownSpells(startingSpellList())
-                .potionsOwned(empty())
-                .corruptionGauge(0)
-                .maxMana(100)
-                .mana(100)
-                .build();
+            .name(name)
+            .desc("The player")
+            .health(200)
+            .exp(0)
+            .att(20)
+            .def(defaultDef)
+            .dex(defaultDex)
+            .level(1)
+            .wand(wand)
+            .pet(pet)
+            .house(house)
+            .knownSpells(startingSpellList())
+            .potionsOwned(empty())
+            .corruptionGauge(0)
+            .maxMana(100)
+            .mana(100)
+            .build();
         return player;
     }
 
@@ -434,5 +430,98 @@ public class Setup {
         allDungeon.add(deathlyHallows);
 
         return allDungeon;
+    }
+
+    private Potion smallHealthPotion = Potion.builder()
+            .name("Small Health Potion")
+            .desc("A small health potion, used to heal up scratches and bad wounds")
+            .boost(50)
+            .type("HP")
+            .build();
+
+    private Potion mediumHealthPotion = Potion.builder()
+            .name("Medium Health Potion")
+            .desc("A medium health potion, big enough to fix broken bones and huge wounds")
+            .boost(100)
+            .type("HP")
+            .build();
+
+    private Potion largeHealthPotion = Potion.builder()
+            .name("Large Health Potion")
+            .desc("A large health potion, gives enough health to resuscitate someone ! (Even though you cannot)")
+            .boost(200)
+            .type("HP")
+            .build();
+
+    private Potion smallDefPotion = Potion.builder()
+            .name("Small Defense Potion")
+            .desc("A small defense potion, gives enough defense to not feel anything from small mobs")
+            .boost(20)
+            .type("DEF")
+            .build();
+
+    private Potion mediumDefPotion = Potion.builder()
+            .name("Medium Defense Potion")
+            .desc("A medium defense potion, big enough to tank through attacks from bosses")
+            .boost(40)
+            .type("DEF")
+            .build();
+
+    private Potion largeDefPotion = Potion.builder()
+            .name("Large Defense Potion")
+            .desc("A large defense potion, gives enough defense to tank through the most powerful spells")
+            .boost(80)
+            .type("DEF")
+            .build();
+    private Potion smallDexPotion = Potion.builder()
+            .name("Small Dexterity Potion")
+            .desc("A small dexterity potion, enough to make sure to hit someone (With a fairly big uncertainty)")
+            .boost(5)
+            .type("DEX")
+            .build();
+
+    private Potion mediumDexPotion = Potion.builder()
+            .name("Medium Dexterity Potion")
+            .desc("A medium dexterity potion, big enough to be sure to hit someone (small uncertainty still)")
+            .boost(10)
+            .type("DEX")
+            .build();
+
+    private Potion largeDexPotion = Potion.builder()
+            .name("Large Dexterity Potion")
+            .desc("A large dexterity potion, gives enough to be sure to hit someone (for real) !")
+            .boost(20)
+            .type("DEX")
+            .build();
+
+    //create list of potions that is empty for the enemy Wizard
+    private List<Potion> empty(){
+        List<Potion> empty = new ArrayList<>();
+        return empty;
+    }
+
+    private List<Potion> enemyPots(){
+        List<Potion> enemypots = new ArrayList<>();
+
+        enemypots.add(mediumHealthPotion);
+        enemypots.add(mediumDefPotion);
+        enemypots.add(mediumDexPotion);
+
+        return enemypots;
+    }
+
+    public List<Potion> allPotions(){
+       List<Potion> allPotions = new ArrayList<>();
+       allPotions.add(smallHealthPotion);
+       allPotions.add(mediumHealthPotion);
+       allPotions.add(largeHealthPotion);
+       allPotions.add(smallDefPotion);
+       allPotions.add(mediumDefPotion);
+       allPotions.add(largeDefPotion);
+       allPotions.add(smallDexPotion);
+       allPotions.add(mediumDexPotion);
+       allPotions.add(largeDexPotion);
+
+       return allPotions;
     }
 }

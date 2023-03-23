@@ -4,7 +4,7 @@ import com.isep.hpah.Game;
 import com.isep.hpah.SafeScanner;
 import com.isep.hpah.core.constructors.House;
 import com.isep.hpah.core.constructors.character.Character;
-import com.isep.hpah.core.constructors.character.Wizard;
+import com.isep.hpah.core.constructors.character.*;
 import com.isep.hpah.core.constructors.spells.AbstractSpell;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class AllSpellsFunction {
         this.game = game;
     }
 
-    //selfexplanatory
+    //self explanatory
     public void manaReduce(AbstractSpell spell, Wizard player) {
         player.setMana(player.getMana() - spell.getMana());
     }
@@ -37,7 +37,7 @@ public class AllSpellsFunction {
 
         if (player.getHouse().equals(House.SLYTHERIN)){
             damage = damage * 1.2;
-            System.out.println("Since you're a Slytherin, you're more efficient with your spells !");
+            System.out.println("Since " + player.getName() +" is a Slytherin, you're more efficient with your spells !");
         }
 
         int remainingHealth = enemy.getHealth() - (int) damage;
@@ -52,11 +52,11 @@ public class AllSpellsFunction {
 
         if (player.getHouse().equals(House.SLYTHERIN)){
             val = val * 1.2;
-            System.out.println("Since you're a Slytherin, you're more efficient with your spells !");
+            System.out.println("Since "+ player.getName() +" is a Slytherin, you're more efficient with your spells !");
         }
         player.setDefSpell((int) val);
         player.setDef(player.getDefSpell());
-        System.out.println("You gained " + val + " defense for this turn and have now a total of " + player.getDef() + " defense !");
+        System.out.println(player.getName() + " gained " + val + " defense for this turn and have now a total of " + player.getDef() + " defense !");
     }
 
     //Tricky part:
@@ -89,88 +89,111 @@ public class AllSpellsFunction {
 
     //Switch case for UTL Spell usage based on enemy. Deeply developed (Should be considered exception)
     public int checkUtlSpellUsage(AbstractSpell spell, List<Character> enemies, SafeScanner sc){
-        //TODO : Made spells exception per dungeon; now need to do all the possibilities.
         int targetIndex = game.chooseTarget(spell, enemies, sc);
 
         Character target = enemies.get(targetIndex);
 
         switch (target.getName()) {
             case "Troll":
-                if (spell.getName().equals("Wingardium Leviosa")) {
-                    target.setHealth(target.getHealth() - 50);
-                    System.out.println("You saw the boulder, you levitated it and you squished the troll !");
-                }
+                trollCase(target, spell);
                 break;
             case "Basilisk":
-                if (spell.getName().equals("Wingardium Leviosa")) {
-                    target.setHealth(target.getHealth() - 40);
-                    System.out.println("You saw a barrel, you levitated it and you threw it towards the basilisk !");
-                    System.out.println("You dealt 40 damage !");
-                } else if (spell.getName().equals("Accio")) {
-                    target.setHealth(target.getHealth() / 3);
-                    System.out.println("You successfully removed one of his fangs ! You just removed 1/3rd of his health !");
-                }
+                basiliskCase(target, spell);
                 break;
             case "Dementor":
-                if (spell.getName().equals("Wingardium Leviosa") || spell.getName().equals("Accio")) {
-                    System.out.println("You tried to throw something at them, but they are not physical entities ! There's no effect !");
-                }
+                dementorCase(spell);
                 break;
             case "Lord Voldemort":
-                if (spell.getName().equals("Accio")) {
-                    if (enemies.get(1).getName().equals("Peter Pettigrew")) {
-                        for (Character enemy : enemies) {
-                            enemy.setHealth(0);
-                        }
-                        System.out.println("You successfully teleported out to safety !");
-                    } else {
-                        target.setDef(target.getDef() - 10);
-                        System.out.println("You summoned a rock, destabilizing him and showing his weak points !");
-                        System.out.println("You reduced his defense by 10 !");
-                    }
-                } else if (spell.getName().equals("Wingardium Leviosa")) {
-                    target.setHealth(target.getHealth() - 100);
-                    System.out.println("You saw a big rook, you levitated it and you threw it towards Voldemort !");
-                    System.out.println("You dealt 100 damage !");
-                } else if (spell.getName().equals("Expelliarmus")) {
-                    if (enemies.get(1).getName().equals("Bellatrix Lestrange")) {
-                        target.setDex(target.getDex() - spell.getNum());
-                        System.out.println("You successfully threw away Voldemort's wand and will miss his next move !");
-                        System.out.println("You reduced his dexterity by 20 !");
-                    }
-                }
+                voldemortCase(enemies, target, spell);
                 break;
             case "Peter Pettigrew":
-                if (spell.getName().equals("Accio")) {
-                    for (Character enemy : enemies) {
-                        enemy.setHealth(0);
-                    }
-                    System.out.println("You successfully teleported out to safety !");
-                } else if (spell.getName().equals("Wingardium Leviosa")) {
-                    target.setHealth(target.getHealth() - 100);
-                    System.out.println("You saw a big rook, you levitated it and you threw it towards Pettigrew !");
-                    System.out.println("You dealt 100 damage !");
-                }
+                pettigrewCase(enemies, target , spell);
                 break;
             case "Bellatrix Lestrange":
-                if (spell.getName().equals("Expelliarmus")) {
-                    target.setDex(target.getDex() - spell.getNum());
-                    System.out.println("You successfully threw away Bellatrix's wand and will miss his next move !");
-                    System.out.println("You reduced his dexterity by 20 !");
-                } else if (spell.getName().equals("Accio")) {
-                    target.setDef(target.getDef() - 10);
-                    System.out.println("You summoned a rock, destabilizing him and showing his weak points !");
-                    System.out.println("You reduced his defense by 10 !");
-                } else if (spell.getName().equals("Wingardium Leviosa")) {
-                    target.setHealth(target.getHealth() - 100);
-                    System.out.println("You saw a big rook, you levitated it and you threw it towards Bellatrix !");
-                    System.out.println("You dealt 100 damage !");
-                }
+                bellatrixCase(spell, target);
                 break;
             default:
                 break;
         }
         return targetIndex;
+    }
+
+    private void trollCase(Character target, AbstractSpell spell){
+        if (spell.getName().equals("Wingardium Leviosa")) {
+            target.setHealth(target.getHealth() - 50);
+            System.out.println("You saw the boulder, you levitated it and you squished the troll !");
+        }
+    }
+
+    private void basiliskCase(Character target, AbstractSpell spell){
+        if (spell.getName().equals("Wingardium Leviosa")) {
+            target.setHealth(target.getHealth() - 40);
+            System.out.println("You saw a barrel, you levitated it and you threw it towards the basilisk !");
+            System.out.println("You dealt 40 damage !");
+        } else if (spell.getName().equals("Accio")) {
+            target.setHealth(target.getHealth() / 3);
+            System.out.println("You successfully removed one of his fangs ! You just removed 1/3rd of his health !");
+        }
+    }
+
+    private void dementorCase(AbstractSpell spell){
+        if (spell.getName().equals("Wingardium Leviosa") || spell.getName().equals("Accio")) {
+            System.out.println("You tried to throw something at them, but they are not physical entities ! There's no effect !");
+        }
+    }
+
+    private void voldemortCase(List<Character> enemies, Character target, AbstractSpell spell){
+        if (spell.getName().equals("Accio")) {
+            if (enemies.get(1).getName().equals("Peter Pettigrew")) {
+                for (Character enemy : enemies) {
+                    enemy.setHealth(0);
+                }
+                System.out.println("You successfully teleported out to safety !");
+            } else {
+                target.setDef(target.getDef() - 10);
+                System.out.println("You summoned a rock, destabilizing him and showing his weak points !");
+                System.out.println("You reduced his defense by 10 !");
+            }
+        } else if (spell.getName().equals("Wingardium Leviosa")) {
+            target.setHealth(target.getHealth() - 100);
+            System.out.println("You saw a big rook, you levitated it and you threw it towards Voldemort !");
+            System.out.println("You dealt 100 damage !");
+        } else if (spell.getName().equals("Expelliarmus")) {
+            if (enemies.get(1).getName().equals("Bellatrix Lestrange")) {
+                target.setDex(target.getDex() - spell.getNum());
+                System.out.println("You successfully threw away Voldemort's wand and will miss his next move !");
+                System.out.println("You reduced his dexterity by 20 !");
+            }
+        }
+    }
+
+    private void pettigrewCase(List<Character> enemies, Character target, AbstractSpell spell){
+        if (spell.getName().equals("Accio")) {
+            for (Character enemy : enemies) {
+                enemy.setHealth(0);
+            }
+            System.out.println("You successfully teleported out to safety !");
+        } else if (spell.getName().equals("Wingardium Leviosa")) {
+            target.setHealth(target.getHealth() - 100);
+            System.out.println("You saw a big rook, you levitated it and you threw it towards Pettigrew !");
+            System.out.println("You dealt 100 damage !");
+        }
+    }
+
+    private void bellatrixCase(AbstractSpell spell, Character target){
+        if (spell.getName().equals("Expelliarmus")) {
+            target.setDex(target.getDex() - spell.getNum());
+            System.out.println("You successfully threw away Bellatrix's wand and will miss his next move !");
+            System.out.println("You reduced his dexterity by 20 !");
+        } else if (spell.getName().equals("Accio")) {
+            target.setDef(target.getDef() - 10);
+            System.out.println("You summoned a rock, destabilizing him and showing his weak points !");
+            System.out.println("You reduced his defense by 10 !");
+        } else if (spell.getName().equals("Wingardium Leviosa")) {
+            target.setHealth(target.getHealth() - 100);
+            System.out.println("You saw a big rook, you levitated it and you threw it towards Bellatrix !");
+            System.out.println("You dealt 100 damage !");
+        }
     }
 }
 

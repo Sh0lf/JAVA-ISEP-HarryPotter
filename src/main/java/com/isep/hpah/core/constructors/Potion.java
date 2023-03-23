@@ -6,11 +6,14 @@ import lombok.*;
 public class Potion {
     private String name;
     private String desc;
-    private double boost;
+    private int boost;
+    private String type;
 
-    public Potion(String name, String desc, int boost) {
+    @Builder
+    public Potion(String name, String desc, int boost, String type) {
         this.name = name;
         this.desc = desc;
         this.boost = boost;
+        this.type = type;
     }
 }
