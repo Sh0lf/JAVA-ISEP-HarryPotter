@@ -14,6 +14,7 @@ public class AllPotionsFunction {
                 boost = checkHouseBuff(player, potion);
                 player.setHealth(player.getHealth() + (int) boost);
                 System.out.println(player.getName() + " gained " + (int) boost + " Health !");
+                player.getPotionsOwned().remove(potion);
                 break;
             case "DEF":
                 boost = checkHouseBuff(player, potion);
@@ -21,6 +22,7 @@ public class AllPotionsFunction {
                 player.setPotionDefBoost(player.getPotionDefBoost() + (int) boost);
                 System.out.println(player.getName() + " gained " + (int) boost + " Defense for this battle for a total of "
                         + player.getPotionDefBoost() + " bonus defense !");
+                player.getPotionsOwned().remove(potion);
                 break;
             case "DEX":
                 boost = checkHouseBuff(player, potion);
@@ -28,6 +30,7 @@ public class AllPotionsFunction {
                 player.setPotionDexBoost(player.getPotionDexBoost() + (int) boost);
                 System.out.println(player.getName() + " gained " + (int) boost + " Dexterity for this battle for a total of "
                         + player.getPotionDexBoost() + " bonus dexterity !");
+                player.getPotionsOwned().remove(potion);
                 break;
             default:
                 break;

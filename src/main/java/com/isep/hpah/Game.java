@@ -14,63 +14,68 @@ public class Game {
     public Game() {
         spfnc = new AllSpellsFunction(this);
     }
-    private  AllPotionsFunction popofnc = new AllPotionsFunction();
-    private EnemyGame engame = new EnemyGame();
-    private Setup stp = new Setup();
-    private SafeScanner sc = new SafeScanner(System.in);
+    private final AllPotionsFunction popofnc = new AllPotionsFunction();
+    private final EnemyGame engame = new EnemyGame();
+    private final Setup stp = new Setup();
+    private final SafeScanner sc = new SafeScanner(System.in);
 
     public void dungeonCombat(List<Character> enemies, Wizard player) {
         int round = 1;
         SafeScanner sc = new SafeScanner(System.in);
         List<AbstractSpell> spells = player.getKnownSpells();
 
-        checkDefBoost(player);
+        //If basilisk dungeon2 give gryffindor sword that doubles att
+        gryffindorSword(player, enemies);
+
         // Loop until all enemies are defeated or the player dies
         while (!enemies.isEmpty() && player.getHealth() > 0) {
-
+            //if def spell used etc.
+            checkDefBoost(player);
+            //checking what text to print based on enemy
             checkEnemiesText(enemies);
-
+            //list all the enemies with their stats
             for (Character enemy : enemies) {
-                System.out.println("Enemy: " + enemy.getName() + "\nHealth: " + enemy.getHealth() + "\n" + enemy.getType()+ "\n");
+                System.out.println("\nEnemy: " + enemy.getName() + "\nHealth: " + enemy.getHealth() + "\n" + enemy.getType()+ "\n");
             }
-
-            int choice = presentingTurn(player, round, sc);
+            // presenting turn and returns choice
+            int choice = presentingTurn(player, round, sc, enemies);
 
             int targetIndex = 0;
             if (choice == 1) {
-
+                // normal attack
                 attacking(enemies, player, sc);
-
             } else if (choice == 2) {
+                // defend, temporary double the def
                 System.out.println("You brace yourself for an attack and double your defense for this turn.");
                 player.setDefending(true);
             } else if (choice == 3) {
+                // use spells: check what spell to choose and check what type of spell then do effect
                 int spellIndex = chooseSpell(spells, sc);
                 AbstractSpell spell = spells.get(spellIndex);
                 if (spell.getType().equals("DMG")) {
-
+                    // DMG spell: simple
                     processDmgSpell(player, spell, enemies, sc);
-
                 } else if (spell.getType().equals("DEF")) {
-
+                    // DEF spell: simple
                     processDefSpell(spell, player, enemies);
 
                 } else if (spell.getType().equals("UTL")) {
-
+                    // DEX spell: most complicated, based on spell UTL + enemy
                     targetIndex = processUtlSpell(player, spell, enemies, sc);
 
                 }
             } else if (choice == 4) {
-
+                //Use popos, pretty simple
                 int potionIndex = selectPotion(player);
-
                 popofnc.usePotion(player, potionIndex);
-
             }
+
+            allyDeathEater(player, enemies, choice);
 
             // Enemies' turn
             engame.enemiesTurn(enemies, player);
-
+            // Dungeon2: checking if dead and then remove att boost
+            removeGryffindorSword(player, enemies);
             checkLevelUp(player);
             spfnc.checkCooldown(spells, enemies, targetIndex);
             round++;
@@ -81,8 +86,11 @@ public class Game {
 
         // Determine the outcome of the fight
         endDungeon(player);
+        // Check through list of all the spells and gives spell if level corresponds
         giveNewSpell(player);
+        // Gives random chance of dropping potions 20%
         giveNewPotions(player);
+        // Remove all potion boosts from this combat
         checkPotionBoost(player);
     }
 
@@ -121,22 +129,46 @@ public class Game {
         }
     }
 
-    private int presentingTurn(Wizard player, int round, SafeScanner sc){
-        sc.printHeading("Health: " + player.getHealth() + "\nMana: " + player.getMana() + "\nAtt: " + player.getAtt() + "\nDef: " + player.getDef());
+    private void gryffindorSword(Wizard player, List<Character> enemies){
+            if (player.getHouse().equals(House.GRYFFINDOR) && enemies.get(0).getName().equals("Basilisk")){
+                player.setAtt(player.getAtt() * 2);
+                System.out.println("Since you're a gryffindor, you have the sword of Gryffindor against the basilisk !\n" +
+                        "You deal double damage with your basic attacks !");
+            }
+    }
+
+    private int presentingTurn(Wizard player, int round, SafeScanner sc, List<Character> enemies){
+        sc.printHeading("Health: " + player.getHealth() + "\nMana: " + player.getMana() + "\nAtt: " + player.getAtt()
+                + "\nDef: " + player.getDef() + "\nCorruption: " + player.getCorruptionGauge());
         player.setDefending(false);
         System.out.println("\nRound " + round + " begins.");
         // Player's turn
         int choice = 0;
         boolean verifInput = false;
-        while (!verifInput) {
-            try {
-                sc.printHeading("It's your turn to attack. What do you want to do? " +
-                        "\n1. Attack\n2. Defend\n3. Use spells\n4. Use items");
-                choice = sc.getInt();
-                verifInput = true;
-            } catch (Exception e) {
-                System.out.println("Please write valid content");
-                verifInput = false;
+        if (player.getHouse().equals(House.SLYTHERIN) && enemies.get(0).getName().equals("Death Eater")) {
+            System.out.println("\nSince you're a slytherin, you can ally yourself with the Death eaters !\n");
+            while (!verifInput) {
+                try {
+                    sc.printHeading("It's your turn to attack. What do you want to do? " +
+                            "\n1. Attack\n2. Defend\n3. Use spells\n4. Use items\n5. Ally with the Death Eaters");
+                    choice = sc.getInt();
+                    verifInput = true;
+                } catch (Exception e) {
+                    System.out.println("Please write valid content");
+                    verifInput = false;
+                }
+            }
+        } else {
+            while (!verifInput) {
+                try {
+                    sc.printHeading("It's your turn to attack. What do you want to do? " +
+                            "\n1. Attack\n2. Defend\n3. Use spells\n4. Use items");
+                    choice = sc.getInt();
+                    verifInput = true;
+                } catch (Exception e) {
+                    System.out.println("Please write valid content");
+                    verifInput = false;
+                }
             }
         }
         return choice;
@@ -273,25 +305,27 @@ public class Game {
         return potionIndex;
     }
 
+    private void allyDeathEater(Wizard player, List<Character> enemies, int choice){
+        if (player.getHouse().equals(House.SLYTHERIN) && enemies.get(0).getName().equals("Death Eater")){
+            if (choice == 5) {
+                for (Character enemy : enemies) {
+                    enemy.setHealth(0);
+                }
+                player.getKnownSpells().add(stp.deathEaterGroup);
+
+                System.out.println("You've decided to ally with the death eaters !\nAnd you obtained a new spell:\n" +
+                        stp.deathEaterGroup.getName() + ", type: " + stp.deathEaterGroup.getType() + ", dmg: "
+                        + stp.deathEaterGroup.getNum() + ", corruption: " + stp.deathEaterGroup.getCorruption());
+            }
+        }
+    }
+
     private void endDungeon(Wizard player){
         // Determine the outcome of the fight
         if (player.getHealth() <= 0) {
             System.out.println("\nYou have been defeated.");
         } else {
             System.out.println("\nYou are victorious!");
-        }
-    }
-
-    private void checkPotionBoost(Wizard player) {
-        if (player.getPotionDefBoost() != 0){
-            player.setDef(player.getDef() - player.getPotionDefBoost());
-            player.setPotionDefBoost(0);
-            System.out.println("\nYour defense went back to normal: it is now" + player.getDef());
-        }
-        if (player.getPotionDexBoost() != 0){
-            player.setDex(player.getDex() - player.getPotionDexBoost());
-            player.setPotionDexBoost(0);
-            System.out.println("\nYour dexterity went back to normal: it is now" + player.getDex());
         }
     }
 
@@ -319,6 +353,14 @@ public class Game {
             }
         }
         return targetIndex;
+    }
+
+    private void removeGryffindorSword(Wizard player, List<Character> enemies){
+        if (enemies.get(0).getName().equals("Basilisk") && enemies.get(0).getHealth() == 0) {
+            player.setAtt(player.getAtt() / 2);
+            System.out.println("You've defeated the basilisk, and can no longer use the gryffindor sword. " +
+                    "You attack normally.");
+        }
     }
 
     private void checkLevelUp(Wizard player) {
@@ -364,6 +406,19 @@ public class Game {
                 sc.printHeading("\nYou own a new potion: \n" + potion.getName() + ", " + potion.getDesc() +
                         ", gives: " + potion.getBoost() + potion.getType());
             }
+        }
+    }
+
+    private void checkPotionBoost(Wizard player) {
+        if (player.getPotionDefBoost() != 0){
+            player.setDef(player.getDef() - player.getPotionDefBoost());
+            player.setPotionDefBoost(0);
+            System.out.println("\nYour defense went back to normal: it is now" + player.getDef());
+        }
+        if (player.getPotionDexBoost() != 0){
+            player.setDex(player.getDex() - player.getPotionDexBoost());
+            player.setPotionDexBoost(0);
+            System.out.println("\nYour dexterity went back to normal: it is now" + player.getDex());
         }
     }
 }

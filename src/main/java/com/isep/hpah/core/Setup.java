@@ -53,7 +53,7 @@ public class Setup {
 
     private Spell wingardiumLeviosa = Spell.builder()
             .name("Wingardium Leviosa")
-            .num(0)
+            .num(50)
             .desc("Levitate objects with this spell")
             .level(0)
             .cooldown(2)
@@ -108,6 +108,17 @@ public class Setup {
             .corruption(99)
             .cooldown(6)
             .mana(200)
+            .type("DMG")
+            .build();
+
+    public ForbiddenSpell deathEaterGroup = ForbiddenSpell.builder()
+            .name("Group Attack: Death Eaters")
+            .num(250)
+            .desc("Group up with the death eaters to do a joint attack on the enemy !")
+            .level(0)
+            .corruption(50)
+            .cooldown(5)
+            .mana(100)
             .type("DMG")
             .build();
 

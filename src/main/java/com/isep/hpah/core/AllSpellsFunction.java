@@ -120,14 +120,14 @@ public class AllSpellsFunction {
 
     private void trollCase(Character target, AbstractSpell spell){
         if (spell.getName().equals("Wingardium Leviosa")) {
-            target.setHealth(target.getHealth() - 50);
+            target.setHealth(target.getHealth() - spell.getNum());
             System.out.println("You saw the boulder, you levitated it and you squished the troll !");
         }
     }
 
     private void basiliskCase(Character target, AbstractSpell spell){
         if (spell.getName().equals("Wingardium Leviosa")) {
-            target.setHealth(target.getHealth() - 40);
+            target.setHealth(target.getHealth() - spell.getNum());
             System.out.println("You saw a barrel, you levitated it and you threw it towards the basilisk !");
             System.out.println("You dealt 40 damage !");
         } else if (spell.getName().equals("Accio")) {
@@ -155,9 +155,8 @@ public class AllSpellsFunction {
                 System.out.println("You reduced his defense by 10 !");
             }
         } else if (spell.getName().equals("Wingardium Leviosa")) {
-            target.setHealth(target.getHealth() - 100);
+            target.setHealth(target.getHealth() - spell.getNum());
             System.out.println("You saw a big rook, you levitated it and you threw it towards Voldemort !");
-            System.out.println("You dealt 100 damage !");
         } else if (spell.getName().equals("Expelliarmus")) {
             if (enemies.get(1).getName().equals("Bellatrix Lestrange")) {
                 target.setDex(target.getDex() - spell.getNum());
@@ -174,9 +173,8 @@ public class AllSpellsFunction {
             }
             System.out.println("You successfully teleported out to safety !");
         } else if (spell.getName().equals("Wingardium Leviosa")) {
-            target.setHealth(target.getHealth() - 100);
+            target.setHealth(target.getHealth() - spell.getNum());
             System.out.println("You saw a big rook, you levitated it and you threw it towards Pettigrew !");
-            System.out.println("You dealt 100 damage !");
         }
     }
 
@@ -190,9 +188,8 @@ public class AllSpellsFunction {
             System.out.println("You summoned a rock, destabilizing him and showing his weak points !");
             System.out.println("You reduced his defense by 10 !");
         } else if (spell.getName().equals("Wingardium Leviosa")) {
-            target.setHealth(target.getHealth() - 100);
+            target.setHealth(target.getHealth() - spell.getNum());
             System.out.println("You saw a big rook, you levitated it and you threw it towards Bellatrix !");
-            System.out.println("You dealt 100 damage !");
         }
     }
 }
