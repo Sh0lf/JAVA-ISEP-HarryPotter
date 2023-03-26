@@ -29,6 +29,8 @@ public class Game {
 
         // Loop until all enemies are defeated or the player dies
         while (!enemies.isEmpty() && player.getHealth() > 0) {
+            //dungeon7: voldemort core if same does something
+            checkVoldemortCore(player, enemies);
             //if def spell used etc.
             checkDefBoost(player);
             //checking what text to print based on enemy
@@ -76,7 +78,9 @@ public class Game {
             engame.enemiesTurn(enemies, player);
             // Dungeon2: checking if dead and then remove att boost
             removeGryffindorSword(player, enemies);
+            // checking player exp
             checkLevelUp(player);
+            // reduce cooldown to spells
             spfnc.checkCooldown(spells, enemies, targetIndex);
             round++;
 
@@ -130,11 +134,33 @@ public class Game {
     }
 
     private void gryffindorSword(Wizard player, List<Character> enemies){
-            if (player.getHouse().equals(House.GRYFFINDOR) && enemies.get(0).getName().equals("Basilisk")){
-                player.setAtt(player.getAtt() * 2);
-                System.out.println("Since you're a gryffindor, you have the sword of Gryffindor against the basilisk !\n" +
-                        "You deal double damage with your basic attacks !");
+        if (player.getHouse().equals(House.GRYFFINDOR) && enemies.get(0).getName().equals("Basilisk")){
+            player.setAtt(player.getAtt() * 2);
+            System.out.println("Since you're a gryffindor, you have the sword of Gryffindor against the basilisk !\n" +
+                    "You deal double damage with your basic attacks !");
+        }
+    }
+
+    private void checkVoldemortCore(Wizard player, List<Character> enemies){
+        if(enemies.get(0).getName().equals("Lord Voldemort") &&
+                player.getWand().getCore().equals(Core.PHOENIX_FEATHER)){
+            double rand = Math.random();
+
+            if (rand <= 0.5){
+                player.setHealth(player.getHealth() - 20);
+                System.out.println("Having the same wand core as Vomdemort, you suffered some damage and took 20 health !");
             }
+            else if ((0.5 < rand) && (rand <= 0.8)){
+                player.setPotionDefBoost(player.getPotionDefBoost() - 10);
+                player.setDef(player.getDef() - 10);
+                System.out.println("Having the same wand core as Vomdemort, you feel weak and loss 10 def for this battle !");
+            }
+            else if ((0.8 < rand) && (rand <= 1)){
+                player.setPotionDexBoost(player.getPotionDexBoost() - 5);
+                player.setDex(player.getDex() - 5);
+                System.out.println("Having the same wand core as Vomdemort, you feel slowed by a force and loss 5 dexterity for this battle !");
+            }
+        }
     }
 
     private int presentingTurn(Wizard player, int round, SafeScanner sc, List<Character> enemies){
@@ -146,7 +172,7 @@ public class Game {
         int choice = 0;
         boolean verifInput = false;
         if (player.getHouse().equals(House.SLYTHERIN) && enemies.get(0).getName().equals("Death Eater")) {
-            System.out.println("\nSince you're a slytherin, you can ally yourself with the Death eaters !\n");
+            System.out.println("\nSince you're a Slytherin, you can ally yourself with the Death eaters !\n");
             while (!verifInput) {
                 try {
                     sc.printHeading("It's your turn to attack. What do you want to do? " +
