@@ -1,28 +1,18 @@
-package com.isep.hpah;
+package com.isep.hpah.views;
+
 import java.io.IOException;
-import java.util.Scanner;
-import java.io.InputStream;
 
-public class SafeScanner {
-    private Scanner sc;
-    public SafeScanner(InputStream is){
-        this.sc = new Scanner(is);
+public class SimpleOutput {
+    public void print(String txt){
+        System.out.println(txt);
     }
 
-    public int getInt(){
-        System.out.println("-> \n");
-        int input = this.sc.nextInt();
-        this.sc.nextLine();
-        return input;
-    }
-
-    public String getString(){
-        System.out.println("-> \n");
-        return this.sc.nextLine();
+    public void printNoLine(String txt){
+        System.out.print(txt);
     }
 
     public void pressEnterToContinue() {
-        System.out.println("Press Enter key to continue...");
+        print("Press Enter key to continue...");
         try {
             System.in.read();
         } catch (IOException e) {
@@ -33,20 +23,20 @@ public class SafeScanner {
     //function to clear console (technically skipping / doing empty lines)
     public void clearConsole() {
         for (int i = 0; i < 100; i++)
-            System.out.println();
+            print("");
     }
 
     //function for separator
     public void printSeparator(int n) {
         for (int i = 0; i < n; i++)
-            System.out.print("-");
-        System.out.println();
+            printNoLine("-");
+        print("");
     }
 
     //function to print a heading
     public void printHeading(String title) {
         printSeparator(title.length());
-        System.out.println(title);
+        print(title);
         printSeparator(title.length());
     }
 
@@ -56,7 +46,4 @@ public class SafeScanner {
         printHeading(title);
     }
 
-    public void closeScanner(){
-        this.sc.close();
-    }
 }

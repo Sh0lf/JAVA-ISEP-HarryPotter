@@ -1,4 +1,4 @@
-package com.isep.hpah.core.constructors;
+package com.isep.hpah.model.constructors;
 
 import lombok.*;
 

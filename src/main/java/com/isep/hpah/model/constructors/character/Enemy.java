@@ -1,4 +1,4 @@
-package com.isep.hpah.core.constructors.character;
+package com.isep.hpah.model.constructors.character;
 
 import lombok.Builder;
 

@@ -1,6 +1,4 @@
-package com.isep.hpah.core.constructors;
-
-import java.util.Random;
+package com.isep.hpah.model.constructors;
 
 public enum Pet {
     OWL,
@@ -9,6 +7,6 @@ public enum Pet {
     CAT,
     HIPPOGRIFF,
     DOG,
-    SNAKE;
+    SNAKE
 }
 

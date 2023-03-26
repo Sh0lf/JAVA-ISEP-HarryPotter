@@ -1,5 +1,6 @@
-package com.isep.hpah.core.constructors.character;
+package com.isep.hpah.model.constructors.character;
 
+import com.isep.hpah.views.SimpleOutput;
 import lombok.*;
 
 
@@ -45,19 +46,21 @@ public abstract class Character {
         }
     }
 
+    //Only useful method in a constructor. need to keep it
     public void normalAttack(Character enemy) {
+        SimpleOutput out = new SimpleOutput();
         // implementation of normalAttack on enemy
         double hitChance = 0.7 + this.dex;
         double rand = Math.random();
 
         if (rand > hitChance) {
-            System.out.println(this.name + " missed his attack !");
+            out.print(this.name + " missed his attack !");
             return;
         }
 
         double damage = this.att - (enemy.getDef());
         if (damage <= 0) {
-            System.out.println(this.name + " did no damage to " + enemy.getName() + "!");
+            out.print(this.name + " did no damage to " + enemy.getName() + "!");
             return;
         }
 
@@ -66,25 +69,25 @@ public abstract class Character {
         enemy.setHealth(remainingHealth);
 
         // Print out attack details
-        System.out.println(this.name + " hit " + enemy.getName() + " for " + (int) damage + " damage !");
-        System.out.println(enemy.getName() + " has " + remainingHealth + " health left.");
+        out.print(this.name + " hit " + enemy.getName() + " for " + (int) damage + " damage !");
+        out.print(enemy.getName() + " has " + remainingHealth + " health left.");
     }
 
     /* Not used for the moment but can be interesting to look at
-    public void defendedAttack(Character enemy) {
+    public void defendedAttack(Character enemy){
         // implementation of defended attack (means the one receiving the attack has defended)
         // Calculate chance of attacker hitting based on their dexterity
         double hitChance = 0.7 + this.dex;
         double rand = Math.random();
         if (rand > hitChance) {
-            System.out.println(enemy.getName() + " dodged the attack");
+            out.print(enemy.getName() + " dodged the attack");
             return;
         }
 
         // Calculate damage based on attacker's attack and defender's defense
         double damage = enemy.getAtt() - this.def;
         if (damage <= 0) {
-            System.out.println(this.name + " blocked the attack without a single problem !");
+            out.print(this.name + " blocked the attack without a single problem !");
             return;
         }
 
@@ -93,7 +96,7 @@ public abstract class Character {
         this.health = remainingHealth;
 
         // Print out defense details
-        System.out.println(this.name + " has defended, but still took " + (int) damage + " damage !");
-        System.out.println(this.name + " has " + remainingHealth + " health remaining.");
+        out.print(this.name + " has defended, but still took " + (int) damage + " damage !");
+        out.print(this.name + " has " + remainingHealth + " health remaining.");
     } */
 }

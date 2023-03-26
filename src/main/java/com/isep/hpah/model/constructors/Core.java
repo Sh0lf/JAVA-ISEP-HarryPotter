@@ -1,12 +1,11 @@
-package com.isep.hpah.core.constructors;
-import java.util.Random;
+package com.isep.hpah.model.constructors;
 
 public enum Core {
     PHOENIX_FEATHER,
     DRAGON_HEARTSTRING,
     UNICORN_HAIR,
     VEELA_HAIR,
-    THESTRAL_TAIL;
+    THESTRAL_TAIL
 }
 
 

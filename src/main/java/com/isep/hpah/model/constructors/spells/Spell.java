@@ -1,4 +1,4 @@
-package com.isep.hpah.core.constructors.spells;
+package com.isep.hpah.model.constructors.spells;
 
 import lombok.Builder;
 

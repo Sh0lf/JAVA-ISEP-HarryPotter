@@ -1,9 +1,13 @@
-package com.isep.hpah.core;
+package com.isep.hpah.controller;
 
-import com.isep.hpah.core.constructors.character.Character;
-import com.isep.hpah.core.constructors.character.*;
-import com.isep.hpah.core.constructors.*;
-import com.isep.hpah.core.constructors.spells.*;
+import com.isep.hpah.model.constructors.*;
+import com.isep.hpah.model.constructors.character.Boss;
+import com.isep.hpah.model.constructors.character.Character;
+import com.isep.hpah.model.constructors.character.Enemy;
+import com.isep.hpah.model.constructors.character.Wizard;
+import com.isep.hpah.model.constructors.spells.AbstractSpell;
+import com.isep.hpah.model.constructors.spells.ForbiddenSpell;
+import com.isep.hpah.model.constructors.spells.Spell;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -122,7 +126,7 @@ public class Setup {
             .type("DMG")
             .build();
 
-    //TODO: More spells for more diversity and maybe even more transition dungeons (fillerDungeons)
+    //TODO: Could do more spells for more diversity and maybe even more transition dungeons (fillerDungeons)
 
     //list of spells known when starting game
     private List<AbstractSpell> startingSpellList(){
@@ -305,7 +309,7 @@ public class Setup {
             defaultDex = 15;
         }
 
-        Wizard player = Wizard.builder()
+        return Wizard.builder()
             .name(name)
             .desc("The player")
             .health(200)
@@ -323,7 +327,6 @@ public class Setup {
             .maxMana(100)
             .mana(100)
             .build();
-        return player;
     }
 
     private List<Character> dungeon1(){
@@ -507,8 +510,7 @@ public class Setup {
 
     //create list of potions that is empty for the enemy Wizard
     private List<Potion> empty(){
-        List<Potion> empty = new ArrayList<>();
-        return empty;
+        return new ArrayList<>();
     }
 
     private List<Potion> enemyPots(){

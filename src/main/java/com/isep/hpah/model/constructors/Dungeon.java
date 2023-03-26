@@ -1,6 +1,6 @@
-package com.isep.hpah.core.constructors;
+package com.isep.hpah.model.constructors;
 
-import com.isep.hpah.core.constructors.character.Character;
+import com.isep.hpah.model.constructors.character.Character;
 import lombok.*;
 import java.util.List;
 

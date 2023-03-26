@@ -1,18 +1,20 @@
-package com.isep.hpah;
+package com.isep.hpah.controller;
 
-import com.isep.hpah.core.*;
-import com.isep.hpah.core.constructors.*;
-import com.isep.hpah.core.constructors.character.*;
-import com.isep.hpah.core.constructors.character.Character;
-import com.isep.hpah.core.constructors.spells.*;
+import com.isep.hpah.model.constructors.Potion;
+import com.isep.hpah.model.constructors.character.Character;
+import com.isep.hpah.model.constructors.character.*;
+import com.isep.hpah.model.constructors.spells.AbstractSpell;
+import com.isep.hpah.views.DungeonOutput;
 
 import java.util.List;
 import java.util.Random;
 
 public class EnemyGame {
 
-    AllSpellsFunction spfnc = new AllSpellsFunction(new Game());
+    AllSpellsFunction spfnc = new AllSpellsFunction();
     AllPotionsFunction popofnc = new AllPotionsFunction();
+    DungeonOutput dngout = new DungeonOutput();
+
 
     public void enemiesTurn(List<Character> enemies, Wizard player){
         for (Character enemy : enemies) {
@@ -29,7 +31,7 @@ public class EnemyGame {
         for (Character enemy : enemies) {
             if (enemy.getHealth() <= 0) {
                 player.setExp(player.getExp() + enemy.getExp());
-                System.out.println("You gained " + enemy.getExp() + " experience points.");
+                dngout.gainedExp(enemy);
             }
         }
     }
@@ -40,7 +42,7 @@ public class EnemyGame {
             enemy.normalAttack(player);
         } else {
             enemy.setDefending(true);
-            System.out.println(enemy.getName() + " has decided to defend");
+            dngout.isDefending(enemy);
         }
     }
 
@@ -50,9 +52,9 @@ public class EnemyGame {
             enemy.normalAttack(player);
         } else if (0.5 < rand && rand <= 0.7){
             enemy.setDefending(true);
-            System.out.println(enemy.getName() + " has decided to defend");
+            dngout.isDefending(enemy);
         } else if ( 0.7 < rand && rand <= 0.9) {
-            List<AbstractSpell> enemySpell = ((Wizard) enemy).getKnownSpells();
+            List<AbstractSpell> enemySpell = enemy.getKnownSpells();
             // initializing random class
             Random random = new Random();
             // loop for generation random number
@@ -70,8 +72,8 @@ public class EnemyGame {
                 spell.setCooldownRem(spell.getCooldown());
                 spfnc.manaReduce(spell, player);
             }
-        } else if (0.9 < rand && rand <= 1){
-            List<Potion> allPotion = ((Wizard) enemy).getPotionsOwned();
+        } else if (0.9 < rand){
+            List<Potion> allPotion = enemy.getPotionsOwned();
             // initializing random class
             Random random = new Random();
             // loop for generation random number

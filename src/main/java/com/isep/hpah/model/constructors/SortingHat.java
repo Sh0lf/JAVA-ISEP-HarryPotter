@@ -1,6 +1,5 @@
-package com.isep.hpah.core.constructors;
+package com.isep.hpah.model.constructors;
 
-import com.isep.hpah.core.constructors.House;
 import lombok.*;
 
 import java.util.HashMap;
@@ -9,7 +8,7 @@ public class SortingHat {
 
     //creating hashmap based on responses
     @Getter
-    private static HashMap <Integer, House> quesRes = new HashMap<>();
+    private final static HashMap <Integer, House> quesRes = new HashMap<>();
     static {
         //keys and values = (finalRes as String + House."house">
         quesRes.put(11, House.GRYFFINDOR);
