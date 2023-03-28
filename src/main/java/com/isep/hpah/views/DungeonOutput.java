@@ -64,13 +64,14 @@ public class DungeonOutput {
         }
     }
 
-    public int presentingTurnTxt(int i, int round, Wizard player, List<Character> enemies, SafeScanner sc){
-        if (i == 1){
+    public int presentingTurnTxt(int i, int round, Wizard player, List<Character> enemies, SafeScanner sc, List<String> poss) {
+        int n;
+        if (i == 1) {
             out.printHeading("Health: " + player.getHealth() + "\nMana: " + player.getMana() + "\nAtt: " + player.getAtt()
                     + "\nDef: " + player.getDef() + "\nCorruption: " + player.getCorruptionGauge() + "\nDo not get more than 100 corruption !");
             i += 1;
             return i;
-        } else if (i == 2){
+        } else if (i == 2) {
             out.print("\nRound " + round + " begins.");
             i += 1;
             return i;
@@ -80,15 +81,17 @@ public class DungeonOutput {
                 out.print("\nSince you're a Slytherin, you can ally yourself with the Death eaters !\n");
                 while (!verifInput) {
                     try {
-                        out.print("""
-                                It's your turn to attack. What do you want to do?\s
-                                1. Attack
-                                2. Defend
-                                3. Use spells
-                                4. Use items
-                                5. Ally with the Death Eaters""");
+                        out.print("It's your turn to attack. What do you want to do?");
+                        for (n = 0; n < poss.size(); n++) {
+                            out.print(n+1 + ". " + poss.get(n));
+                        }
+                        out.print("5. Ally with the Death Eaters");
                         i = sc.getInt();
-                        verifInput = true;
+                        if (i > poss.size()+1) {
+                            out.print("Number out of index and does not exist ! retry");
+                        } else {
+                            verifInput = true;
+                        }
                     } catch (Exception e) {
                         out.print("Please write valid content");
                         verifInput = false;
@@ -97,14 +100,16 @@ public class DungeonOutput {
             } else {
                 while (!verifInput) {
                     try {
-                        out.printHeading("""
-                                It's your turn to attack. What do you want to do?\s
-                                1. Attack
-                                2. Defend
-                                3. Use spells
-                                4. Use items""");
+                        out.print("It's your turn to attack. What do you want to do?");
+                        for (n = 0; n < poss.size(); n++) {
+                            out.print(n+1 + ". " + poss.get(n));
+                        }
                         i = sc.getInt();
-                        verifInput = true;
+                        if (i > poss.size()) {
+                            out.print("Number out of index and does not exist ! retry");
+                        } else {
+                            verifInput = true;
+                        }
                     } catch (Exception e) {
                         out.print("Please write valid content");
                         verifInput = false;
@@ -123,7 +128,11 @@ public class DungeonOutput {
                 for (int i = 0; i < enemies.size(); i++) {
                     out.print((i + 1) + ". " + enemies.get(i).getName() + " : " +
                             enemies.get(i).getHealth() + " health");
-                    targetIndex = sc.getInt() - 1;
+                }
+                targetIndex = sc.getInt() - 1;
+                if (targetIndex >= enemies.size()){
+                    out.print("Number out of index and does not exist ! retry");
+                } else {
                     verifInput = true;
                 }
             } catch (Exception e) {
@@ -149,7 +158,11 @@ public class DungeonOutput {
                             + ", Cooldown remaining: " + spells.get(i).getCooldownRem());
                 }
                 spellIndex = sc.getInt() - 1;
-                verifInput = true;
+                if (spellIndex >= spells.size()) {
+                    out.print("Number out of index and does not exist ! retry");
+                } else {
+                    verifInput = true;
+                }
             } catch (Exception e) {
                 out.print("Please write valid content");
                 verifInput = false;
@@ -184,7 +197,11 @@ public class DungeonOutput {
                             + potions.get(i).getBoost() +", type: " + potions.get(i).getType());
                 }
                 potionIndex = sc.getInt() - 1;
-                verifInput = true;
+                if (potionIndex >= potions.size()){
+                    out.print("Number out of index and does not exist ! retry");
+                } else {
+                    verifInput = true;
+                }
             } catch (Exception e) {
                 out.print("Please write valid content");
                 verifInput = false;
@@ -221,6 +238,10 @@ public class DungeonOutput {
                     player.getDef() + "\nDex: " + player.getDex());
         }
         return i;
+    }
+
+    public void potionEmpty(){
+        out.print("You do not have any potions !");
     }
 
     public void newSpell(AbstractSpell spell){

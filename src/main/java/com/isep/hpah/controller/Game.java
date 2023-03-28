@@ -25,6 +25,7 @@ public class Game {
         int round = 1;
         SafeScanner sc = new SafeScanner(System.in);
         List<AbstractSpell> spells = player.getKnownSpells();
+        List<String> poss = stp.poss();
 
         //If basilisk dungeon2 give gryffindor sword that doubles att
         gryffindorSword(player, enemies);
@@ -43,12 +44,10 @@ public class Game {
             boolean check = false;
             int targetIndex = 0;
             while (!check) {
-                int choice = presentingTurn(player, round, sc, enemies);
-                targetIndex = 0;
+                int choice = presentingTurn(player, round, sc, enemies, poss);
                 if (choice == 1) {
                     // normal attack
                     attacking(enemies, player, sc);
-                    check = true;
                 } else if (choice == 2) {
                     // defend, temporary double the def
                     dngout.isDefending(player);
@@ -63,31 +62,43 @@ public class Game {
                             // DMG spell: simple
                             if (processDmgSpell(player, spell, enemies, sc)) {
                                 check = true;
+                            } else {
+                                check = false;
                             }
                         }
                         case "DEF" -> {
                             // DEF spell: simple
                             if (processDefSpell(spell, player, enemies)) {
                                 check = true;
+                            } else {
+                                check = false;
                             }
                         }
                         case "UTL" -> {
                             // DEX spell: most complicated, based on spell UTL + enemy
                             targetIndex = processUtlSpell(player, spell, enemies, sc);
-                            if (targetIndex != 100) {
+                            if (targetIndex == 100) {
+                                check = false;
+                            } else {
                                 check = true;
                             }
                         }
                     }
                 } else if (choice == 4) {
-                    //Use popos, pretty simple
-                    int potionIndex = selectPotion(player);
-                    popofnc.usePotion(player, potionIndex);
-                    check = true;
-                } if (allyDeathEater(player, enemies, choice)){
-                    check = true;
+                    if (player.getPotionsOwned().isEmpty()){
+                        dngout.potionEmpty();
+                        check = false;
+                    } else {
+                        //Use popos, pretty simple
+                        int potionIndex = selectPotion(player);
+                        popofnc.usePotion(player, potionIndex);
+                        check = true;
+                    }
                 }
+                check = allyDeathEater(player, enemies, choice);
             }
+
+            check = true;
 
             // Enemies' turn
             engame.enemiesTurn(enemies, player);
@@ -149,13 +160,13 @@ public class Game {
         }
     }
 
-    private int presentingTurn(Wizard player, int round, SafeScanner sc, List<Character> enemies){
+    private int presentingTurn(Wizard player, int round, SafeScanner sc, List<Character> enemies, List<String> poss){
         int i = 1;
-        i = dngout.presentingTurnTxt(i, round, player, enemies, sc);
+        i = dngout.presentingTurnTxt(i, round, player, enemies, sc, poss);
         player.setDefending(false);
-        i = dngout.presentingTurnTxt(i, round, player, enemies, sc);
+        i = dngout.presentingTurnTxt(i, round, player, enemies, sc, poss);
         // Player's turn
-        return dngout.presentingTurnTxt(i, round, player, enemies, sc);
+        return dngout.presentingTurnTxt(i, round, player, enemies, sc, poss);
     }
 
     private void attacking(List<Character> enemies, Wizard player, SafeScanner sc){

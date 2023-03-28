@@ -537,4 +537,14 @@ public class Setup {
 
        return allPotions;
     }
+
+    public List<String> poss(){
+        List<String> choice = new ArrayList<>();
+        choice.add("Attack");
+        choice.add("Defend");
+        choice.add("Use spells");
+        choice.add("Use potions");
+
+        return choice;
+    }
 }
