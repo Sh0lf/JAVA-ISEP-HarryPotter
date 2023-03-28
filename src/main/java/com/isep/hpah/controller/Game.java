@@ -94,11 +94,12 @@ public class Game {
                         popofnc.usePotion(player, potionIndex);
                         check = true;
                     }
+                } if (player.getHouse().equals(House.SLYTHERIN) && enemies.get(0).getName().equals("Death Eater")){
+                    if (choice == 5) {
+                        check = allyDeathEater(player, enemies, choice);
+                    }
                 }
-                check = allyDeathEater(player, enemies, choice);
             }
-
-            check = true;
 
             // Enemies' turn
             engame.enemiesTurn(enemies, player);
@@ -261,16 +262,13 @@ public class Game {
     }
 
     private boolean allyDeathEater(Wizard player, List<Character> enemies, int choice){
-        if (player.getHouse().equals(House.SLYTHERIN) && enemies.get(0).getName().equals("Death Eater")){
-            if (choice == 5) {
-                for (Character enemy : enemies) {
-                    enemy.setHealth(0);
-                }
-                player.getKnownSpells().add(stp.deathEaterGroup);
-
-                dngout.deathEaterSpell(stp.deathEaterGroup);
-            }
+        for (Character enemy : enemies) {
+            enemy.setHealth(0);
         }
+        player.getKnownSpells().add(stp.deathEaterGroup);
+
+        dngout.deathEaterSpell(stp.deathEaterGroup);
+
         return true;
     }
 
