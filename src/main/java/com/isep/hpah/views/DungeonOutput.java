@@ -128,9 +128,12 @@ public class DungeonOutput {
                 for (int i = 0; i < enemies.size(); i++) {
                     out.print((i + 1) + ". " + enemies.get(i).getName() + " : " +
                             enemies.get(i).getHealth() + " health");
+                    if (i+1 == enemies.size()){
+                        out.print((i+2)+ " . Back");
+                    }
                 }
                 targetIndex = sc.getInt() - 1;
-                if (targetIndex >= enemies.size()){
+                if (targetIndex > enemies.size()){
                     out.print("Number out of index and does not exist ! retry");
                 } else {
                     verifInput = true;
@@ -156,9 +159,12 @@ public class DungeonOutput {
                     out.print((i + 1) + ". " + spells.get(i).getName() + " (Type: " + spells.get(i).getType()
                             + ", Mana Cost: " + spells.get(i).getMana() + ", Cooldown: " + spells.get(i).getCooldown()
                             + ", Cooldown remaining: " + spells.get(i).getCooldownRem());
+                    if (i+1 == spells.size()){
+                        out.print((i+2)+ " . Back");
+                    }
                 }
                 spellIndex = sc.getInt() - 1;
-                if (spellIndex >= spells.size()) {
+                if (spellIndex > spells.size()) {
                     out.print("Number out of index and does not exist ! retry");
                 } else {
                     verifInput = true;
@@ -195,9 +201,12 @@ public class DungeonOutput {
                 for (int i = 0; i < potions.size(); i++) {
                     out.print((i + 1) + ". " + potions.get(i).getName() + ", boost: "
                             + potions.get(i).getBoost() +", type: " + potions.get(i).getType());
+                    if (i+1 == potions.size()){
+                        out.print((i+2)+" .Back");
+                    }
                 }
                 potionIndex = sc.getInt() - 1;
-                if (potionIndex >= potions.size()){
+                if (potionIndex > potions.size()){
                     out.print("Number out of index and does not exist ! retry");
                 } else {
                     verifInput = true;

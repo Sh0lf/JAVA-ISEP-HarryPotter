@@ -25,6 +25,7 @@ public class Game {
         int round = 1;
         SafeScanner sc = new SafeScanner(System.in);
         List<AbstractSpell> spells = player.getKnownSpells();
+        List<Potion> potions = player.getPotionsOwned();
         List<String> poss = stp.poss();
 
         //If basilisk dungeon2 give gryffindor sword that doubles att
@@ -47,7 +48,9 @@ public class Game {
                 int choice = presentingTurn(player, round, sc, enemies, poss);
                 if (choice == 1) {
                     // normal attack
-                    attacking(enemies, player, sc);
+                    if (attacking(enemies, player, sc)){
+                        check = true;
+                    }
                 } else if (choice == 2) {
                     // defend, temporary double the def
                     dngout.isDefending(player);
@@ -56,25 +59,9 @@ public class Game {
                 } else if (choice == 3) {
                     // use spells: check what spell to choose and check what type of spell then do effect
                     int spellIndex = chooseSpell(spells, sc);
-                    AbstractSpell spell = spells.get(spellIndex);
-                    switch (spell.getType()) {
-                        case "DMG" -> {
-                            // DMG spell: simple
-                            if (processDmgSpell(player, spell, enemies, sc)) {
-                                check = true;
-                            } else {
-                                check = false;
-                            }
-                        }
-                        case "DEF" -> {
-                            // DEF spell: simple
-                            if (processDefSpell(spell, player, enemies)) {
-                                check = true;
-                            } else {
-                                check = false;
-                            }
-                        }
-                        case "UTL" -> {
+                    if (spellIndex < spells.size()){
+                        AbstractSpell spell = spells.get(spellIndex);
+                        if (spell.getType().equals("UTL")) {
                             // DEX spell: most complicated, based on spell UTL + enemy
                             targetIndex = processUtlSpell(player, spell, enemies, sc);
                             if (targetIndex == 100) {
@@ -82,24 +69,20 @@ public class Game {
                             } else {
                                 check = true;
                             }
+                        } else {
+                            basicChoice3(spell, player, enemies);
                         }
                     }
                 } else if (choice == 4) {
-                    if (player.getPotionsOwned().isEmpty()){
-                        dngout.potionEmpty();
-                        check = false;
-                    } else {
-                        //Use popos, pretty simple
-                        int potionIndex = selectPotion(player);
-                        popofnc.usePotion(player, potionIndex);
-                        check = true;
-                    }
+                    choice4(potions, player);
                 } if (player.getHouse().equals(House.SLYTHERIN) && enemies.get(0).getName().equals("Death Eater")){
                     if (choice == 5) {
                         check = allyDeathEater(player, enemies, choice);
                     }
                 }
             }
+
+            //TODO: Back option in every single possibilities !
 
             // Enemies' turn
             engame.enemiesTurn(enemies, player);
@@ -123,6 +106,47 @@ public class Game {
         giveNewPotions(player);
         // Remove all potion boosts from this combat
         checkPotionBoost(player);
+    }
+
+    private boolean basicChoice3(AbstractSpell spell, Wizard player, List<Character> enemies){
+        boolean check = false;
+        switch (spell.getType()) {
+            case "DMG" -> {
+                // DMG spell: simple
+                if (processDmgSpell(player, spell, enemies, sc)) {
+                    check = true;
+                } else {
+                    check = false;
+                }
+            }
+            case "DEF" -> {
+                // DEF spell: simple
+                if (processDefSpell(spell, player, enemies)) {
+                    check = true;
+                } else {
+                    check = false;
+                }
+            }
+        }
+        return check;
+    }
+
+    private boolean choice4(List<Potion> potions, Wizard player){
+        boolean check;
+        if (potions.isEmpty()){
+            dngout.potionEmpty();
+            check = false;
+        } else {
+            //Use popos, pretty simple
+            int potionIndex = selectPotion(player);
+            if (potionIndex == potions.size()){
+                check = false;
+            } else {
+                popofnc.usePotion(player, potionIndex);
+                check = true;
+            }
+        }
+        return check;
     }
 
     private void gryffindorSword(Wizard player, List<Character> enemies){
@@ -170,10 +194,15 @@ public class Game {
         return dngout.presentingTurnTxt(i, round, player, enemies, sc, poss);
     }
 
-    private void attacking(List<Character> enemies, Wizard player, SafeScanner sc){
+    private boolean attacking(List<Character> enemies, Wizard player, SafeScanner sc){
         int targetIndex = dngout.chooseTarget(enemies, sc);
-        Character target = enemies.get(targetIndex);
-        player.normalAttack(target);
+        if (targetIndex == enemies.size()){
+            return false;
+        } else {
+            Character target = enemies.get(targetIndex);
+            player.normalAttack(target);
+            return true;
+        }
     }
 
     private int chooseSpell(List<AbstractSpell> spells, SafeScanner sc) {
@@ -197,14 +226,17 @@ public class Game {
                 }
             } else {
                 int targetIndex = dngout.chooseTarget(enemies, sc);
+                if (targetIndex == enemies.size()){
+                    return false;
+                } else {
+                    Character target = enemies.get(targetIndex);
+                    spfnc.castDmgSpell(spell, player, target);
 
-                Character target = enemies.get(targetIndex);
-                spfnc.castDmgSpell(spell, player, target);
+                    spell.setCooldownRem(spell.getCooldown());
 
-                spell.setCooldownRem(spell.getCooldown());
-
-                spfnc.manaReduce(spell, player);
-                return true;
+                    spfnc.manaReduce(spell, player);
+                    return true;
+                }
             }
         }
         return false;
@@ -227,11 +259,8 @@ public class Game {
                 }
             } else {
                 spfnc.castDefSpell(spell, player);
-
                 spell.setCooldownRem(spell.getCooldown());
-
                 spfnc.manaReduce(spell, player);
-
                 return true;
             }
         } return false;
