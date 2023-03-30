@@ -82,16 +82,18 @@ public class Game {
                 }
             }
 
-            //TODO: Back option in every single possibilities !
 
             // Enemies' turn
             engame.enemiesTurn(enemies, player);
             // Dungeon2: checking if dead and then remove att boost
             removeGryffindorSword(player, enemies);
+            //dungeon5: Umbridge check, win con based on the round number
+            checkUmbridgeWinCon(enemies, round);
             // checking player exp
             checkLevelUp(player);
             // reduce cooldown to spells
             spfnc.checkCooldown(spells, enemies, targetIndex);
+
             round++;
 
             // Remove defeated enemies
@@ -106,6 +108,13 @@ public class Game {
         giveNewPotions(player);
         // Remove all potion boosts from this combat
         checkPotionBoost(player);
+    }
+
+    private void checkUmbridgeWinCon(List<Character> enemies, int round){
+        if (enemies.get(0).getName().equals("Dolores Umbridge") && round == 10){
+            enemies.get(0).setHealth(0);
+            dngout.umbridgeWinCon();
+        }
     }
 
     private boolean basicChoice3(AbstractSpell spell, Wizard player, List<Character> enemies){

@@ -129,7 +129,7 @@ public class DungeonOutput {
                     out.print((i + 1) + ". " + enemies.get(i).getName() + " : " +
                             enemies.get(i).getHealth() + " health");
                     if (i+1 == enemies.size()){
-                        out.print((i+2)+ " . Back");
+                        out.print((i+2)+ ". Back");
                     }
                 }
                 targetIndex = sc.getInt() - 1;
@@ -160,7 +160,7 @@ public class DungeonOutput {
                             + ", Mana Cost: " + spells.get(i).getMana() + ", Cooldown: " + spells.get(i).getCooldown()
                             + ", Cooldown remaining: " + spells.get(i).getCooldownRem());
                     if (i+1 == spells.size()){
-                        out.print((i+2)+ " . Back");
+                        out.print((i+2)+ ". Back");
                     }
                 }
                 spellIndex = sc.getInt() - 1;
@@ -202,7 +202,7 @@ public class DungeonOutput {
                     out.print((i + 1) + ". " + potions.get(i).getName() + ", boost: "
                             + potions.get(i).getBoost() +", type: " + potions.get(i).getType());
                     if (i+1 == potions.size()){
-                        out.print((i+2)+" .Back");
+                        out.print((i+2)+". Back");
                     }
                 }
                 potionIndex = sc.getInt() - 1;
@@ -271,14 +271,15 @@ public class DungeonOutput {
         out.print("\nYour dexterity went back to normal: it is now" + player.getDex());
     }
 
+    public void umbridgeWinCon(){
+        out.print("You survived long enough against Umbridge and you succeeded in tempoying her long enough to win !");
+    }
     public void gainedExp(Character enemy){
         out.print("You gained " + enemy.getExp() + " experience points.");
     }
 
     //Common fighting text here
-
     public void missedAtt(Character cast){
         out.print(cast.getName() + " missed the attack !");
     }
-
 }
