@@ -1,123 +1,45 @@
 package com.isep.hpah.controller;
 
-import com.isep.hpah.model.constructors.Core;
-import com.isep.hpah.model.constructors.House;
-import com.isep.hpah.model.constructors.Potion;
+import com.isep.hpah.model.constructors.*;
 import com.isep.hpah.model.constructors.character.Wizard;
 import com.isep.hpah.model.constructors.spells.AbstractSpell;
 import com.isep.hpah.views.DungeonOutput;
-
 import com.isep.hpah.views.SafeScanner;
 import com.isep.hpah.model.constructors.character.Character; //Because of suspected ambiguity
 
 import java.util.*;
 
+
 //for functions - the controller
-public class Game {
+public class GameLogic {
     private final AllSpellsFunction spfnc = new AllSpellsFunction();
     private final AllPotionsFunction popofnc = new AllPotionsFunction();
-    private final EnemyGame engame = new EnemyGame();
     private final Setup stp = new Setup();
     private final SafeScanner sc = new SafeScanner(System.in);
     private final DungeonOutput dngout = new DungeonOutput();
 
-    public void dungeonCombat(List<Character> enemies, Wizard player) {
-        int round = 1;
-        SafeScanner sc = new SafeScanner(System.in);
-        List<AbstractSpell> spells = player.getKnownSpells();
-        List<Potion> potions = player.getPotionsOwned();
-        List<String> poss = stp.poss();
-
-        //If basilisk dungeon2 give gryffindor sword that doubles att
-        gryffindorSword(player, enemies);
-
-        // Loop until all enemies are defeated or the player dies
-        while (!enemies.isEmpty() && player.getHealth() > 0) {
-            //dungeon7: voldemort core if same does something
-            checkVoldemortCore(player, enemies);
-            //if def spell used etc.
-            checkDefBoost(player);
-            //checking what text to print based on enemy
-            dngout.checkEnemiesText(enemies);
-            //list all the enemies with their stats
-            dngout.listEnemies(enemies);
-            // presenting turn and returns choice
-            boolean check = false;
-            int targetIndex = 0;
-            while (!check) {
-                int choice = presentingTurn(player, round, sc, enemies, poss);
-                if (choice == 1) {
-                    // normal attack
-                    if (attacking(enemies, player, sc)){
-                        check = true;
-                    }
-                } else if (choice == 2) {
-                    // defend, temporary double the def
-                    dngout.isDefending(player);
-                    player.setDefending(true);
-                    check = true;
-                } else if (choice == 3) {
-                    // use spells: check what spell to choose and check what type of spell then do effect
-                    int spellIndex = chooseSpell(spells, sc);
-                    if (spellIndex < spells.size()){
-                        AbstractSpell spell = spells.get(spellIndex);
-                        if (spell.getType().equals("UTL")) {
-                            // DEX spell: most complicated, based on spell UTL + enemy
-                            targetIndex = processUtlSpell(player, spell, enemies, sc);
-                            if (targetIndex == 100) {
-                                check = false;
-                            } else {
-                                check = true;
-                            }
-                        } else {
-                            basicChoice3(spell, player, enemies);
-                        }
-                    }
-                } else if (choice == 4) {
-                    choice4(potions, player);
-                } if (player.getHouse().equals(House.SLYTHERIN) && enemies.get(0).getName().equals("Death Eater")){
-                    if (choice == 5) {
-                        check = allyDeathEater(player, enemies, choice);
-                    }
-                }
-            }
-
-
-            // Enemies' turn
-            engame.enemiesTurn(enemies, player);
-            // Dungeon2: checking if dead and then remove att boost
-            removeGryffindorSword(player, enemies);
-            //dungeon5: Umbridge check, win con based on the round number
-            checkUmbridgeWinCon(enemies, round);
-            // checking player exp
-            checkLevelUp(player);
-            // reduce cooldown to spells
-            spfnc.checkCooldown(spells, enemies, targetIndex);
-
-            round++;
-
-            // Remove defeated enemies
-            enemies.removeIf(enemy -> enemy.getHealth() <= 0);
+    public void corruptionCheck(Wizard player){
+        if (player.getCorruptionGauge() >= 100){
+            player.setHealth(0);
+            dngout.corrupted();
+            dngout.loss();
         }
-
-        // Determine the outcome of the fight
-        endDungeon(player);
-        // Check through list of all the spells and gives spell if level corresponds
-        giveNewSpell(player);
-        // Gives random chance of dropping potions 20%
-        giveNewPotions(player);
-        // Remove all potion boosts from this combat
-        checkPotionBoost(player);
     }
 
-    private void checkUmbridgeWinCon(List<Character> enemies, int round){
+    public void checkUmbridgeWinCon(List<Character> enemies, int round){
         if (enemies.get(0).getName().equals("Dolores Umbridge") && round == 10){
             enemies.get(0).setHealth(0);
             dngout.umbridgeWinCon();
         }
     }
 
-    private boolean basicChoice3(AbstractSpell spell, Wizard player, List<Character> enemies){
+    public void reducingCorruption(Wizard player){
+        if (player.getCorruptionGauge() != 0){
+            player.setCorruptionGauge(player.getCorruptionGauge() - 5);
+        }
+    }
+
+    public boolean basicChoice3(AbstractSpell spell, Wizard player, List<Character> enemies){
         boolean check = false;
         switch (spell.getType()) {
             case "DMG" -> {
@@ -140,7 +62,7 @@ public class Game {
         return check;
     }
 
-    private boolean choice4(List<Potion> potions, Wizard player){
+    public boolean choice4(List<Potion> potions, Wizard player){
         boolean check;
         if (potions.isEmpty()){
             dngout.potionEmpty();
@@ -158,14 +80,14 @@ public class Game {
         return check;
     }
 
-    private void gryffindorSword(Wizard player, List<Character> enemies){
+    public void gryffindorSword(Wizard player, List<Character> enemies){
         if (player.getHouse().equals(House.GRYFFINDOR) && enemies.get(0).getName().equals("Basilisk")){
             player.setAtt(player.getAtt() * 2);
             dngout.gryffindorSwordTxt();
         }
     }
 
-    private void checkVoldemortCore(Wizard player, List<Character> enemies){
+    public void checkVoldemortCore(Wizard player, List<Character> enemies){
         if(enemies.get(0).getName().equals("Lord Voldemort") &&
                 player.getWand().getCore().equals(Core.PHOENIX_FEATHER)){
             double rand = Math.random();
@@ -187,14 +109,14 @@ public class Game {
         }
     }
 
-    private void checkDefBoost(Wizard player){
+    public void checkDefBoost(Wizard player){
         if (player.getDefSpell() != 0) {
             player.setDef(player.getDef() - player.getDefSpell());
             player.setDefSpell(0);
         }
     }
 
-    private int presentingTurn(Wizard player, int round, SafeScanner sc, List<Character> enemies, List<String> poss){
+    public int presentingTurn(Wizard player, int round, SafeScanner sc, List<Character> enemies, List<String> poss){
         int i = 1;
         i = dngout.presentingTurnTxt(i, round, player, enemies, sc, poss);
         player.setDefending(false);
@@ -203,7 +125,7 @@ public class Game {
         return dngout.presentingTurnTxt(i, round, player, enemies, sc, poss);
     }
 
-    private boolean attacking(List<Character> enemies, Wizard player, SafeScanner sc){
+    public boolean attacking(List<Character> enemies, Wizard player, SafeScanner sc){
         int targetIndex = dngout.chooseTarget(enemies, sc);
         if (targetIndex == enemies.size()){
             return false;
@@ -214,11 +136,11 @@ public class Game {
         }
     }
 
-    private int chooseSpell(List<AbstractSpell> spells, SafeScanner sc) {
+    public int chooseSpell(List<AbstractSpell> spells, SafeScanner sc) {
         return dngout.chooseSpell(spells, sc);
     }
 
-    private boolean processDmgSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc) {
+    public boolean processDmgSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc) {
         if (spell.getCooldownRem() > 0) {
             dngout.inCooldown(spell);
             return false;
@@ -251,7 +173,7 @@ public class Game {
         return false;
     }
 
-    private boolean processDefSpell(AbstractSpell spell, Wizard player, List<Character> enemies){
+    public boolean processDefSpell(AbstractSpell spell, Wizard player, List<Character> enemies){
         if (spell.getCooldownRem() > 0) {
             dngout.inCooldown(spell);
             return false;
@@ -275,7 +197,7 @@ public class Game {
         } return false;
     }
 
-    private int processUtlSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc){
+    public int processUtlSpell(Wizard player, AbstractSpell spell, List<Character> enemies, SafeScanner sc){
         if (spell.getCooldownRem() > 0) {
             dngout.inCooldown(spell);
             return 100;
@@ -294,12 +216,12 @@ public class Game {
         }
     }
 
-    private int selectPotion(Wizard player){
+    public int selectPotion(Wizard player){
         List<Potion> potions = player.getPotionsOwned();
         return dngout.selectPotionTxt(potions, sc);
     }
 
-    private boolean allyDeathEater(Wizard player, List<Character> enemies, int choice){
+    public boolean allyDeathEater(Wizard player, List<Character> enemies, int choice){
         for (Character enemy : enemies) {
             enemy.setHealth(0);
         }
@@ -310,7 +232,7 @@ public class Game {
         return true;
     }
 
-    private void endDungeon(Wizard player){
+    public void endDungeon(Wizard player){
         // Determine the outcome of the fight
         if (player.getHealth() <= 0) {
             dngout.loss();
@@ -319,14 +241,14 @@ public class Game {
         }
     }
 
-    private void removeGryffindorSword(Wizard player, List<Character> enemies){
+    public void removeGryffindorSword(Wizard player, List<Character> enemies){
         if (enemies.get(0).getName().equals("Basilisk") && enemies.get(0).getHealth() == 0) {
             player.setAtt(player.getAtt() / 2);
             dngout.gryffindorSwordEnd();
         }
     }
 
-    private void checkLevelUp(Wizard player) {
+    public void checkLevelUp(Wizard player) {
         while (player.getExp() >= 50) {
             int i = 0;
             player.setLevel(player.getLevel() + 1);
@@ -346,7 +268,7 @@ public class Game {
         }
     }
 
-    private void giveNewSpell(Wizard player) {
+    public void giveNewSpell(Wizard player) {
         List<AbstractSpell> obtainableSpells = stp.allObtainableSpells();
 
         for (AbstractSpell spell : obtainableSpells){
@@ -357,7 +279,7 @@ public class Game {
         }
     }
 
-    private void giveNewPotions(Wizard player){
+    public void giveNewPotions(Wizard player){
         List<Potion> allPotions = stp.allPotions();
         double rand = Math.random();
 
@@ -369,7 +291,7 @@ public class Game {
         }
     }
 
-    private void checkPotionBoost(Wizard player) {
+    public void checkPotionBoost(Wizard player) {
         if (player.getPotionDefBoost() != 0){
             player.setDef(player.getDef() - player.getPotionDefBoost());
             player.setPotionDefBoost(0);
@@ -379,6 +301,13 @@ public class Game {
             player.setDex(player.getDex() - player.getPotionDexBoost());
             player.setPotionDexBoost(0);
             dngout.dexPotionBonus(player);
+        }
+    }
+
+    public void corruptionHalf(Wizard player){
+        if (player.getCorruptionGauge() != 0) {
+            player.setCorruptionGauge(player.getCorruptionGauge()/2);
+            dngout.corruptionHalfTxt(player);
         }
     }
 }

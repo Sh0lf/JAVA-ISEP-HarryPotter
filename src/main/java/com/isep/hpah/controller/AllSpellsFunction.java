@@ -37,6 +37,7 @@ public class AllSpellsFunction {
 
         int remainingHealth = enemy.getHealth() - (int) damage;
         enemy.setHealth(remainingHealth);
+        player.setCorruptionGauge(player.getCorruptionGauge() + spell.getCorruption());
         spout.dmgSpell(player, enemy, spell, (int) damage, remainingHealth);
     }
 
@@ -50,6 +51,7 @@ public class AllSpellsFunction {
         }
         player.setDefSpell((int) val);
         player.setDef(player.getDefSpell());
+        player.setCorruptionGauge(player.getCorruptionGauge() + spell.getCorruption());
         spout.defSpell(player, (int) val);
     }
 
@@ -61,26 +63,28 @@ public class AllSpellsFunction {
     public void checkCooldown(List<AbstractSpell> spells, List<Character> enemies, int targetIndex){
         for (AbstractSpell spell : spells) {
             if (spell.getCooldownRem() > 0) {
-                if (spell.getName().equals("Accio") && spell.getCooldownRem() == 2){
-                    if ((enemies.get(targetIndex).getName().equals("Lord Voldemort") &&
-                            enemies.get(targetIndex + 1).getName().equals("Bellatrix Lestrange")) ||
-                            enemies.get(targetIndex).getName().equals("Bellatrix Lestrange")){
-                        enemies.get(targetIndex).setDef(enemies.get(targetIndex).getDef() + 10);
-                        spout.cooldownSpecial1();
 
+                boolean speCondition = (enemies.get(targetIndex).getName().equals("Lord Voldemort") &&
+                        enemies.get(targetIndex + 1).getName().equals("Bellatrix Lestrange")) ||
+                        enemies.get(targetIndex).getName().equals("Bellatrix Lestrange");
+
+                if (spell.getName().equals("Accio") && spell.getCooldownRem() == 2){
+                    if (speCondition){
+                        enemies.get(targetIndex).setDef(enemies.get(targetIndex).getDef() + spell.getNum());
+                        spout.cooldownSpecial1();
                     }
                 } else if (spell.getName().equals("Expelliarmus") && spell.getCooldownRem() == 4){
-                    if ((enemies.get(targetIndex).getName().equals("Lord Voldemort") &&
-                            enemies.get(targetIndex + 1).getName().equals("Bellatrix Lestrange")) ||
-                            enemies.get(targetIndex).getName().equals("Bellatrix Lestrange")) {
+                    if (speCondition){
                         enemies.get(targetIndex).setDex(enemies.get(targetIndex).getDex() + spell.getNum());
                         spout.cooldownSpecial2();
                     }
                 }
+
                 spell.setCooldownRem(spell.getCooldownRem() - 1);
             }
         }
     }
+
 
     //Switch case for UTL Spell usage based on enemy. Deeply developed (Should be considered exception)
     public int checkUtlSpellUsage(AbstractSpell spell, List<Character> enemies, SafeScanner sc){
@@ -132,7 +136,7 @@ public class AllSpellsFunction {
                     }
                     spout.accioException();
                 } else {
-                    target.setDef(target.getDef() - 10);
+                    target.setDef(target.getDef() - spell.getNum());
                     spout.accioSpellCase(target);
                 }
             }
@@ -168,7 +172,7 @@ public class AllSpellsFunction {
                 spout.expelliarmusSpellCase(target);
             }
             case "Accio" -> {
-                target.setDef(target.getDef() - 10);
+                target.setDef(target.getDef() - spell.getNum());
                 spout.accioSpellCase(target);
             }
             case "Wingardium Leviosa" -> {

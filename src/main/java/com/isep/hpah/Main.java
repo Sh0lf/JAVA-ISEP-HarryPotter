@@ -1,16 +1,18 @@
 package com.isep.hpah;
 
-import com.isep.hpah.controller.Game;
+import com.isep.hpah.controller.GameLogic;
 import com.isep.hpah.model.constructors.*;
 import com.isep.hpah.model.constructors.character.Wizard;
 import com.isep.hpah.controller.*;
 import com.isep.hpah.views.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 public class Main {
+    @Test
     public static void main(String[] args) {
-        Game game = new Game();
+        GameEngine game = new GameEngine();
         Setup stp = new Setup();
         SafeScanner sc = new SafeScanner(System.in);
         SortingHat sortHat = new SortingHat();

@@ -224,6 +224,8 @@ public class DungeonOutput {
                 + deathEaterGroup.getNum() + ", corruption: " + deathEaterGroup.getCorruption());
     }
 
+    public void corrupted() { out.print("\n You've casted too many forbidden spells and you're now consumed by the darkness"); }
+
     public void loss(){
         out.print("\nYou have been defeated.");
     }
@@ -276,6 +278,10 @@ public class DungeonOutput {
     }
     public void gainedExp(Character enemy){
         out.print("You gained " + enemy.getExp() + " experience points.");
+    }
+
+    public void corruptionHalfTxt(Wizard player){
+        out.print("You're corruption is reduced to " + player.getCorruptionGauge());
     }
 
     //Common fighting text here

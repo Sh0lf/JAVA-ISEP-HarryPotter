@@ -2,6 +2,7 @@ package com.isep.hpah.model.constructors.character;
 
 import com.isep.hpah.views.SimpleOutput;
 import lombok.*;
+import org.junit.jupiter.api.BeforeAll;
 
 
 public abstract class Character {
@@ -38,6 +39,7 @@ public abstract class Character {
         this.dex = dex;
     }
 
+    @BeforeAll
     public int getDef() {
         if (isDefending) {
             return def * 2;
@@ -46,6 +48,7 @@ public abstract class Character {
         }
     }
 
+    @BeforeAll
     //Only useful method in a constructor. need to keep it
     public void normalAttack(Character enemy) {
         SimpleOutput out = new SimpleOutput();

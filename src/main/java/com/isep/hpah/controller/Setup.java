@@ -9,15 +9,20 @@ import com.isep.hpah.model.constructors.spells.AbstractSpell;
 import com.isep.hpah.model.constructors.spells.ForbiddenSpell;
 import com.isep.hpah.model.constructors.spells.Spell;
 import lombok.*;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @Setter @Getter
 public class Setup {
-
     //Generate random core from enum
     public Core generateRandomCore() {
         Core[] values = Core.values();
@@ -67,7 +72,7 @@ public class Setup {
 
     private Spell accio = Spell.builder()
             .name("Accio")
-            .num(0)
+            .num(10)
             .desc("Bring an object towards you")
             .level(2)
             .cooldown(3)
@@ -129,7 +134,7 @@ public class Setup {
     //TODO: Could do more spells for more diversity and maybe even more transition dungeons (fillerDungeons)
 
     //list of spells known when starting game
-    private List<AbstractSpell> startingSpellList(){
+    protected List<AbstractSpell> startingSpellList(){
         //creating arrayList for new wizard
         List<AbstractSpell> knownSpells = new ArrayList<>();
         //Known Spells that you start with
@@ -153,7 +158,7 @@ public class Setup {
         return obtainableSpells;
     }
 
-    private List<AbstractSpell> voldemortSpells(){
+    protected List<AbstractSpell> voldemortSpells(){
         List<AbstractSpell> voldemortSpells = new ArrayList<>();
         //list of spells that Voldemort knows
         voldemortSpells.add(avadaKedavra);
@@ -162,7 +167,7 @@ public class Setup {
         return voldemortSpells;
     }
 
-    private List<AbstractSpell> pettigrowSpells(){
+    protected List<AbstractSpell> pettigrowSpells(){
         List<AbstractSpell> pettigrowSpells = new ArrayList<>();
         //list of spells that Pettigrow knows
         pettigrowSpells.add(fireball);
@@ -170,7 +175,7 @@ public class Setup {
         return pettigrowSpells;
     }
 
-    private List<AbstractSpell> ombrageSpells(){
+    protected List<AbstractSpell> ombrageSpells(){
         List<AbstractSpell> ombrageSpells = new ArrayList<>();
         //list of spells that Ombrage knows
         ombrageSpells.add(fireball);
@@ -329,7 +334,7 @@ public class Setup {
             .build();
     }
 
-    private List<Character> dungeon1(){
+    protected List<Character> dungeon1(){
         //creating arrayList
         List<Character> dungeon1 = new ArrayList<>();
         //mob creation per dungeon
@@ -337,7 +342,7 @@ public class Setup {
         return dungeon1;
     }
 
-    private List<Character> dungeon2(){
+    protected List<Character> dungeon2(){
         //creating arrayList
         List<Character> dungeon2 = new ArrayList<>();
         //mob creation per dungeon
@@ -345,7 +350,7 @@ public class Setup {
         return dungeon2;
     }
 
-    private List<Character> dungeon3(){
+    protected List<Character> dungeon3(){
         //creating arrayList
         List<Character> dungeon3 = new ArrayList<>();
         //mob creation per dungeon
@@ -357,7 +362,7 @@ public class Setup {
         return dungeon3;
     }
 
-    private List<Character> dungeon4(){
+    protected List<Character> dungeon4(){
         //creating arrayList
         List<Character> dungeon4 = new ArrayList<>();
         //mob creation per dungeon
@@ -366,7 +371,7 @@ public class Setup {
         return dungeon4;
     }
 
-    private List<Character> dungeon5(){
+    protected List<Character> dungeon5(){
         //creating arrayList
         List<Character> dungeon5 = new ArrayList<>();
         //mob creation per dungeon
@@ -374,7 +379,7 @@ public class Setup {
         return dungeon5;
     }
 
-    private List<Character> dungeon6(){
+    protected List<Character> dungeon6(){
         //creating arrayList
         List<Character> dungeon6 = new ArrayList<>();
         //mob creation per dungeon
@@ -386,7 +391,7 @@ public class Setup {
         return dungeon6;
     }
 
-    private List<Character> dungeon7(){
+    protected List<Character> dungeon7(){
         //creating arrayList
         List<Character> dungeon7 = new ArrayList<>();
         //mob creation per dungeon
@@ -508,12 +513,12 @@ public class Setup {
             .type("DEX")
             .build();
 
-    //create list of potions that is empty for the enemy Wizard
-    private List<Potion> empty(){
+    //create list of potions that is empty in case
+    protected List<Potion> empty(){
         return new ArrayList<>();
     }
 
-    private List<Potion> enemyPots(){
+    protected List<Potion> enemyPots(){
         List<Potion> enemypots = new ArrayList<>();
 
         enemypots.add(mediumHealthPotion);
@@ -538,7 +543,8 @@ public class Setup {
        return allPotions;
     }
 
-    public List<String> poss(){
+    // List of choices possible during combat, used for ease afterwards
+    public List<String> poss() {
         List<String> choice = new ArrayList<>();
         choice.add("Attack");
         choice.add("Defend");
