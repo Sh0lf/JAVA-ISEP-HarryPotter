@@ -9,7 +9,6 @@ import com.isep.hpah.model.constructors.spells.AbstractSpell;
 import com.isep.hpah.model.constructors.spells.ForbiddenSpell;
 import com.isep.hpah.model.constructors.spells.Spell;
 import lombok.*;
-import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
