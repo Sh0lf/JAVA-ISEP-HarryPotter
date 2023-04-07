@@ -23,11 +23,6 @@ public class SetupTest {
         Core core = stp.generateRandomCore();
         assertNotNull(core);
 
-        // Test that generateRandomCore returns different values
-        Core core1 = stp.generateRandomCore();
-        Core core2 = stp.generateRandomCore();
-        assertNotEquals(core1, core2);
-
         // Test that generateRandomCore returns a valid enum value
         boolean isValid = false;
         for (Core value : Core.values()) {

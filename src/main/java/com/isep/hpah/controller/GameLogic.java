@@ -92,7 +92,7 @@ public class GameLogic {
                 player.getWand().getCore().equals(Core.PHOENIX_FEATHER)){
             double rand = Math.random();
 
-            if (rand <= 0.5){
+            if ((0.2 < rand) && (rand <= 0.5)){
                 player.setHealth(player.getHealth() - 20);
                 dngout.voldemortCoreTxt(rand);
             }
